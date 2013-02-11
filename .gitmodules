@@ -10,3 +10,36 @@
 [submodule "bundle/lustyJuggler"]
 	path = bundle/lustyJuggler
 	url = git://github.com/vim-scripts/LustyJuggler.git
+[submodule "bundle/matchit"]
+	path = bundle/matchit
+	url = git://github.com/tsaleh/vim-matchit.git
+[submodule "bundle/nerdCommenter"]
+	path = bundle/nerdCommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "bundle/nerdTree"]
+	path = bundle/nerdTree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule "bundle/supertab"]
+	path = bundle/supertab
+	url = git://github.com/ervandew/supertab.git
+[submodule "bundle/surround"]
+	path = bundle/surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule "bundle/easymotion"]
+	path = bundle/easymotion
+	url = git://github.com/Lokaltog/vim-easymotion.git
+[submodule "bundle/markdown"]
+	path = bundle/markdown
+	url = git://github.com/tpope/vim-markdown.git
+[submodule "bundle/snipmate-main"]
+	path = bundle/snipmate-main
+	url = git://github.com/garbas/vim-snipmate.git
+[submodule "bundle/snipmate-dep-tlib"]
+	path = bundle/snipmate-dep-tlib
+	url = https://github.com/tomtom/tlib_vim.git
+[submodule "bundle/snipmate-dep-mwutils"]
+	path = bundle/snipmate-dep-mwutils
+	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
+[submodule "bundle/snipmate-dep-snippets"]
+	path = bundle/snipmate-dep-snippets
+	url = https://github.com/honza/snipmate-snippets.git
