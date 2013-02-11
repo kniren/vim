@@ -1,4 +1,12 @@
-" Basic Options
+" -------------------------------------------------------
+"
+"     .vimrc 
+"     Author: Alex Sánchez <kniren@gmail.com>
+"     Source: https://github.com/kniren/vim/vimrc
+"
+" -------------------------------------------------------
+"
+" Basic Options "{{{
 " =============
 "
 " Pathogen and Powerline 
@@ -71,12 +79,19 @@ if exists("+undofile")
   set undofile
 endif
 set cursorline
-
-" Key mappings 
+setlocal foldmethod=marker
+"}}}
+" Key mappings "{{{
 " ============
 "
 " Enable/Disable paste mode, where data won't be autoindented
 set pastetoggle=<F2>
+
+" Opens/Close Gundo window
+nnoremap <F3> :GundoToggle <cr>
+
+" Opens/Close the NERD Tree
+nnoremap <F4> :NERDTreeToggle<CR>
 
 " Remap leader key to ',' instead of '\'
 let mapleader=","
@@ -85,9 +100,11 @@ let mapleader=","
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
-" Emacs bindings in command line mode
+" Emacs bindings in command line and insert mode
 cnoremap <C-a> <home>
 cnoremap <C-e> <end>
+inoremap <C-a> <home>
+inoremap <C-e> <end>
 
 " Scroll the viewport faster with <C-e> and <C-y> 
 nnoremap <C-e> 5<C-e>
@@ -102,10 +119,10 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " Resize splits, you can use numbers too Eg: 20<leader>+ to a faster resize"
-nnoremap <leader>< <C-w><
-nnoremap <leader>> <C-w>>
-nnoremap <leader>+ <C-w>+
-nn # Number of lines when displaying next/prev page in pageroremap <leader>- <C-w>-
+nnoremap <leader>< 3<C-w><
+nnoremap <leader>> 3<C-w>>
+nnoremap <leader>+ 3<C-w>+
+nnoremap <leader>- 3<C-w>-
 
 " Makes posible the use of python/perl regex in vim
 nnoremap / /\v
@@ -117,6 +134,8 @@ inoremap jj <Esc>
 " Page displacement with JK and marker jump with HL
 nnoremap J <PageDown>
 nnoremap K <PageUp>
+vnoremap J <PageDown>
+vnoremap K <PageUp>
 nnoremap H ['
 nnoremap L ]'
 
@@ -127,17 +146,9 @@ vnoremap <Space> za
 " I don't want to miss my command key!
 nnoremap ; :
 
-" Show the YankRing & NERDTree
-nnoremap <F5> :YRShow<CR>
-nnoremap <F4> :NERDTreeToggle<CR>
-
 " Easy Copy & Paste to the clipboard
 vnoremap <C-c> "+y
 nnoremap <C-v> "+p
-
-" Save/Load a working session
-nnoremap <F8> :SessionSave<CR>
-nnoremap <F9> :SessionList<# Sorts threads right
 
 " Show Hidden Chars (Eol, Tab)
 nnoremap <leader>l :set list!<CR>
@@ -145,6 +156,10 @@ nnoremap <leader>l :set list!<CR>
 " Tab navigation
 nnoremap <leader>n :tabnext<CR>
 nnoremap <leader>p :tabprev<CR>
+
+" Buffer navigation
+nnoremap <leader><leader>n :bnext<CR>
+nnoremap <leader><leader>p :bprev<CR>
 
 " Bubbling text
 nmap <C-Up> [e
@@ -155,17 +170,8 @@ vmap <C-Down> ]egv
 " Spell checking
 nnoremap <silent> <leader>s :set spell!<CR>
 
-" Opens/Close Gundo window
-nnoremap <F3> :GundoToggle <cr>
-
-" Markdown to HTML (Requires Markdown.pl)
-nnoremap <leader>markdown :%!/usr/local/bin/Markdown.pl --html4tags<CR>
-
-" DmenuVimSearch
-nnoremap <leader>find :CtrlP<cr>
-nnoremap <leader>findin :CtrlP 
-
-" Appearance
+"}}}
+" Appearance "{{{
 " ==========
 "
 set background=dark
@@ -190,8 +196,8 @@ set t_vb=
 
 " Plugins specific options
 let NERDTreeShowHidden=1
-
-" Functions
+"}}}
+" Functions"{{{
 " =========
 "
 "  Show syntax highlighting groups for word under cursor
@@ -208,3 +214,4 @@ function! Chomp(str)
     return substitute(a:str, '\n$', '', '')
 endfunction
 let g:LustyJugglerSuppressRubyWarning = 1
+"}}}
