@@ -79,7 +79,7 @@ if exists("+undofile")
   set undofile
 endif
 set cursorline
-setlocal foldmethod=marker
+set foldmethod=marker
 "}}}
 " Key mappings "{{{
 " ============
@@ -132,10 +132,8 @@ vnoremap / /\v
 inoremap jj <Esc>
 
 " Page displacement with JK and marker jump with HL
-nnoremap J <PageDown>
-nnoremap K <PageUp>
-vnoremap J <PageDown>
-vnoremap K <PageUp>
+nnoremap J 10j
+nnoremap K 10k
 nnoremap H ['
 nnoremap L ]'
 
@@ -208,6 +206,16 @@ function! <SID>SynStack()
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+
+"  Bracket completion
+inoremap {     {}<Left>
+inoremap {<CR> {<CR>}<Esc>O
+inoremap {{     {
+inoremap {}     {}
+
+" Parentheses completion
+inoremap (       ()<Left>
+inoremap <expr>  ) strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
 
 " Strip the newline from the end of a string 
 function! Chomp(str)
