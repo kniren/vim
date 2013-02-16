@@ -300,6 +300,14 @@ augroup ft_python
     au FileType python setlocal foldmethod=indent
 augroup END
 "-¬
+"    Markdown "--¬
+augroup ft_markdown
+    au!
+    au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
+    au FileType markdown setlocal nonumber
+    au FileType markdown setlocal 
+augroup END
+"-¬
 
 "  +-----------------------------------------------------------------------------+
 "-¬
