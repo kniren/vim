@@ -6,29 +6,38 @@
 "
 " -------------------------------------------------------
 "
-" Basic Options "{{{
-" =============
-"
-" Pathogen and Powerline 
+" Basic Options "--¬
+" +-----------------------------------------------------+
+
+" Pathogen and Powerline"--¬
 filetype off
 call pathogen#infect()
 let g:Powerline_symbols = 'fancy'
-
-" Basics
+"-¬
+" Basics "--¬
 set encoding=utf-8
 set nocompatible
 set hidden
 set history=1000
 set undolevels=1000
 set title
-syntax on
-filetype plugin indent on
 set backspace=indent,eol,start
 set ruler
 set number
 set scrolloff=4
 set lazyredraw
-
+set showmode
+set showcmd
+set gdefault
+set cursorline
+set foldmethod=marker
+set foldmarker=--¬,-¬
+set showmatch
+set mouse=a
+syntax on
+filetype plugin indent on
+"-¬
+" Indentation Options "--¬
 set autoindent
 set copyindent
 set expandtab
@@ -37,53 +46,48 @@ set softtabstop=4
 set shiftwidth=4
 set shiftround 
 set smarttab
-set showmatch
-
-set showmode
-set showcmd
-set gdefault
-
+"-¬
+" Wrapping and Formatting Options "--¬
 set wrap
 set linebreak
 set textwidth=82
 set formatoptions=qrn1
 set colorcolumn=85
-
 set fileformats="unix,dos,mac"
 set formatoptions+=1
 set laststatus=2
 set listchars=eol:¬,extends:>,precedes:<
-
+"-¬
+" Search Options "--¬
 set ignorecase
 set smartcase
 set incsearch
 set nohlsearch
-
+"-¬
+" Wildmenu Completion Options "--¬
 set wildmode=longest,list,full
 set wildmenu
 set wildignore=*.swp,*.bak,*.pyc,*.class
-set mouse=a
+"-¬
+" Backup, Swap and Undofile "--¬
 set nobackup
 set noswapfile
 set nomodeline
 set undofile
 if exists("+undofile")
-  " undofile - This allows you to use undos after exiting and restarting
-  " This, like swap and backups, uses .vim-undo first, then ~/.vim/undo
-  " :help undo-persistence
-  " This is only present in 7.3+
   if isdirectory($HOME . '/.vimtmp') == 0
     :silent !mkdir -p ~/.vimtmp > /dev/null 2>&1
   endif
   set undodir=~/.vimtmp//
   set undofile
 endif
-set cursorline
-set foldmethod=marker
-"}}}
-" Key mappings "{{{
-" ============
-"
+"-¬
+
+" +-----------------------------------------------------+
+"-¬
+" Key mappings "--¬
+" +----------------------------------------------------+
+
 " Enable/Disable paste mode, where data won't be autoindented
 set pastetoggle=<F2>
 
@@ -168,37 +172,41 @@ vmap <C-Down> ]egv
 " Spell checking
 nnoremap <silent> <leader>s :set spell!<CR>
 
-"}}}
-" Appearance "{{{
-" ==========
+" +----------------------------------------------------+
+"-¬
+" Appearance "--¬
+" +-----------------------------------------------------+
 "
+" Basic Settings"--¬
 set background=dark
 set guifont=Ubuntu\ Mono\ 13
-
-" Remove menu bars, toolbox and scrollbars in GVIM
-set guioptions-=T
-set guioptions-=m
-set guioptions-=r
-set guioptions-=L
 if (!has('gui_running'))
     set t_Co=256
     colorscheme darkmirror
 else
     colorscheme darkmirror
 endif
-
-" Disable error bell
+"-¬
+" Remove menu bars, toolbox and scrollbars in GVIM"--¬
+set guioptions-=T
+set guioptions-=m
+set guioptions-=r
+set guioptions-=L
+"-¬
+" Disable error bell"--¬
 set visualbell 
 set noerrorbells
 set t_vb=
-
-" Plugins specific options
+"-¬
+" Plugins specific options"--¬
 let NERDTreeShowHidden=1
-"}}}
-" Functions"{{{
-" =========
+let g:LustyJugglerSuppressRubyWarning = 1
+"-¬
+"-¬
+" Functions"--¬
+" +----------------------------------------------------+
 "
-"  Show syntax highlighting groups for word under cursor
+"  Show syntax highlighting groups for word under cursor"--¬
 nmap <leader>hi :call <SID>SynStack()<CR>
 function! <SID>SynStack()
     if !exists("*synstack")
@@ -206,20 +214,22 @@ function! <SID>SynStack()
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
-
-"  Bracket completion
+"-¬
+"  Bracket completion"--¬
 inoremap {     {}<Left>
 inoremap {<CR> {<CR>}<Esc>O
 inoremap {{     {
 inoremap {}     {}
-
-" Parentheses completion
+"-¬
+" Parentheses completion"--¬
 inoremap (       ()<Left>
 inoremap <expr>  ) strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-
-" Strip the newline from the end of a string 
+"-¬
+" Strip the newline from the end of a string "--¬
 function! Chomp(str)
     return substitute(a:str, '\n$', '', '')
 endfunction
-let g:LustyJugglerSuppressRubyWarning = 1
-"}}}
+"-¬
+
+" +----------------------------------------------------+
+"-¬
