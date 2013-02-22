@@ -149,6 +149,10 @@ vnoremap / /\v
 "    Easy insert mode exit "--¬
 inoremap jj <Esc>
 "-¬
+"    Ctrl-P MRU and Buffer management"--¬
+nnoremap <silent> <leader>lj :CtrlPBuffer<CR>
+nnoremap <silent> :MR :CtrlPMRU<CR>
+"-¬
 "    Page displacement with JK and marker jump with HL "--¬
 nnoremap J 10j
 nnoremap K 10k
@@ -255,6 +259,9 @@ inoremap {}     {}
 "    Parentheses completion"--¬
 inoremap (       ()<Left>
 inoremap <expr>  ) strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+
+inoremap [       []<Left>
+inoremap <expr>  ] strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
 "-¬
 "    Strip the newline from the end of a string "--¬
 function! Chomp(str)
@@ -316,8 +323,8 @@ augroup END
 augroup ft_markdown
     au!
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
-    au FileType markdown setlocal nonumber
-augroup END
+    au FileType markdown setlocal nonumber nocursorline
+augroup EN
 "-¬
 "
 "  +-----------------------------------------------------------------------------+

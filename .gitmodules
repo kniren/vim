@@ -7,9 +7,6 @@
 [submodule "bundle/ctrlp"]
 	path = bundle/ctrlp
 	url = https://github.com/kien/ctrlp.vim.git
-[submodule "bundle/lustyJuggler"]
-	path = bundle/lustyJuggler
-	url = git://github.com/vim-scripts/LustyJuggler.git
 [submodule "bundle/matchit"]
 	path = bundle/matchit
 	url = git://github.com/tsaleh/vim-matchit.git
