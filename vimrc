@@ -118,12 +118,6 @@ let mapleader=","
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 "-¬
-"    Emacs bindings in command line and insert mode "--¬
-cnoremap <C-a> <home>
-cnoremap <C-e> <end>
-inoremap <C-a> <home>
-inoremap <C-e> <end>
-"-¬
 "    Scroll the viewport faster with <C-e> and <C-y> "--¬
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>

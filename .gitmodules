@@ -40,3 +40,6 @@
 [submodule "bundle/snipmate-dep-snippets"]
 	path = bundle/snipmate-dep-snippets
 	url = https://github.com/honza/snipmate-snippets.git
+[submodule "bundle/sparkup"]
+	path = bundle/sparkup
+	url = git://github.com/tristen/vim-sparkup.git
