@@ -151,7 +151,7 @@ inoremap jj <Esc>
 "-¬
 "    Ctrl-P MRU and Buffer management"--¬
 nnoremap <silent> <leader>lj :CtrlPBuffer<CR>
-nnoremap <silent> :MR :CtrlPMRU<CR>
+nnoremap <silent> <leader>MR :CtrlPMRU<CR>
 "-¬
 "    Page displacement with JK and marker jump with HL "--¬
 nnoremap J 10j
