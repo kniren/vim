@@ -275,11 +275,11 @@ function! MyFoldText()
     let windowwidth = winwidth(0) - nucolwidth
     let foldedlinecount = v:foldend - v:foldstart
     let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '"-', ' ', 'g')
+    let line = substitute(line, '"--', ' ', 'g')
     let line = substitute(line, '¬', ' ', 'g')
     let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
     let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . repeat(" ",fillcharcount) . foldedlinecount . '   '
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '   '
 endfunction
 set foldtext=MyFoldText()
 "-¬
