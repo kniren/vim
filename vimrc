@@ -67,8 +67,12 @@ set linebreak
 set textwidth=82
 set formatoptions=qrn1
 set colorcolumn=85
-set fileformat=unix
-set fileformats=unix,dos
+if has("win32")
+    set fileformat=unix
+    set fileformats=unix,dos
+elseif has("unix")
+    set fileformats="unix,dos,mac"
+endif
 set formatoptions+=1
 set laststatus=2
 set listchars=eol:¬,extends:>,precedes:<
@@ -214,7 +218,11 @@ cmap w!! w !sudo tee % >/dev/null
 "
 "    Appearance Basic Settings "--¬
 set background=dark
-set guifont=Ubuntu_Mono:h10:cANSI
+if has("win32")
+    set guifont=Ubuntu_Mono:h10:cANSI
+elseif has("unix")
+    set guifont=Ubuntu\ Mono\ 13
+endif
 if (!has('gui_running'))
     set t_Co=256
     colorscheme darkmirror
