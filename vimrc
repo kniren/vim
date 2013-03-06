@@ -210,6 +210,9 @@ vnoremap <leader>Ac :center<cr>
 "    Save the current file as superuser "--¬
 cmap w!! w !sudo tee % >/dev/null
 "-¬
+"    Tabularize "--¬
+nnoremap <silent> <leader>t :Tabularize /
+"-¬
 "
 "  +---------------------------------------------------------------+
 "-¬
