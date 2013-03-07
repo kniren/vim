@@ -331,6 +331,7 @@ augroup ft_markdown
     au!
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
     au FileType markdown setlocal nonumber nocursorline
+    au FileType markdown setlocal formatoptions=tcqan 
 augroup EN
 "-¬
 "
