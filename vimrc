@@ -81,7 +81,7 @@ set listchars=eol:¬,extends:>,precedes:<
 set ignorecase
 set smartcase
 set incsearch
-set nohlsearch
+set hlsearch
 "-¬
 "    Wildmenu Completion Options "--¬
 set wildmode=longest,list,full
@@ -153,11 +153,13 @@ nnoremap <silent> <leader>lj :CtrlPBuffer<CR>
 nnoremap <silent> <leader>mr :CtrlPMRU<CR>
 nnoremap <silent> <leader>MR :CtrlPMRU<CR>
 "-¬
-"    Page displacement with JK and marker jump with HL "--¬
-nnoremap J 10j
-nnoremap K 10k
-nnoremap H ['
-nnoremap L ]'
+"    Page displacement with JK "--¬
+vnoremap J 5j
+vnoremap K 5k
+nnoremap J 5j
+nnoremap K 5k
+nnoremap H ^
+nnoremap L $
 "-¬
 "    Folding "--¬
 nnoremap <Space> za
@@ -169,16 +171,12 @@ nnoremap <leader>z zMzvzz
 "    I don't want to miss my command key! "--¬
 nnoremap ; :
 "-¬
-"    Easy Copy & Paste to the clipboard "--¬
-vnoremap <C-c> "+y
-nnoremap <C-v> "+p
-"-¬
 "    Show Hidden Chars (Eol, Tab) "--¬
 nnoremap <leader>l :set list!<CR>
 "-¬
 "    Tab navigation "--¬
-nnoremap <leader>n :tabnext<CR>
-nnoremap <leader>p :tabprev<CR>
+nnoremap <leader>n :bnext<CR>
+nnoremap <leader>p :bprev<CR>
 "-¬
 "    Buffer navigation "--¬
 nnoremap <leader><leader>n :bnext<CR>
@@ -206,8 +204,15 @@ cmap w!! w !sudo tee % >/dev/null
 "-¬
 "    Tabularize "--¬
 nnoremap <silent> <leader>t :Tabularize /
+vnoremap <silent> <leader>t :Tabularize /
 "-¬
-"
+"    Clear selections "--¬
+nnoremap <silent> <bs> :noh<cr>:call clearmatches()<cr>
+"-¬
+"    Reselecting pasted buffer "--¬
+nnoremap <silent> <leader>V V']
+"-¬
+
 "  +---------------------------------------------------------------+
 "-¬
 " Appearance "--¬
@@ -295,6 +300,65 @@ au FocusLost * :wa
 "-¬
 "    Keep the relative size of the splits when resizing "--¬
 au VimResized * exe "normal! \<c-w>="
+"-¬
+"    Highlight Word "--¬
+"
+" This mini-plugin provides a few mappings for highlighting words temporarily.
+"
+" Sometimes you're looking at a hairy piece of code and would like a certain
+" word or two to stand out temporarily.  You can search for it, but that only
+" gives you one color of highlighting.  Now you can use <leader>N where N is
+" a number from 1-6 to highlight the current word in a specific color.
+
+function! HiInterestingWord(n)
+    " Save our location.
+    normal! mz
+
+    " Yank the current word into the z register.
+    normal! "zyiw
+
+    " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
+    let mid = 86750 + a:n
+
+    " Clear existing matches, but don't worry if they don't exist.
+    silent! call matchdelete(mid)
+
+    " Construct a literal pattern that has to match at boundaries.
+    let pat = '\V\<' . escape(@z, '\') . '\>'
+
+    " Actually match the words.
+    call matchadd("InterestingWord" . a:n, pat, 1, mid)
+
+    " Move back to our original location.
+    normal! `z
+endfunction
+
+
+nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
+nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
+nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
+nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
+nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
+nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+
+hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+"-¬
+"    Visual Mode */# from Scrooloose "--¬
+
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 "-¬
 "
 "  +---------------------------------------------------------------+
