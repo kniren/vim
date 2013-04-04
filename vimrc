@@ -44,12 +44,12 @@ set statusline=%t
 set statusline+=\ %m
 set statusline+=\ %r
 set statusline+=%=
+set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
+set statusline+=\ \«\ %{&ff}
+set statusline+=\ \«\ %c,
+set statusline+=\ %l\ \«\ %L
+set statusline+=\ \«\ %P
 set statusline+=\ %y
-set statusline+=\|\ %{strlen(&fenc)?&fenc:'none'}
-set statusline+=\ \|\ %{&ff}
-set statusline+=\ \|\ %c,
-set statusline+=\ %l\ \|\ %L
-set statusline+=\ \|%P
 "-¬
 "    Indentation Options "--¬
 set autoindent
