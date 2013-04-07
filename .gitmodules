@@ -37,9 +37,6 @@
 [submodule "bundle/snipmate-dep-mwutils"]
 	path = bundle/snipmate-dep-mwutils
 	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
-[submodule "bundle/snipmate-dep-snippets"]
-	path = bundle/snipmate-dep-snippets
-	url = https://github.com/honza/snipmate-snippets.git
 [submodule "bundle/tabular"]
 	path = bundle/tabular
 	url = git://github.com/godlygeek/tabular.git
@@ -49,3 +46,6 @@
 [submodule "bundle/fugitive"]
 	path = bundle/fugitive
 	url = git://github.com/tpope/vim-fugitive.git
+[submodule "bundle/vim-snippets"]
+	path = bundle/vim-snippets
+	url = git://github.com/honza/vim-snippets.git
