@@ -169,8 +169,13 @@ vnoremap <Space> za
 "    Focus on current fold "--¬
 nnoremap <leader>z zMzvzz 
 "-¬
-"    I don't want to miss my command key! "--¬
+"    Common typos "--¬
 nnoremap ; :
+nnoremap :Q :q
+nnoremap :W :w
+nnoremap :Wq :wq
+nnoremap :WQ :wq
+
 "-¬
 "    Show Hidden Chars (Eol, Tab) "--¬
 nnoremap <leader>l :set list!<CR>
