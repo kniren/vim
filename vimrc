@@ -146,7 +146,8 @@ nnoremap / /\v
 vnoremap / /\v
 "-¬
 "    Easy insert mode exit "--¬
-inoremap jj <Esc>
+set timeout timeoutlen=500 ttimeoutlen=500
+inoremap <silent> jj <Esc>
 "-¬
 "    Ctrl-P MRU and Buffer management"--¬
 nnoremap <silent> <leader>lj :CtrlPBuffer<CR>
