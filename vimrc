@@ -218,6 +218,9 @@ nnoremap <silent> <bs> :noh<cr>:call clearmatches()<cr>
 "    Reselecting pasted buffer "--¬
 nnoremap <silent> <leader>V V']
 "-¬
+"    Easy parentheses and brackets navigation "--¬
+map <tab> %
+"-¬
 
 "  +---------------------------------------------------------------+
 "-¬
