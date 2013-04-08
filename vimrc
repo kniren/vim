@@ -119,9 +119,10 @@ nnoremap <F4> :NERDTreeToggle<CR>
 "    Remap leader key to ',' instead of '\' "--¬
 let mapleader=","
 "-¬
-"    Quickly edit/reload the vimrc file "--¬
+"    Quickly edit/reload "--¬
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
+nnoremap <silent> <leader>ex :e ~/.xmonad/xmonad.hs<CR>
 "-¬
 "    Scroll the viewport faster with <C-e> and <C-y> "--¬
 nnoremap <C-e> 5<C-e>
