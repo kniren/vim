@@ -405,7 +405,6 @@ augroup ft_markdown
     au!
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
     au FileType markdown setlocal nonumber nocursorline
-    au FileType markdown setlocal formatoptions=tcqan 
     au FileType markdown setlocal textwidth=70 
 augroup EN
 "-¬
