@@ -223,6 +223,8 @@ nnoremap <silent> <leader>V V']
 "    Easy parentheses and brackets navigation "--¬
 map <tab> %
 "-¬
+"    Toggle neocompletion
+nnoremap <leader><leader>c :NeoComplCacheToggle<cr>
 
 "  +---------------------------------------------------------------+
 "-¬
@@ -257,6 +259,7 @@ set t_vb=
 "    Plugins specific options "--¬
 let NERDTreeShowHidden=1
 let g:LustyJugglerSuppressRubyWarning = 1
+let g:neocomplcache_enable_at_startup = 1
 "-¬
 "
 "  +---------------------------------------------------------------+
