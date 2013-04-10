@@ -223,8 +223,13 @@ nnoremap <silent> <leader>V V']
 "    Easy parentheses and brackets navigation "--¬
 map <tab> %
 "-¬
-"    Toggle neocompletion
+"    Toggle neocompletion"--¬
 nnoremap <leader><leader>c :NeoComplCacheToggle<cr>
+"-¬
+"    Show errors (Syntastic) "--¬
+nnoremap <leader>e :Errors<cr>
+nnoremap <leader>syntax :SyntasticCheck<cr>
+"-¬
 
 "  +---------------------------------------------------------------+
 "-¬
@@ -255,11 +260,6 @@ set guioptions-=L
 set visualbell 
 set noerrorbells
 set t_vb=
-"-¬
-"    Plugins specific options "--¬
-let NERDTreeShowHidden=1
-let g:LustyJugglerSuppressRubyWarning = 1
-let g:neocomplcache_enable_at_startup = 1
 "-¬
 "
 "  +---------------------------------------------------------------+
@@ -413,6 +413,15 @@ augroup ft_markdown
 augroup EN
 "-¬
 "
+"  +---------------------------------------------------------------+
+"-¬
+" Plugins specific options "--¬
+"  +---------------------------------------------------------------+
+
+let NERDTreeShowHidden=1
+let g:LustyJugglerSuppressRubyWarning = 1
+let g:neocomplcache_enable_at_startup = 1
+
 "  +---------------------------------------------------------------+
 "-¬
 "
