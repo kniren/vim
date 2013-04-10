@@ -118,6 +118,7 @@ nnoremap <F4> :NERDTreeToggle<CR>
 "-¬
 "    Remap leader key to ',' instead of '\' "--¬
 let mapleader=","
+let maplocalleader="_"
 "-¬
 "    Quickly edit/reload "--¬
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>

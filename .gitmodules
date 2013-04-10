@@ -49,3 +49,6 @@
 [submodule "bundle/vim-snippets"]
 	path = bundle/vim-snippets
 	url = git://github.com/honza/vim-snippets.git
+[submodule "bundle/clam"]
+	path = bundle/clam
+	url = git://github.com/sjl/clam.vim.git
