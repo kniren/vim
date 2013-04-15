@@ -421,6 +421,7 @@ augroup END
 augroup ft_mail
     au!
     au FileType mail setlocal nonumber spell
+    au FileType mail let g:neocomplcache_enable_at_startup = 0
 augroup END
 "-¬
 "
