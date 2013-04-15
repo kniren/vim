@@ -210,6 +210,7 @@ vnoremap <silent> <leader>t :Tabularize /
 "-¬
 "    Clear selections "--¬
 nnoremap <silent> <bs> :noh<cr>:call clearmatches()<cr>
+nnoremap <silent> :C :let @/=""<cr>
 "-¬
 "    Reselecting pasted buffer "--¬
 nnoremap <silent> <leader>V V']
@@ -234,6 +235,13 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j 
 nnoremap gk k 
+"-¬
+"    Shell escape and filter the current buffer"--¬
+nnoremap <silent> <leader>sh :%!<space>
+"-¬
+"    Clam bindings"--¬
+nnoremap ! :Clam<space>
+vnoremap ! :ClamVisual<space>
 "-¬
 "
 "  +---------------------------------------------------------------+
