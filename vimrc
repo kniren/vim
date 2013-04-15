@@ -14,7 +14,6 @@
 "    Pathogen and Powerline "--¬
 filetype off
 call pathogen#infect()
-let g:Powerline_symbols = 'fancy'
 "-¬
 "    Basics "--¬
 set encoding=utf-8
@@ -40,16 +39,18 @@ syntax on
 filetype plugin indent on
 "-¬
 "    Statusline "--¬
-set statusline=%t
-set statusline+=\ %m
-set statusline+=\ %r
-set statusline+=%=
-set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
-set statusline+=\ \«\ %{&ff}
-set statusline+=\ \«\ %c,
-set statusline+=\ %l\ \«\ %L
-set statusline+=\ \«\ %P
-set statusline+=\ %y
+"set statusline=%t
+"set statusline+=\ %m
+"set statusline+=\ %r
+"set statusline+=%=
+"set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
+"set statusline+=\ \«\ %{&ff}
+"set statusline+=\ \«\ %c,
+"set statusline+=\ %l\ \«\ %L
+"set statusline+=\ \«\ %P
+"set statusline+=\ %y
+"        Powerline Mode ... Engage!
+set rtp+=/home/alex/.vim/bundle/powerline/powerline/bindings/vim
 "-¬
 "    Indentation Options "--¬
 set autoindent
@@ -138,10 +139,10 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 "-¬
 "    Resize splits "--¬
-nnoremap <c-left> 5<C-w><
-nnoremap <c-right> 5<C-w>>
-nnoremap <c-up> 5<C-w>+
-nnoremap <c-down> 5<C-w>-
+nnoremap <Right> 5<C-w><
+nnoremap <Left> 5<C-w>>
+nnoremap <Up> 5<C-w>+
+nnoremap <Down> 5<C-w>-
 "-¬
 "    Makes posible the use of python/perl regex in vim "--¬
 nnoremap / /\v
@@ -177,7 +178,6 @@ nnoremap :Q :q
 nnoremap :W :w
 nnoremap :Wq :wq
 nnoremap :WQ :wq
-
 "-¬
 "    Show Hidden Chars (Eol, Tab) "--¬
 nnoremap <leader>l :set list!<CR>
@@ -189,12 +189,6 @@ nnoremap <leader>p :bprev<CR>
 "    Buffer navigation "--¬
 nnoremap <leader><leader>n :bnext<CR>
 nnoremap <leader><leader>p :bprev<CR>
-"-¬
-"    Bubbling text "--¬
-nmap <C-Up> [e
-nmap <C-Down> ]e
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
 "-¬
 "    Spell checking "--¬
 nnoremap <silent> <leader>s :set spell!<CR>
@@ -230,7 +224,18 @@ nnoremap <leader><leader>c :NeoComplCacheToggle<cr>
 nnoremap <leader>e :Errors<cr>
 nnoremap <leader>syntax :SyntasticCheck<cr>
 "-¬
-
+"    Autocenter the screen when searching or jumping to paragraph"--¬
+nnoremap n nzz
+nnoremap } }zz
+nnoremap { {zz
+"-¬
+"    Fix movement when wrapping is set"--¬
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j 
+nnoremap gk k 
+"-¬
+"
 "  +---------------------------------------------------------------+
 "-¬
 " Appearance "--¬
