@@ -433,6 +433,9 @@ augroup END
 let NERDTreeShowHidden=1
 let g:LustyJugglerSuppressRubyWarning = 1
 let g:neocomplcache_enable_at_startup = 1
+au BufEnter *.hs compiler ghc
+let g:haddock_browser="/usr/bin/google-chrome"
+
 
 "  +---------------------------------------------------------------+
 "-¬
