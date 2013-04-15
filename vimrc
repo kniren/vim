@@ -139,8 +139,8 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 "-¬
 "    Resize splits "--¬
-nnoremap <Right> 5<C-w><
-nnoremap <Left> 5<C-w>>
+nnoremap <Left> 5<C-w><
+nnoremap <Right> 5<C-w>>
 nnoremap <Up> 5<C-w>+
 nnoremap <Down> 5<C-w>-
 "-¬
