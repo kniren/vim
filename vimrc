@@ -256,7 +256,10 @@ if has("win32")
 elseif has("unix")
     set guifont=Ubuntu\ Mono\ 13
 endif
-if (!has('gui_running'))
+
+if (&t_Co <= 8)
+    colorscheme default
+elseif (!has('gui_running'))
     set t_Co=256
     colorscheme darkmirror
 else
