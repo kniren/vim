@@ -67,3 +67,6 @@
 [submodule "bundle/haskellmode"]
 	path = bundle/haskellmode
 	url = https://github.com/kniren/haskellmode-vim.git
+[submodule "bundle/tagbar"]
+	path = bundle/tagbar
+	url = git://github.com/majutsushi/tagbar

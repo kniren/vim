@@ -243,6 +243,9 @@ nnoremap <silent> <leader>sh :%!<space>
 nnoremap ! :Clam<space>
 vnoremap ! :ClamVisual<space>
 "-¬
+"    Tagbar "--¬
+nnoremap <F5> :TagbarToggle<CR>
+"-¬
 "
 "  +---------------------------------------------------------------+
 "-¬
