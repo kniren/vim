@@ -63,7 +63,7 @@ set shiftround
 set smarttab
 "-¬
 "    Wrapping and Formatting Options "--¬
-set wrap
+set nowrap
 set linebreak
 set textwidth=82
 set formatoptions=qrn1
@@ -246,9 +246,13 @@ vnoremap ! :ClamVisual<space>
 "    Tagbar "--¬
 nnoremap <F5> :TagbarToggle<CR>
 nnoremap <F6> :TagbarTogglePause<CR>
+nnoremap <leader>T :TagbarOpenAutoClose<CR>
 "-¬
 "    Clean trailing whitespace"--¬
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+"-¬
+"    Visual select until the end of the line without newline character"--¬
+nnoremap vv ^vg_
 "-¬
 
 "  +---------------------------------------------------------------+
