@@ -1,6 +1,6 @@
 " ------------------------------------------------------------------
 "
-"     .vimrc 
+"     .vimrc
 "     Author: Alex Sánchez <kniren@gmail.com>
 "     Source: https://github.com/kniren/vim/blob/master/vimrc
 "
@@ -24,7 +24,7 @@ set undolevels=1000
 set title
 set backspace=indent,eol,start
 set ruler
-set number
+set nonumber
 set scrolloff=4
 set lazyredraw
 set showmode
@@ -59,7 +59,7 @@ set expandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set shiftround 
+set shiftround
 set smarttab
 "-¬
 "    Wrapping and Formatting Options "--¬
@@ -170,7 +170,7 @@ nnoremap <Space> za
 vnoremap <Space> za
 "-¬
 "    Focus on current fold "--¬
-nnoremap <leader>z zMzvzz 
+nnoremap <leader>z zMzOzz
 "-¬
 "    Common typos "--¬
 nnoremap ; :
@@ -233,8 +233,8 @@ nnoremap { {zz
 "    Fix movement when wrapping is set"--¬
 nnoremap j gj
 nnoremap k gk
-nnoremap gj j 
-nnoremap gk k 
+nnoremap gj j
+nnoremap gk k
 "-¬
 "    Shell escape and filter the current buffer"--¬
 nnoremap <silent> <leader>sh :%!<space>
@@ -245,14 +245,19 @@ vnoremap ! :ClamVisual<space>
 "-¬
 "    Tagbar "--¬
 nnoremap <F5> :TagbarToggle<CR>
+nnoremap <F6> :TagbarTogglePause<CR>
 "-¬
-"
+"    Clean trailing whitespace"--¬
+nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+"-¬
+
 "  +---------------------------------------------------------------+
 "-¬
 " Appearance "--¬
 "  +---------------------------------------------------------------+
 "
 "    Appearance Basic Settings "--¬
+set fillchars+=vert:│
 set background=dark
 if has("win32")
     set guifont=Ubuntu_Mono:h10:cANSI
@@ -276,7 +281,7 @@ set guioptions-=r
 set guioptions-=L
 "-¬
 "    Disable error bell "--¬
-set visualbell 
+set visualbell
 set noerrorbells
 set t_vb=
 "-¬
@@ -428,7 +433,7 @@ augroup ft_markdown
     au!
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
     au FileType markdown setlocal nonumber nocursorline
-    au FileType markdown setlocal textwidth=70 
+    au FileType markdown setlocal textwidth=70
 augroup END
 "-¬
 "    Mail "--¬
