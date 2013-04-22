@@ -152,10 +152,11 @@ vnoremap / /\v
 set timeout timeoutlen=500 ttimeoutlen=500
 inoremap <silent> jj <Esc>
 "-¬
-"    Ctrl-P MRU and Buffer management"--¬
+"    Ctrl-P MRU, Tag and Buffer management"--¬
 nnoremap <silent> <leader>lj :CtrlPBuffer<CR>
 nnoremap <silent> <leader>mr :CtrlPMRU<CR>
 nnoremap <silent> <leader>MR :CtrlPMRU<CR>
+nnoremap <silent> <leader>p :CtrlPTag<CR>
 "-¬
 "    Page displacement with JK "--¬
 vnoremap J 5j
@@ -183,8 +184,8 @@ nnoremap :WQ :wq
 nnoremap <leader>l :set list!<CR>
 "-¬
 "    Tab navigation "--¬
-nnoremap <leader>n :bnext<CR>
-nnoremap <leader>p :bprev<CR>
+nnoremap <leader>tn :bnext<CR>
+nnoremap <leader>tp :bprev<CR>
 "-¬
 "    Buffer navigation "--¬
 nnoremap <leader><leader>n :bnext<CR>
