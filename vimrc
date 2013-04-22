@@ -27,7 +27,7 @@ set ruler
 set nonumber
 set scrolloff=4
 set lazyredraw
-set showmode
+set noshowmode
 set showcmd
 set gdefault
 set cursorline
@@ -401,6 +401,14 @@ endfunction
 
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+"-¬
+"    Escape insert mode immediately "--¬
+if ! has('gui_running')
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+    augroup END
+endif
 "-¬
 
 "  +---------------------------------------------------------------+
