@@ -171,7 +171,7 @@ nnoremap <Space> za
 vnoremap <Space> za
 "-¬
 "    Focus on current fold "--¬
-nnoremap <leader>z zMzOzz
+nnoremap <leader>z zMzvzz
 "-¬
 "    Common typos "--¬
 nnoremap ; :
@@ -226,8 +226,9 @@ nnoremap <leader><leader>c :NeoComplCacheToggle<cr>
 nnoremap <leader>e :Errors<cr>
 nnoremap <leader>syntax :SyntasticCheck<cr>
 "-¬
-"    Autocenter the screen when searching or jumping to paragraph"--¬
-nnoremap n nzz
+"    Autocenter the screen when searching or jumping to paragraph "--¬
+nnoremap n nzzzv:call PulseCursorLine()<cr>
+nnoremap N Nzzzv:call PulseCursorLine()<cr>
 nnoremap } }zz
 nnoremap { {zz
 "-¬
@@ -411,7 +412,55 @@ if ! has('gui_running')
     augroup END
 endif
 "-¬
+"    Pulse cursor line when next search element  "--¬
+function! PulseCursorLine()
+    let current_window = winnr()
 
+    windo set nocursorline
+    execute current_window . 'wincmd w'
+
+    setlocal cursorline
+
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
+
+    hi CursorLine guibg=#2a2a2a ctermbg=233
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#333333 ctermbg=235
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#3a3a3a ctermbg=237
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#444444 ctermbg=239
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#3a3a3a ctermbg=237
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#333333 ctermbg=235
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#2a2a2a ctermbg=233
+    redraw
+    sleep 20m
+
+    execute 'hi ' . old_hi
+
+    windo set cursorline
+    execute current_window . 'wincmd w'
+endfunction
+"-¬
 "  +---------------------------------------------------------------+
 "-¬
 " Filetype-specific"--¬
@@ -464,6 +513,7 @@ augroup END
 
 let NERDTreeShowHidden=1
 let g:LustyJugglerSuppressRubyWarning = 1
+let g:ctrlp_extensions = ['tag']
 let g:neocomplcache_enable_at_startup = 1
 au BufEnter *.hs compiler ghc
 let g:haddock_browser="/usr/bin/google-chrome"
