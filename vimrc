@@ -39,16 +39,18 @@ syntax on
 filetype plugin indent on
 "-¬
 "    Statusline "--¬
-set statusline=%t
+set statusline=\ \»\  
+set statusline+=%t
+set statusline+=\ %{fugitive#head()}
 set statusline+=\ %m
 set statusline+=\ %r
 set statusline+=%=
 set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
 set statusline+=\ \«\ %{&ff}
 set statusline+=\ \«\ %c,
-set statusline+=\ %l\ \«\ %L
+set statusline+=%l\ \«\ %L
 set statusline+=\ \«\ %P
-set statusline+=\ %y
+set statusline+=\ %y\ 
 "        Powerline Mode ... Engage!
 "set rtp+=/home/alex/.vim/bundle/powerline/powerline/bindings/vim
 "-¬
