@@ -51,8 +51,22 @@ set statusline+=\ \«\ %c,
 set statusline+=%l\ \«\ %L
 set statusline+=\ \«\ %P
 set statusline+=\ %y\ 
-"        Powerline Mode ... Engage!
-"set rtp+=/home/alex/.vim/bundle/powerline/powerline/bindings/vim
+
+" Change the status line color depending on the mode we are on
+function! InsertStatuslineColor(mode)
+  if a:mode == 'i'
+    hi statusline ctermfg=7 ctermbg=0
+  elseif a:mode == 'r'
+    hi statusline ctermfg=5 ctermbg=0
+  else
+    hi statusline ctermfg=1 ctermbg=0
+  endif
+endfunction
+
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi statusline ctermfg=8 ctermbg=15
+
+
 "-¬
 "    Indentation Options "--¬
 set autoindent
@@ -110,14 +124,14 @@ endif
 " Key mappings "--¬
 "  +---------------------------------------------------------------+
 "
-"    Enable/Disable paste mode "--¬
-set pastetoggle=<F2>
+"    Opens/Close the NERD Tree "--¬
+nnoremap <F2> :NERDTreeToggle<CR>
 "-¬
 "    Opens/Close Gundo window "--¬
 nnoremap <F3> :GundoToggle <cr>
 "-¬
-"    Opens/Close the NERD Tree "--¬
-nnoremap <F4> :NERDTreeToggle<CR>
+"    Enable/Disable paste mode "--¬
+set pastetoggle=<F4>
 "-¬
 "    Remap leader key to ',' instead of '\' "--¬
 let mapleader=","
@@ -257,6 +271,10 @@ nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 "-¬
 "    Visual select until the end of the line without newline character"--¬
 nnoremap vv ^vg_
+"-¬
+"    Copy and paste from the system clipboard "--¬
+vnoremap <C-c> "+y
+inoremap <C-v> <Esc><F4>"+p<F4>i
 "-¬
 
 "  +---------------------------------------------------------------+
@@ -463,9 +481,10 @@ function! PulseCursorLine()
     execute current_window . 'wincmd w'
 endfunction
 "-¬
+"
 "  +---------------------------------------------------------------+
 "-¬
-" Filetype-specific"--¬
+" Filetype specific options "--¬
 "  +---------------------------------------------------------------+
 "
 "    C "--¬
@@ -514,7 +533,6 @@ augroup END
 "  +---------------------------------------------------------------+
 
 let NERDTreeShowHidden=1
-let g:LustyJugglerSuppressRubyWarning = 1
 let g:ctrlp_extensions = ['tag']
 let g:neocomplcache_enable_at_startup = 1
 au BufEnter *.hs compiler ghc
@@ -525,3 +543,4 @@ let g:haddock_browser="/usr/bin/google-chrome"
 "-¬
 "
 " ------------------------------------------------------------------
+
