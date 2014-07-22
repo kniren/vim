@@ -38,7 +38,7 @@ Darkmirror
     My personal colorscheme for vim
 
 Fugitive
-    Streamline vim plugins installation
+    Git wrapper for vim
 
 Gundo
     Undo tree visualizer

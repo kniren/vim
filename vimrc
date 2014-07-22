@@ -11,7 +11,7 @@
 " Basic Options "--¬
 "  +---------------------------------------------------------------+
 "
-"    Pathogen and Powerline "--¬
+"    Pathogen "--¬
 filetype off
 call pathogen#infect()
 "-¬
@@ -140,7 +140,6 @@ let maplocalleader="_"
 "    Quickly edit/reload "--¬
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
-nnoremap <silent> <leader>ex :e ~/.xmonad/xmonad.hs<CR>
 "-¬
 "    Scroll the viewport faster with <C-e> and <C-y> "--¬
 nnoremap <C-e> 5<C-e>
@@ -261,13 +260,8 @@ nnoremap <silent> <leader>sh :%!<space>
 nnoremap ! :Clam<space>
 vnoremap ! :ClamVisual<space>
 "-¬
-"    Tagbar "--¬
-nnoremap <F5> :TagbarToggle<CR>
-nnoremap <F6> :TagbarTogglePause<CR>
-nnoremap <leader>T :TagbarOpenAutoClose<CR>
-"-¬
 "    Clean trailing whitespace"--¬
-nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+nnoremap <leader><leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 "-¬
 "    Visual select until the end of the line without newline character"--¬
 nnoremap vv ^vg_
@@ -358,9 +352,6 @@ function! MyFoldText()
     return line . '…' . repeat(" ",fillcharcount) . '            '
 endfunction
 set foldtext=MyFoldText()
-"-¬
-"    Autosave in GUI when focus is lost"--¬
-au FocusLost * :wa
 "-¬
 "    Keep the relative size of the splits when resizing "--¬
 au VimResized * exe "normal! \<c-w>="
@@ -535,8 +526,6 @@ augroup END
 let NERDTreeShowHidden=1
 let g:ctrlp_extensions = ['tag']
 let g:neocomplcache_enable_at_startup = 1
-au BufEnter *.hs compiler ghc
-let g:haddock_browser="/usr/bin/google-chrome"
 
 
 "  +---------------------------------------------------------------+
