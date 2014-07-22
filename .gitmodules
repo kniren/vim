@@ -9,7 +9,7 @@
 	url = https://github.com/kien/ctrlp.vim.git
 [submodule "bundle/matchit"]
 	path = bundle/matchit
-	url = git://github.com/tsaleh/vim-matchit.git
+    url = git://github.com/vim-scripts/matchit.zip.git
 [submodule "bundle/nerdCommenter"]
 	path = bundle/nerdCommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
@@ -22,51 +22,24 @@
 [submodule "bundle/surround"]
 	path = bundle/surround
 	url = git://github.com/tpope/vim-surround.git
-[submodule "bundle/easymotion"]
-	path = bundle/easymotion
-	url = git://github.com/Lokaltog/vim-easymotion.git
 [submodule "bundle/markdown"]
 	path = bundle/markdown
 	url = git://github.com/tpope/vim-markdown.git
-[submodule "bundle/snipmate-main"]
-	path = bundle/snipmate-main
-	url = git://github.com/garbas/vim-snipmate.git
-[submodule "bundle/snipmate-dep-tlib"]
-	path = bundle/snipmate-dep-tlib
-	url = https://github.com/tomtom/tlib_vim.git
-[submodule "bundle/snipmate-dep-mwutils"]
-	path = bundle/snipmate-dep-mwutils
-	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
 [submodule "bundle/tabular"]
 	path = bundle/tabular
 	url = git://github.com/godlygeek/tabular.git
-[submodule "bundle/sparkup"]
-	path = bundle/sparkup
-	url = git://github.com/tristen/vim-sparkup.git
 [submodule "bundle/fugitive"]
 	path = bundle/fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "bundle/vim-snippets"]
-	path = bundle/vim-snippets
-	url = git://github.com/honza/vim-snippets.git
 [submodule "bundle/clam"]
 	path = bundle/clam
 	url = git://github.com/sjl/clam.vim.git
-[submodule "bundle/neco-ghc"]
-	path = bundle/neco-ghc
-	url = git://github.com/ujihisa/neco-ghc.git
 [submodule "bundle/neocomplcache"]
 	path = bundle/neocomplcache
 	url = git://github.com/Shougo/neocomplcache.git
 [submodule "bundle/syntastic"]
 	path = bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule "bundle/powerline"]
-	path = bundle/powerline
-	url = git://github.com/Lokaltog/powerline.git
-[submodule "bundle/haskellmode"]
-	path = bundle/haskellmode
-	url = https://github.com/kniren/haskellmode-vim.git
 [submodule "bundle/tagbar"]
 	path = bundle/tagbar
 	url = git://github.com/majutsushi/tagbar
