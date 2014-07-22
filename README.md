@@ -29,37 +29,49 @@ Current submodules
 ------------------
 
 Clam
+
     Easily run shell commands
 
 Ctrlp
+
     Full path fuzzy finder
 
 Darkmirror
+
     My personal colorscheme for vim
 
 Fugitive
+
     Git wrapper for vim
 
 Gundo
+
     Undo tree visualizer
 
 Neocomplcache
+
     Better keywords completion
 
 NerdCommenter
+
     Easily comment blocks of text
 
 NerdTree
+
     File tree navigator
 
 Supertab
+
     Using <Tab> for all types of completion
 
 Surround
+
     Easily change surroundings in pairs
 
 Syntastic
+
     Syntax checker
 
 Tabular
+
     The mother of OCD tabularization
