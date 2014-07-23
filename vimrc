@@ -281,18 +281,22 @@ set fillchars+=vert:│
 set background=dark
 if has("win32")
     set guifont=Ubuntu_Mono:h10:cANSI
-elseif has("unix")
-    set guifont=Ubuntu\ Mono\ 13
 endif
 
-if (&t_Co <= 8)
-    colorscheme default
-elseif (!has('gui_running'))
-    set t_Co=256
+let os=substitute(system('uname'), '\n', '', '')
+if os == 'Darwin' || os == 'Mac'
+    let macvim_skip_colorscheme = 1
     colorscheme darkmirror
-else
+elseif os == 'Linux'
+    set guifont=Inconsolata\ 12
     colorscheme darkmirror
+    if (&t_Co <= 8)
+        colorscheme default
+    elseif (!has('gui_running'))
+        set t_Co=256
+    endif
 endif
+
 "-¬
 "    Remove menu bars, toolbox and scrollbars in GVIM "--¬
 set guioptions-=T
