@@ -562,7 +562,8 @@ augroup END
 let NERDTreeShowHidden=1
 let g:ctrlp_extensions = ['tag']
 let g:neocomplcache_enable_at_startup = 1
-
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 "  +---------------------------------------------------------------+
 "-¬
