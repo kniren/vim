@@ -11,13 +11,31 @@
 " Basic Options "--¬
 "  +---------------------------------------------------------------+
 "
-"    Pathogen "--¬
+"    Vundle "--¬
+set nocompatible
 filetype off
-call pathogen#infect()
+set runtimepath+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+"        Plugins
+Plugin 'gmarik/Vundle.vim'
+Plugin 'sjl/clam.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'kniren/darkmirror'
+Plugin 'tpope/vim-fugitive'
+Plugin 'sjl/gundo.vim'
+Plugin 'Shougo/neocomplcache'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'ervandew/supertab'
+Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/syntastic'
+Plugin 'godlygeek/tabular'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
 "-¬
 "    Basics "--¬
 set encoding=utf-8
-set nocompatible
 set hidden
 set history=1000
 set undolevels=1000
@@ -36,12 +54,13 @@ set foldmarker=--¬,-¬
 set showmatch
 set mouse=a
 syntax on
-filetype plugin indent on
 "-¬
 "    Statusline "--¬
 set statusline=\ \»\  
 set statusline+=%t
-set statusline+=\ %{fugitive#head()}
+if exists("*fugitive#head")
+    set statusline+=\ %{fugitive#head()}
+endif
 set statusline+=\ %m
 set statusline+=\ %r
 set statusline+=%=
@@ -279,6 +298,19 @@ inoremap <C-v> <Esc><F4>"+p<F4>i
 "    Appearance Basic Settings "--¬
 set fillchars+=vert:│
 set background=dark
+
+if (&t_Co <= 8)
+    colorscheme default
+elseif (!has('gui_running'))
+    set t_Co=256
+else
+    try
+        colorscheme darkmirror
+    catch /^Vim\%((\a\+)\)\=:E185/
+        colorscheme default
+    endtry
+endif
+
 if has("win32")
     set guifont=Ubuntu_Mono:h10:cANSI
 endif
@@ -286,16 +318,13 @@ endif
 let os=substitute(system('uname'), '\n', '', '')
 if os == 'Darwin' || os == 'Mac'
     let macvim_skip_colorscheme = 1
-    colorscheme darkmirror
-elseif os == 'Linux'
-    set guifont=Inconsolata\ 12
-    colorscheme darkmirror
-    if (&t_Co <= 8)
+    try
+        colorscheme darkmirror
+    catch /^Vim\%((\a\+)\)\=:E185/
         colorscheme default
-    elseif (!has('gui_running'))
-        set t_Co=256
-    endif
+    endtry
 endif
+
 
 "-¬
 "    Remove menu bars, toolbox and scrollbars in GVIM "--¬

@@ -12,11 +12,16 @@ Add the necesary symlinks:
 
 	ln -s .vim/vimrc .vimrc
 
-Switch to the `~/.vim` directory and fetch the submodules:
+Switch to the `~/.vim` directory and install the plugins:
 
     cd ~/.vim
-    git submodule init
-    git submodule update
+    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
+
+Or just execute the provided install script:
+
+    cd ~/.vim
+    ./install
 
 How to add new bundles
 ----------------------
