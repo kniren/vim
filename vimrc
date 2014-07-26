@@ -302,16 +302,16 @@ inoremap <C-v> <Esc><F4>"+p<F4>i
 set fillchars+=vert:│
 set background=dark
 
+try
+    colorscheme darkmirror
+catch /^Vim\%((\a\+)\)\=:E185/
+    colorscheme default
+endtry
+
 if (&t_Co <= 8)
     colorscheme default
 elseif (!has('gui_running'))
     set t_Co=256
-else
-    try
-        colorscheme darkmirror
-    catch /^Vim\%((\a\+)\)\=:E185/
-        colorscheme default
-    endtry
 endif
 
 if has("win32")
