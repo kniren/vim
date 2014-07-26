@@ -12,8 +12,8 @@
 "  +---------------------------------------------------------------+
 "
 "    Vundle "--¬
-set nocompatible
-filetype off
+set nocompatible " required
+filetype off     " required
 set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 "        Plugins
@@ -30,6 +30,9 @@ Plugin 'ervandew/supertab'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/syntastic'
 Plugin 'godlygeek/tabular'
+" Snippets
+Plugin 'honza/vim-snippets'
+Plugin 'SirVer/ultisnips'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
