@@ -30,6 +30,9 @@ Plugin 'ervandew/supertab'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/syntastic'
 Plugin 'godlygeek/tabular'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'junegunn/goyo.vim'
+
 " Snippets
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
@@ -291,6 +294,24 @@ nnoremap vv ^vg_
 "    Copy and paste from the system clipboard "--¬
 vnoremap <C-c> "+y
 inoremap <C-v> <Esc><F4>"+p<F4>i
+"-¬
+"    Paste last yanked text "--¬
+nnoremap <leader>p "0p
+"-¬
+"    Yank and past from buffer [1-5] "--¬
+nnoremap <leader>1p "1p
+nnoremap <leader>2p "2p
+nnoremap <leader>3p "3p
+nnoremap <leader>4p "4p
+nnoremap <leader>5p "5p
+vnoremap <leader>1y "1y
+vnoremap <leader>2y "2y
+vnoremap <leader>3y "3y
+vnoremap <leader>4y "4y
+vnoremap <leader>5y "5y
+"-¬
+"    Enable Goyo for distraction free writting "--¬
+nnoremap <leader>g :Goyo<CR>
 "-¬
 
 "  +---------------------------------------------------------------+
@@ -562,8 +583,17 @@ augroup END
 let NERDTreeShowHidden=1
 let g:ctrlp_extensions = ['tag']
 let g:neocomplcache_enable_at_startup = 1
+" Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" Goyo
+function! GoyoBefore()
+  colorscheme darkmirror
+endfunction
+function! GoyoAfter()
+  colorscheme darkmirror
+endfunction
+let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
 
 "  +---------------------------------------------------------------+
 "-¬

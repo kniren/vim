@@ -23,15 +23,9 @@ Or just execute the provided install script:
     cd ~/.vim
     ./install
 
-How to add new bundles
-----------------------
 
-From the root of the vim repository:
-
-    git submodule add [url] bundle/*plugin*
-
-Current submodules
-------------------
+Current plugins
+---------------
 
 Clam
 
@@ -48,6 +42,14 @@ Darkmirror
 Fugitive
 
     Git wrapper for vim
+
+GitGutter
+
+    Git symbols on the sign column
+
+Goyo
+
+    Distraction free writting
 
 Gundo
 
@@ -80,3 +82,7 @@ Syntastic
 Tabular
 
     The mother of OCD tabularization
+
+Utilsnips
+
+    Sniplike snippets
