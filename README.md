@@ -83,6 +83,10 @@ Tabular
 
     The mother of OCD tabularization
 
+Unimpaired
+
+    Useful keybindings
+
 Utilsnips
 
     Sniplike snippets

@@ -32,6 +32,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'godlygeek/tabular'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'junegunn/goyo.vim'
+Plugin 'tpope/vim-unimpaired'
 
 " Snippets
 Plugin 'honza/vim-snippets'
@@ -313,7 +314,10 @@ vnoremap <leader>5y "5y
 "    Enable Goyo for distraction free writting "--¬
 nnoremap <leader>g :Goyo<CR>
 "-¬
-
+"    Bubbling Text "--¬
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
+"-¬
 "  +---------------------------------------------------------------+
 "-¬
 " Appearance "--¬
