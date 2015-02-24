@@ -347,10 +347,9 @@ let os=substitute(system('uname'), '\n', '', '')
 if os == 'Darwin' || os == 'Mac'
     let macvim_skip_colorscheme = 1
     try
-        set guifont=Monaco:h11
         if has('gui_running')
             set transparency=2
-            set guifont=Ubuntu_Mono:h10:cANSI
+            set guifont=Monaco:h11
         endif
         colorscheme darkmirror
     catch /^Vim\%((\a\+)\)\=:E185/
