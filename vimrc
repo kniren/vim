@@ -347,6 +347,8 @@ let os=substitute(system('uname'), '\n', '', '')
 if os == 'Darwin' || os == 'Mac'
     let macvim_skip_colorscheme = 1
     try
+        set guifont=Monaco:h11
+        set transparency=2
         colorscheme darkmirror
     catch /^Vim\%((\a\+)\)\=:E185/
         colorscheme default
