@@ -17,23 +17,20 @@ filetype off     " required
 set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 "        Plugins
-Plugin 'gmarik/Vundle.vim'
-Plugin 'sjl/clam.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'kniren/darkmirror'
-Plugin 'tpope/vim-fugitive'
-Plugin 'sjl/gundo.vim'
-Plugin 'Shougo/neocomplcache'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'ervandew/supertab'
-Plugin 'tpope/vim-surround'
-Plugin 'scrooloose/syntastic'
-Plugin 'godlygeek/tabular'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'junegunn/goyo.vim'
-Plugin 'tpope/vim-unimpaired'
-
+Plugin 'gmarik/Vundle.vim'            " Plugin manager
+Plugin 'kien/ctrlp.vim'               " Fuzzy-finder file navigator
+Plugin 'kniren/darkmirror'            " My vim colorscheme
+Plugin 'tpope/vim-fugitive'           " Git integration in vim
+Plugin 'sjl/gundo.vim'                " Browsable history
+Plugin 'scrooloose/nerdcommenter'     " Easy comments
+Plugin 'scrooloose/nerdtree'          " Project tree navigator
+Plugin 'tpope/vim-surround'           " Handy surround plugin
+Plugin 'scrooloose/syntastic'         " Syntax checker
+Plugin 'godlygeek/tabular'            " OCD helper
+Plugin 'airblade/vim-gitgutter'       " Git symbols on your gutter
+Plugin 'terryma/vim-multiple-cursors' " Sublime text style multi-cursors
+Plugin 'Valloric/YouCompleteMe'       " Omnicompletion engine
+Plugin 'othree/html5.vim'             " Html5 completion and syntax fix
 " Snippets
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
@@ -190,8 +187,8 @@ nnoremap / /\v
 vnoremap / /\v
 "-¬
 "    Easy insert mode exit "--¬
-set timeout timeoutlen=500 ttimeoutlen=500
-inoremap <silent> jj <Esc>
+"set timeout timeoutlen=500 ttimeoutlen=500
+"inoremap <silent> jj <Esc>
 "-¬
 "    Ctrl-P MRU, Tag and Buffer management"--¬
 nnoremap <silent> <leader>lj :CtrlPBuffer<CR>
@@ -260,9 +257,6 @@ nnoremap <silent> <leader>V V']
 "    Easy parentheses and brackets navigation "--¬
 map <tab> %
 "-¬
-"    Toggle neocompletion"--¬
-nnoremap <leader><leader>c :NeoComplCacheToggle<cr>
-"-¬
 "    Show errors (Syntastic) "--¬
 nnoremap <leader>e :Errors<cr>
 nnoremap <leader>syntax :SyntasticCheck<cr>
@@ -310,9 +304,6 @@ vnoremap <leader>2y "2y
 vnoremap <leader>3y "3y
 vnoremap <leader>4y "4y
 vnoremap <leader>5y "5y
-"-¬
-"    Enable Goyo for distraction free writting "--¬
-nnoremap <leader>g :Goyo<CR>
 "-¬
 "    Bubbling Text "--¬
 vmap <C-Up> [egv
@@ -552,7 +543,19 @@ augroup END
 "    CSS "--¬
 augroup ft_css
     au!
-    au FileType css setlocal foldmethod=marker foldmarker={,}
+    au FileType css setlocal foldmethod=marker foldmarker={,} ts=2 sts=2 sw=2 expandtab
+augroup END
+"-¬
+"    SCSS "--¬
+augroup ft_scss
+    au!
+    au FileType scss setlocal foldmethod=marker foldmarker={,} ts=2 sts=2 sw=2 expandtab
+augroup END
+"-¬
+"    HTML "--¬
+augroup ft_html
+    au!
+    au FileType html setlocal ts=2 sts=2 sw=2 expandtab
 augroup END
 "-¬
 "    Java "--¬
@@ -579,7 +582,6 @@ augroup END
 augroup ft_mail
     au!
     au FileType mail setlocal nonumber spell
-    au FileType mail let g:neocomplcache_enable_at_startup = 0
 augroup END
 "-¬
 "
@@ -590,18 +592,11 @@ augroup END
 
 let NERDTreeShowHidden=1
 let g:ctrlp_extensions = ['tag']
-let g:neocomplcache_enable_at_startup = 1
-" Ultisnips
+let g:UltiSnipsExpandTrigger="<c-y>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-" Goyo
-function! GoyoBefore()
-  colorscheme darkmirror
-endfunction
-function! GoyoAfter()
-  colorscheme darkmirror
-endfunction
-let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
+let g:ycm_register_as_syntastic_checker = 0
+let g:syntastic_html_checkers=['']
 
 "  +---------------------------------------------------------------+
 "-¬
