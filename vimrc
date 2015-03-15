@@ -21,19 +21,19 @@ Plugin 'gmarik/Vundle.vim'            " Plugin manager
 Plugin 'kien/ctrlp.vim'               " Fuzzy-finder file navigator
 Plugin 'kniren/darkmirror'            " My vim colorscheme
 Plugin 'tpope/vim-fugitive'           " Git integration in vim
-Plugin 'sjl/gundo.vim'                " Browsable history
-Plugin 'scrooloose/nerdcommenter'     " Easy comments
-Plugin 'scrooloose/nerdtree'          " Project tree navigator
+Plugin 'sjl/gundo.vim'                " Browsable history. Use with <F3>
+Plugin 'scrooloose/nerdcommenter'     " Commentator. Use <leader><space> in visual
+Plugin 'scrooloose/nerdtree'          " Project tree navigator. Use with <F2>
 Plugin 'tpope/vim-surround'           " Handy surround plugin
 Plugin 'scrooloose/syntastic'         " Syntax checker
-Plugin 'godlygeek/tabular'            " OCD helper
+Plugin 'godlygeek/tabular'            " OCD helper. Use with <leader>t in visual.
 Plugin 'airblade/vim-gitgutter'       " Git symbols on your gutter
-Plugin 'terryma/vim-multiple-cursors' " Sublime text style multi-cursors
+Plugin 'terryma/vim-multiple-cursors' " Multi-cursors. Use with <C-n> in normal.
 Plugin 'Valloric/YouCompleteMe'       " Omnicompletion engine
 Plugin 'othree/html5.vim'             " Html5 completion and syntax fix
 " Snippets
 Plugin 'honza/vim-snippets'
-Plugin 'SirVer/ultisnips'
+Plugin 'SirVer/ultisnips'             " Expands with <C-y>
 
 call vundle#end()            " required
 filetype plugin indent on    " required
