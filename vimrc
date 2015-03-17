@@ -32,6 +32,7 @@ Plugin 'terryma/vim-multiple-cursors' " Multi-cursors. Use with <C-n> in normal.
 Plugin 'Valloric/YouCompleteMe'       " Omnicompletion engine
 Plugin 'othree/html5.vim'             " Html5 completion and syntax fix
 Plugin 'cakebaker/scss-syntax.vim'    " Scss syntax support
+Plugin 'jiangmiao/auto-pairs'
 " Snippets
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'             " Expands with <C-y>
@@ -376,19 +377,6 @@ function! <SID>SynStack()
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
-"-¬
-"    Bracket completion"--¬
-inoremap {     {}<Left>
-inoremap {<CR> {<CR>}<Esc>O
-inoremap {{     {
-inoremap {}     {}
-"-¬
-"    Parentheses completion"--¬
-inoremap (       ()<Left>
-inoremap <expr>  ) strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-
-inoremap [       []<Left>
-inoremap <expr>  ] strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
 "-¬
 "    Strip the newline from the end of a string "--¬
 function! Chomp(str)
