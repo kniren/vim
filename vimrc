@@ -31,6 +31,7 @@ Plugin 'airblade/vim-gitgutter'       " Git symbols on your gutter
 Plugin 'terryma/vim-multiple-cursors' " Multi-cursors. Use with <C-n> in normal.
 Plugin 'Valloric/YouCompleteMe'       " Omnicompletion engine
 Plugin 'othree/html5.vim'             " Html5 completion and syntax fix
+Plugin 'cakebaker/scss-syntax.vim'    " Scss syntax support
 " Snippets
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'             " Expands with <C-y>
