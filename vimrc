@@ -32,6 +32,7 @@ Plugin 'terryma/vim-multiple-cursors' " Multi-cursors. Use with <C-n> in normal.
 Plugin 'Valloric/YouCompleteMe'       " Omnicompletion engine
 Plugin 'othree/html5.vim'             " Html5 completion and syntax fix
 Plugin 'cakebaker/scss-syntax.vim'    " Scss syntax support
+Plugin 'digitaltoad/vim-jade'         " Jade syntax and indentation
 Plugin 'jiangmiao/auto-pairs'         " Autoclose parentheses and brackets
 Plugin 'majutsushi/tagbar'            " Tag searcher
 " Snippets
@@ -543,6 +544,12 @@ augroup END
 augroup ft_scss
     au!
     au FileType scss setlocal foldmethod=marker foldmarker={,} ts=2 sts=2 sw=2 expandtab
+augroup END
+"-¬
+"    Jade "--¬
+augroup ft_jade
+    au!
+    au FileType jade setlocal ts=2 sts=2 sw=2 expandtab
 augroup END
 "-¬
 "    HTML "--¬
