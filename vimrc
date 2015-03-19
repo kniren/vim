@@ -586,6 +586,10 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:ycm_register_as_syntastic_checker = 0
 let g:syntastic_html_checkers=['']
+let g:multi_cursor_next_key='<C-f>'
+let g:multi_cursor_prev_key='<C-d>'
+let g:multi_cursor_skip_key='<C-g>'
+let g:multi_cursor_quit_key='<Esc>'
 
 "  +---------------------------------------------------------------+
 "-¬
