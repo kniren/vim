@@ -32,7 +32,8 @@ Plugin 'terryma/vim-multiple-cursors' " Multi-cursors. Use with <C-n> in normal.
 Plugin 'Valloric/YouCompleteMe'       " Omnicompletion engine
 Plugin 'othree/html5.vim'             " Html5 completion and syntax fix
 Plugin 'cakebaker/scss-syntax.vim'    " Scss syntax support
-Plugin 'jiangmiao/auto-pairs'
+Plugin 'jiangmiao/auto-pairs'         " Autoclose parentheses and brackets
+Plugin 'majutsushi/tagbar'            " Tag searcher
 " Snippets
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'             " Expands with <C-y>
@@ -149,14 +150,17 @@ endif
 " Key mappings "--¬
 "  +---------------------------------------------------------------+
 "
-"    Opens/Close the NERD Tree "--¬
+"    Open/Close the NERD Tree "--¬
 nnoremap <F2> :NERDTreeToggle<CR>
 "-¬
-"    Opens/Close Gundo window "--¬
+"    Open/Close Gundo window "--¬
 nnoremap <F3> :GundoToggle <cr>
 "-¬
 "    Enable/Disable paste mode "--¬
 set pastetoggle=<F4>
+"-¬
+"    Open/Close the Tagbar window "--¬
+nnoremap <F5> :TagbarToggle <cr>
 "-¬
 "    Remap leader key to ',' instead of '\' "--¬
 let mapleader=","
