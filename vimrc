@@ -35,6 +35,7 @@ Plugin 'cakebaker/scss-syntax.vim'    " Scss syntax support
 Plugin 'digitaltoad/vim-jade'         " Jade syntax and indentation
 Plugin 'jiangmiao/auto-pairs'         " Autoclose parentheses and brackets
 Plugin 'majutsushi/tagbar'            " Tag searcher
+Plugin 'fatih/vim-go'                 " Golang development
 " Snippets
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'             " Expands with <C-y>
@@ -590,17 +591,29 @@ augroup END
 " Plugins specific options "--¬
 "  +---------------------------------------------------------------+
 
+" NERDTree
 let NERDTreeShowHidden=1
+" Ctrl-P
 let g:ctrlp_extensions = ['tag']
+" UltiSnips
 let g:UltiSnipsExpandTrigger="<c-y>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" YCM
 let g:ycm_register_as_syntastic_checker = 0
+" Syntastic
 let g:syntastic_html_checkers=['']
+" Vim multiple Cursors
 let g:multi_cursor_next_key='<C-f>'
 let g:multi_cursor_prev_key='<C-d>'
 let g:multi_cursor_skip_key='<C-g>'
 let g:multi_cursor_quit_key='<Esc>'
+" vim-go
+au Filetype go nnoremap <leader>r :GoRun %<CR>
+au Filetype go nnoremap K 10k
+let g:go_fmt_command = "goimports"
+let g:go_doc_keywordprg_enabled= 0
+
 
 "  +---------------------------------------------------------------+
 "-¬
