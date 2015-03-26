@@ -610,8 +610,14 @@ let g:multi_cursor_prev_key='<C-d>'
 let g:multi_cursor_skip_key='<C-g>'
 let g:multi_cursor_quit_key='<Esc>'
 " vim-go
-au Filetype go nnoremap <leader>r :GoRun %<CR>
-au Filetype go nnoremap K 10k
+au FileType go nmap <leader>r  <Plug>(go-run)
+au FileType go nmap <leader>b  <Plug>(go-build)
+au FileType go nmap <leader>t  <Plug>(go-test)
+au FileType go nmap <leader>c  <Plug>(go-coverage)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>dh <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>i  <Plug>(go-info)
 let g:go_fmt_command = "goimports"
 let g:go_doc_keywordprg_enabled= 0
 
