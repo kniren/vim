@@ -83,17 +83,18 @@ set statusline+=\ %y\
 " Change the status line color depending on the mode we are on
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
-    hi statusline ctermfg=7 ctermbg=0
+    hi statusline ctermfg=7 ctermbg=0 guifg=white guibg=black
   elseif a:mode == 'r'
-    hi statusline ctermfg=5 ctermbg=0
+    hi statusline ctermfg=5 ctermbg=0 guifg=#C05266 guibg=black
   else
-    hi statusline ctermfg=1 ctermbg=0
+    hi statusline ctermfg=1 ctermbg=0 guifg=black
   endif
 endfunction
 
 au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertLeave * hi statusline ctermfg=8 ctermbg=15
-
+au InsertLeave * hi statusline ctermfg=8 ctermbg=15 guifg=#545454 guibg=#DBDFE0
+hi StatusLine      ctermfg=8  ctermbg=15   guifg=#545454 guibg=#DBDFE0
+hi StatusLineNC    ctermfg=8  ctermbg=0    guifg=#828D92 guibg=#545454  gui=none
 
 "-¬
 "    Indentation Options "--¬
