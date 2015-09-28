@@ -77,8 +77,8 @@ set statusline+=\ %r
 set statusline+=%=
 set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
 set statusline+=\ \«\ %{&ff}
-set statusline+=\ \«\ %c,
-set statusline+=%l\ \«\ %L
+set statusline+=\ \«\ %l,%c
+set statusline+=\ \«\ %L
 set statusline+=\ \«\ %P
 set statusline+=\ %y\ 
 
