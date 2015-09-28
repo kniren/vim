@@ -32,10 +32,12 @@ Plugin 'terryma/vim-multiple-cursors' " Multi-cursors. Use with <C-n> in normal.
 Plugin 'Valloric/YouCompleteMe'       " Omnicompletion engine
 Plugin 'othree/html5.vim'             " Html5 completion and syntax fix
 Plugin 'cakebaker/scss-syntax.vim'    " Scss syntax support
-Plugin 'digitaltoad/vim-jade'         " Jade syntax and indentation
 Plugin 'jiangmiao/auto-pairs'         " Autoclose parentheses and brackets
 Plugin 'majutsushi/tagbar'            " Tag searcher
 Plugin 'fatih/vim-go'                 " Golang development
+Plugin 'shougo/vimproc.vim'           " Interactive command execution. (ghc-mod dependancy)
+Plugin 'eagletmt/ghcmod-vim'          " Haskell dev tools
+Plugin 'eagletmt/neco-ghc'            " Haskell completion
 " Snippets
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'             " Expands with <C-y>
@@ -602,24 +604,31 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " YCM
 let g:ycm_register_as_syntastic_checker = 0
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 " Syntastic
 let g:syntastic_html_checkers=['']
 " Vim multiple Cursors
 let g:multi_cursor_next_key='<C-f>'
 let g:multi_cursor_prev_key='<C-d>'
-let g:multi_cursor_skip_key='<C-g>'
+let g:multi_cursor_skip_key='<C-h>'
 let g:multi_cursor_quit_key='<Esc>'
 " vim-go
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
-au FileType go nmap <leader>t  <Plug>(go-test)
+au FileType go nmap <leader><leader>t  <Plug>(go-test)
 au FileType go nmap <leader>c  <Plug>(go-coverage)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>dh <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>i  <Plug>(go-info)
+au FileType go nmap <leader>gd <Plug>(go-doc)
+au FileType go nmap <leader>dh <Plug>(go-def-split)
+au FileType go nmap <leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <leader>i  <Plug>(go-info)
 let g:go_fmt_command = "goimports"
 let g:go_doc_keywordprg_enabled= 0
+" GHC-Mod
+au FileType haskell nmap <leader><leader>t :GhcModType<cr>
+au FileType haskell nmap <leader><leader>i :GhcModTypeInsert<cr>
+au FileType haskell nnoremap <silent> <bs> :GhcModTypeClear<cr> :noh<cr>:call clearmatches()<cr>
+let g:haskellmode_completion_ghc = 0
+au FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 
 "  +---------------------------------------------------------------+
