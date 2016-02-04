@@ -273,8 +273,10 @@ nnoremap <leader>e :Errors<cr>
 nnoremap <leader>syntax :SyntasticCheck<cr>
 "-¬
 "    Autocenter the screen when searching or jumping to paragraph "--¬
-nnoremap n nzzzv:call PulseCursorLine()<cr>
-nnoremap N Nzzzv:call PulseCursorLine()<cr>
+"nnoremap n nzzzv:call PulseCursorLine()<cr>
+"nnoremap N Nzzzv:call PulseCursorLine()<cr>
+nnoremap n nzzzv<cr>
+nnoremap N Nzzzv<cr>
 nnoremap } }zz
 nnoremap { {zz
 "-¬
@@ -293,6 +295,9 @@ vnoremap ! :ClamVisual<space>
 "-¬
 "    Clean trailing whitespace"--¬
 nnoremap <leader><leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+"-¬
+"    Clean windows carriage return"--¬
+nnoremap <leader><leader>r :%s/\r\(\n\)/\1/g<cr>
 "-¬
 "    Visual select until the end of the line without newline character"--¬
 nnoremap vv ^vg_
@@ -580,6 +585,12 @@ augroup ft_markdown
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
     au FileType markdown setlocal nonumber nocursorline
     au FileType markdown setlocal textwidth=70
+augroup END
+"-¬
+"    Golang "--¬
+augroup ft_go
+    set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
+    autocmd BufWritePost,FileWritePost *.go execute 'Lint' | cwindow
 augroup END
 "-¬
 "    Mail "--¬
