@@ -7,9 +7,8 @@
 " ------------------------------------------------------------------
 "
 " ------------------------------------------------------------------
-"
 " Basic Options "--¬
-"  +---------------------------------------------------------------+
+" ------------------------------------------------------------------
 "
 "    Vundle "--¬
 set nocompatible " required
@@ -150,10 +149,10 @@ if exists("+undofile")
 endif
 "-¬
 "
-"  +---------------------------------------------------------------+
 "-¬
+" ------------------------------------------------------------------
 " Key mappings "--¬
-"  +---------------------------------------------------------------+
+" ------------------------------------------------------------------
 "
 "    Open/Close the NERD Tree "--¬
 nnoremap <F2> :NERDTreeToggle<CR>
@@ -273,8 +272,6 @@ nnoremap <leader>e :Errors<cr>
 nnoremap <leader>syntax :SyntasticCheck<cr>
 "-¬
 "    Autocenter the screen when searching or jumping to paragraph "--¬
-"nnoremap n nzzzv:call PulseCursorLine()<cr>
-"nnoremap N Nzzzv:call PulseCursorLine()<cr>
 nnoremap n nzzzv<cr>
 nnoremap N Nzzzv<cr>
 nnoremap } }zz
@@ -325,10 +322,12 @@ vnoremap <leader>5y "5y
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 "-¬
-"  +---------------------------------------------------------------+
+"
+" ------------------------------------------------------------------
 "-¬
+" ------------------------------------------------------------------
 " Appearance "--¬
-"  +---------------------------------------------------------------+
+" ------------------------------------------------------------------
 "
 "    Appearance Basic Settings "--¬
 set fillchars+=vert:│
@@ -363,8 +362,6 @@ if os == 'Darwin' || os == 'Mac'
         colorscheme default
     endtry
 endif
-
-
 "-¬
 "    Remove menu bars, toolbox and scrollbars in GVIM "--¬
 set guioptions-=T
@@ -378,10 +375,11 @@ set noerrorbells
 set t_vb=
 "-¬
 "
-"  +---------------------------------------------------------------+
+" ------------------------------------------------------------------
 "-¬
+" ------------------------------------------------------------------
 " Functions "--¬
-"  +---------------------------------------------------------------+
+" ------------------------------------------------------------------
 "
 "    Show syntax highlighting groups for word under cursor"--¬
 nmap <leader>hi :call <SID>SynStack()<CR>
@@ -463,7 +461,6 @@ hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 "-¬
 "    Visual Mode */# from Scrooloose "--¬
-
 function! s:VSetSearch()
   let temp = @@
   norm! gvy
@@ -482,60 +479,12 @@ if ! has('gui_running')
     augroup END
 endif
 "-¬
-"    Pulse cursor line when next search element  "--¬
-function! PulseCursorLine()
-    let current_window = winnr()
-
-    windo set nocursorline
-    execute current_window . 'wincmd w'
-
-    setlocal cursorline
-
-    redir => old_hi
-        silent execute 'hi CursorLine'
-    redir END
-    let old_hi = split(old_hi, '\n')[0]
-    let old_hi = substitute(old_hi, 'xxx', '', '')
-
-    hi CursorLine guibg=#2a2a2a ctermbg=233
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#333333 ctermbg=235
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#3a3a3a ctermbg=237
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#444444 ctermbg=239
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#3a3a3a ctermbg=237
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#333333 ctermbg=235
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#2a2a2a ctermbg=233
-    redraw
-    sleep 20m
-
-    execute 'hi ' . old_hi
-
-    windo set cursorline
-    execute current_window . 'wincmd w'
-endfunction
-"-¬
 "
-"  +---------------------------------------------------------------+
+" ------------------------------------------------------------------
 "-¬
+" ------------------------------------------------------------------
 " Filetype specific options "--¬
-"  +---------------------------------------------------------------+
+" ------------------------------------------------------------------
 "
 "    C "--¬
 augroup ft_c
@@ -600,30 +549,37 @@ augroup ft_mail
 augroup END
 "-¬
 "
-"  +---------------------------------------------------------------+
+" ------------------------------------------------------------------
 "-¬
+" ------------------------------------------------------------------
 " Plugins specific options "--¬
-"  +---------------------------------------------------------------+
-
-" NERDTree
+" ------------------------------------------------------------------
+"
+"    NERDTree"--¬
 let NERDTreeShowHidden=1
-" Ctrl-P
+"-¬
+"    Ctrl-P"--¬
 let g:ctrlp_extensions = ['tag']
-" UltiSnips
+"-¬
+"    UltiSnips"--¬
 let g:UltiSnipsExpandTrigger="<c-y>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-" YCM
+"-¬
+"    YCM"--¬
 let g:ycm_register_as_syntastic_checker = 0
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
-" Syntastic
+"-¬
+"    Syntastic"--¬
 let g:syntastic_html_checkers=['']
-" Vim multiple Cursors
+"-¬
+"    Vim Multiple Cursors"--¬
 let g:multi_cursor_next_key='<C-f>'
 let g:multi_cursor_prev_key='<C-d>'
 let g:multi_cursor_skip_key='<C-h>'
 let g:multi_cursor_quit_key='<Esc>'
-" vim-go
+"-¬
+"    vim-go"--¬
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader><leader>t  <Plug>(go-test)
@@ -634,16 +590,16 @@ au FileType go nmap <leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <leader>i  <Plug>(go-info)
 let g:go_fmt_command = "goimports"
 let g:go_doc_keywordprg_enabled= 0
-" GHC-Mod
+"-¬
+"    GHC-Mod"--¬
 au FileType haskell nmap <leader><leader>t :GhcModType<cr>
 au FileType haskell nmap <leader><leader>i :GhcModTypeInsert<cr>
 au FileType haskell nnoremap <silent> <bs> :GhcModTypeClear<cr> :noh<cr>:call clearmatches()<cr>
 let g:haskellmode_completion_ghc = 0
 au FileType haskell setlocal omnifunc=necoghc#omnifunc
-
-
-"  +---------------------------------------------------------------+
 "-¬
 "
+" ------------------------------------------------------------------
+"-¬
 " ------------------------------------------------------------------
 
