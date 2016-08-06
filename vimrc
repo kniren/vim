@@ -579,6 +579,8 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "    YCM"--¬
 let g:ycm_register_as_syntastic_checker = 0
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
+let g:ycm_add_preview_to_completeopt = 0
+set completeopt-=preview
 "-¬
 "    Syntastic"--¬
 let g:syntastic_html_checkers=['']
