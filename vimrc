@@ -37,6 +37,7 @@ Plugin 'fatih/vim-go'                 " Golang development
 Plugin 'shougo/vimproc.vim'           " Interactive command execution. (ghc-mod dependancy)
 Plugin 'eagletmt/ghcmod-vim'          " Haskell dev tools
 Plugin 'eagletmt/neco-ghc'            " Haskell completion
+Plugin 'kien/rainbow_parentheses.vim' " Rainbow parenthesis
 " Snippets
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'             " Expands with <C-y>
@@ -609,6 +610,12 @@ au FileType haskell nmap <leader><leader>i :GhcModTypeInsert<cr>
 au FileType haskell nnoremap <silent> <bs> :GhcModTypeClear<cr> :noh<cr>:call clearmatches()<cr>
 let g:haskellmode_completion_ghc = 0
 au FileType haskell setlocal omnifunc=necoghc#omnifunc
+"-¬
+"    Rainbow Parenthesis"--¬
+"au VimEnter * RainbowParenthesesToggle
+"au Syntax * RainbowParenthesesLoadRound
+"au Syntax * RainbowParenthesesLoadSquare
+"au Syntax * RainbowParenthesesLoadBraces
 "-¬
 "
 " ------------------------------------------------------------------
