@@ -64,6 +64,7 @@ set foldmarker=--¬,-¬
 set showmatch
 set mouse=a
 syntax on
+set autoread " Run :checktime to update current file when on terminal
 "-¬
 "    Statusline "--¬
 set statusline=\ \»\  
@@ -322,6 +323,9 @@ vnoremap <leader>5y "5y
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 "-¬
+"    Force file update if it has changed "--¬
+nnoremap <leader>u :checktime<CR>
+"-¬
 "
 " ------------------------------------------------------------------
 "-¬
@@ -539,13 +543,19 @@ augroup END
 "    Golang "--¬
 augroup ft_go
     set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
-    autocmd BufWritePost,FileWritePost *.go execute 'Lint' | cwindow
+    "autocmd BufWritePost,FileWritePost *.go execute 'Lint' | cwindow
 augroup END
 "-¬
 "    Mail "--¬
 augroup ft_mail
     au!
     au FileType mail setlocal nonumber spell
+augroup END
+"-¬
+"    Git "--¬
+augroup ft_gitcommit
+    au!
+    au Filetype gitcommit setlocal spell textwidth=72
 augroup END
 "-¬
 "
@@ -602,4 +612,3 @@ au FileType haskell setlocal omnifunc=necoghc#omnifunc
 " ------------------------------------------------------------------
 "-¬
 " ------------------------------------------------------------------
-
