@@ -545,6 +545,7 @@ augroup END
 augroup ft_go
     set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
     "autocmd BufWritePost,FileWritePost *.go execute 'Lint' | cwindow
+    nnoremap <leader>e :GoErrCheck<cr>
 augroup END
 "-¬
 "    Mail "--¬
@@ -585,6 +586,8 @@ set completeopt-=preview
 "-¬
 "    Syntastic"--¬
 let g:syntastic_html_checkers=['']
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go']  }
 "-¬
 "    Vim Multiple Cursors"--¬
 let g:multi_cursor_next_key='<C-f>'
@@ -596,7 +599,7 @@ let g:multi_cursor_quit_key='<Esc>'
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader><leader>t  <Plug>(go-test)
-au FileType go nmap <leader>c  <Plug>(go-coverage)
+au FileType go nmap <leader>c  :GoCoverageBrowser<cr>
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>dh <Plug>(go-def-split)
 au FileType go nmap <leader>dv <Plug>(go-def-vertical)
