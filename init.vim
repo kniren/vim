@@ -58,20 +58,17 @@ syntax sync minlines=256 " start highlighting from 256 lines backwards
 set synmaxcol=300
 
 " Custom Statusline
-set statusline=\ \»\ 
-set statusline+=%t
-if exists("*fugitive#head")
-    set statusline+=\ %{fugitive#head()}
-endif
+set statusline=\ %t
+try
+    set statusline+=\ \»\ %{fugitive#head()}\ 
+catch
+endtry
 set statusline+=\ %m
 set statusline+=\ %r
 set statusline+=%=
-set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
-set statusline+=\ \«\ %{&ff}
-set statusline+=\ \«\ %l,%c
+set statusline+=%l,%c
 set statusline+=\ \«\ %L
 set statusline+=\ \«\ %P
-set statusline+=\ %y\ 
 hi statusline ctermfg=1 ctermbg=0 guifg=black
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
