@@ -14,8 +14,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'junegunn/vim-plug'            " Plugin manager
 Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy-finder file navigator
 Plug 'kniren/darkmirror'            " My vim colorscheme
-Plug 'sjl/gundo.vim'                " Browsable history. Use with <F3>
-Plug 'scrooloose/nerdcommenter'     " Commentator. Use <leader><space> in visual
+Plug 'scrooloose/nerdcommenter'     " Commentator. Use <leader>c<space> in visual
 Plug 'scrooloose/nerdtree'          " Project tree navigator. Use with <F2>
 Plug 'tpope/vim-surround'           " Handy surround plugin
 Plug 'scrooloose/syntastic'         " Syntax checker
@@ -26,10 +25,10 @@ Plug 'majutsushi/tagbar'            " Tag searcher
 Plug 'fatih/vim-go'                 " Golang development
 Plug 'tpope/vim-fugitive'           " Git integration in vim
 Plug 'godlygeek/tabular'            " OCD helper. Use with <leader>t in visual.
-"Plug 'Valloric/YouCompleteMe'       " Omnicompletion engine
-"Plug 'kien/rainbow_parentheses.vim' " Rainbow parenthesis
-"Plug 'honza/vim-snippets'           " Snippets support
-"Plug 'SirVer/ultisnips'             " Expands with <C-y>
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Completion engine
+Plug 'zchee/deoplete-go'             " Deoplete completion for Go
+Plug 'SirVer/ultisnips'             " Snippets support
+Plug 'honza/vim-snippets'           " A collection of snippets for ultisnips
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -55,6 +54,8 @@ set showmatch
 set mouse=a
 syntax on
 set autoread
+syntax sync minlines=256 " start highlighting from 256 lines backwards
+set synmaxcol=300
 
 " Custom Statusline
 set statusline=\ \»\ 
@@ -70,7 +71,7 @@ set statusline+=\ \«\ %{&ff}
 set statusline+=\ \«\ %l,%c
 set statusline+=\ \«\ %L
 set statusline+=\ \«\ %P
-set statusline+=\ %y\
+set statusline+=\ %y\ 
 hi statusline ctermfg=1 ctermbg=0 guifg=black
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
@@ -140,12 +141,13 @@ endif
 " Key mappings
 " ------------------------------------------------------------------
 
-" Source vim config
-nnoremap <leader>sv :source $MYVIMRC<cr>
-
 " Remap leader key to ',' instead of '\'
 let mapleader=","
 let maplocalleader="_"
+
+" Source vim config
+nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
+nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Scroll the viewport faster with <C-e> and <C-y>
 nnoremap <C-e> 5<C-e>
@@ -370,20 +372,15 @@ nnoremap <silent> <leader>MR :CtrlPMRU<cr>
 nnoremap <silent> <leader>p :CtrlPTag<cr>
 
 " UltiSnips
-"let g:UltiSnipsExpandTrigger="<c-y>"
-"let g:UltiSnipsJumpForwardTrigger="<tab>"
-"let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-" YCM
-"let g:ycm_register_as_syntastic_checker = 0
-"let g:ycm_semantic_triggers = {'haskell' : ['.']}
-"let g:ycm_add_preview_to_completeopt = 0
-"set completeopt-=preview
+let g:UltiSnipsExpandTrigger="<c-y>"
+let g:UltiSnipsJumpForwardTrigger="<c-u>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " Syntastic
 let g:syntastic_html_checkers=['']
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go']  }
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
 nnoremap <leader>e :Errors<cr>
 nnoremap <leader>syntax :SyntasticCheck<cr>
 
@@ -402,6 +399,10 @@ au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>dh <Plug>(go-def-split)
 au FileType go nmap <leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <leader>i  <Plug>(go-info)
+let g:go_term_mode = "split"
+let g:go_term_enabled = 1
+let g:go_term_height = 20
+let g:go_term_width = 20
 let g:go_fmt_command = "goimports"
 let g:go_doc_keywordprg_enabled= 0
 
@@ -411,3 +412,10 @@ nnoremap <F5> :TagbarToggle <cr>
 " Tabularize
 nnoremap <silent> <leader>t :Tabularize /
 vnoremap <silent> <leader>t :Tabularize /
+
+" Deoplete
+call deoplete#enable()
+set completeopt+=noinsert
+set completeopt-=preview
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
