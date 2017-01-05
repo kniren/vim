@@ -11,24 +11,26 @@
 " ------------------------------------------------------------------
 
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'junegunn/vim-plug'            " Plugin manager
-Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy-finder file navigator
-Plug 'kniren/darkmirror'            " My vim colorscheme
-Plug 'scrooloose/nerdcommenter'     " Commentator. Use <leader>c<space> in visual
-Plug 'scrooloose/nerdtree'          " Project tree navigator. Use with <F2>
-Plug 'tpope/vim-surround'           " Handy surround plugin
-Plug 'scrooloose/syntastic'         " Syntax checker
-Plug 'airblade/vim-gitgutter'       " Git symbols on your gutter
-Plug 'terryma/vim-multiple-cursors' " Multi-cursors. Use with <C-n> in normal.
-Plug 'jiangmiao/auto-pairs'         " Autoclose parentheses and brackets
-Plug 'majutsushi/tagbar'            " Tag searcher
-Plug 'fatih/vim-go'                 " Golang development
-Plug 'tpope/vim-fugitive'           " Git integration in vim
-Plug 'godlygeek/tabular'            " OCD helper. Use with <leader>t in visual.
+Plug 'junegunn/vim-plug'                                      " Plugin manager
+Plug 'ctrlpvim/ctrlp.vim'                                     " Fuzzy-finder file navigator
+Plug 'kniren/darkmirror'                                      " My vim colorscheme
+Plug 'scrooloose/nerdcommenter'                               " Commentator. Use <leader>c<space> in visual
+Plug 'scrooloose/nerdtree'                                    " Project tree navigator. Use with <F2>
+Plug 'tpope/vim-surround'                                     " Handy surround plugin
+Plug 'scrooloose/syntastic'                                   " Syntax checker
+Plug 'airblade/vim-gitgutter'                                 " Git symbols on your gutter
+Plug 'terryma/vim-multiple-cursors'                           " Multi-cursors. Use with <C-n> in normal.
+Plug 'jiangmiao/auto-pairs'                                   " Autoclose parentheses and brackets
+Plug 'majutsushi/tagbar'                                      " Tag searcher
+Plug 'fatih/vim-go'                                           " Golang development
+Plug 'tpope/vim-fugitive'                                     " Git integration in vim
+Plug 'godlygeek/tabular'                                      " OCD helper. Use with <leader>t in visual.
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Completion engine
-Plug 'zchee/deoplete-go'             " Deoplete completion for Go
-Plug 'SirVer/ultisnips'             " Snippets support
-Plug 'honza/vim-snippets'           " A collection of snippets for ultisnips
+Plug 'zchee/deoplete-go'                                      " Deoplete completion for Go
+Plug 'SirVer/ultisnips'                                       " Snippets support
+Plug 'honza/vim-snippets'                                     " A collection of snippets for ultisnips
+Plug 'rust-lang/rust.vim'                                     " Vim configuration for Rust
+Plug 'racer-rust/vim-racer'                                   " Rust completion engine
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -59,16 +61,25 @@ set synmaxcol=300
 
 " Custom Statusline
 set statusline=\ %t
-try
-    set statusline+=\ \»\ %{fugitive#head()}\ 
-catch
-endtry
+function! Fugitive()
+    try
+        let sl = fugitive#head()
+    catch
+        return ''
+    endtry
+
+    if sl == ''
+        return ''
+    endif
+    return ' » ' . sl
+endfunction
+set statusline+=%{Fugitive()}
 set statusline+=\ %m
 set statusline+=\ %r
 set statusline+=%=
 set statusline+=%l,%c
 set statusline+=\ \«\ %L
-set statusline+=\ \«\ %P
+set statusline+=\ \«\ %P\ %y
 hi statusline ctermfg=1 ctermbg=0 guifg=black
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
@@ -334,7 +345,7 @@ augroup ft_markdown
     au!
     au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
     au FileType markdown setlocal nonumber nocursorline
-    au FileType markdown setlocal textwidth=70
+    au FileType markdown setlocal textwidth=82
 augroup END
 
 " Golang
@@ -358,9 +369,6 @@ augroup END
 let NERDTreeShowHidden=1
 nnoremap <F2> :NERDTreeToggle<cr>
 
-" Gundo
-nnoremap <F3> :GundoToggle <cr>
-
 " Ctrl-P
 let g:ctrlp_extensions = ['tag']
 nnoremap <silent> <leader>lj :CtrlPBuffer<cr>
@@ -377,9 +385,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:syntastic_html_checkers=['']
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-
 nnoremap <leader>e :Errors<cr>
-nnoremap <leader>syntax :SyntasticCheck<cr>
+nnoremap <leader>es :SyntasticCheck<cr>
 
 " Vim Multiple Cursors
 let g:multi_cursor_next_key='<C-f>'
@@ -390,7 +397,7 @@ let g:multi_cursor_quit_key='<Esc>'
 " vim-go
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader><leader>t  <Plug>(go-test)
+au FileType go nmap <leader>t  <Plug>(go-test)
 au FileType go nmap <leader>c :GoCoverageBrowser<cr>
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>dh <Plug>(go-def-split)
@@ -407,8 +414,8 @@ let g:go_doc_keywordprg_enabled= 0
 nnoremap <F5> :TagbarToggle <cr>
 
 " Tabularize
-nnoremap <silent> <leader>t :Tabularize /
-vnoremap <silent> <leader>t :Tabularize /
+nnoremap <silent> <leader><leader>t :Tabularize /
+vnoremap <silent> <leader><leader>t :Tabularize /
 
 " Deoplete
 call deoplete#enable()
@@ -416,3 +423,14 @@ set completeopt+=noinsert
 set completeopt-=preview
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" Rust
+let g:rustfmt_autosave = 1
+let g:racer_cmd = "/Users/Alex/.cargo/bin/racer"
+let g:syntastic_rust_checkers = ['rustc']
+let g:racer_no_default_keymappings = 1
+au FileType rust nmap <leader>r :RustRun<cr>
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gv <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
