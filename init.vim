@@ -28,6 +28,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Completion engin
 Plug 'SirVer/ultisnips'                                       " Snippets support
 Plug 'honza/vim-snippets'                                     " A collection of snippets for ultisnips
 Plug 'jreybert/vimagit'                                       " Magit for vim
+Plug 'jremmen/vim-ripgrep'                                    " A better code finder (Grep, Ack)
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -436,3 +437,11 @@ au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gv <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+" CtrlP
+if executable('rg')
+  let g:ctrlp_user_command = 'rg --files %s'
+  let g:ctrlp_use_caching = 0
+  let g:ctrlp_working_path_mode = 'ra'
+  let g:ctrlp_switch_buffer = 'et'
+endif
