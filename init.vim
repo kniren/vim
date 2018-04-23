@@ -22,15 +22,12 @@ Plug 'airblade/vim-gitgutter'                                 " Git symbols on y
 Plug 'terryma/vim-multiple-cursors'                           " Multi-cursors. Use with <C-n> in normal.
 Plug 'jiangmiao/auto-pairs'                                   " Autoclose parentheses and brackets
 Plug 'majutsushi/tagbar'                                      " Tag searcher
-Plug 'fatih/vim-go'                                           " Golang development
 Plug 'tpope/vim-fugitive'                                     " Git integration in vim
 Plug 'godlygeek/tabular'                                      " OCD helper. Use with <leader>t in visual.
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Completion engine
-Plug 'zchee/deoplete-go'                                      " Deoplete completion for Go
 Plug 'SirVer/ultisnips'                                       " Snippets support
 Plug 'honza/vim-snippets'                                     " A collection of snippets for ultisnips
-Plug 'rust-lang/rust.vim'                                     " Vim configuration for Rust
-Plug 'racer-rust/vim-racer'                                   " Rust completion engine
+Plug 'jreybert/vimagit'                                       " Magit for vim
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -80,20 +77,22 @@ set statusline+=%=
 set statusline+=%l,%c
 set statusline+=\ \«\ %L
 set statusline+=\ \«\ %P\ %y
-hi statusline ctermfg=1 ctermbg=0 guifg=black
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
-    hi statusline ctermfg=7 ctermbg=0 guifg=white guibg=black
+    hi statusline ctermfg=7 ctermbg=0
   elseif a:mode == 'r'
-    hi statusline ctermfg=5 ctermbg=0 guifg=#C05266 guibg=black
+    hi statusline ctermfg=5 ctermbg=0
   else
-    hi statusline ctermfg=1 ctermbg=0 guifg=black
-  endif
+    hi statusline ctermfg=8 ctermbg=0
+endif
+endfunction
+function! RestoreStatuslineColor()
+    hi statusline ctermfg=8 ctermbg=15
 endfunction
 au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertLeave * hi statusline ctermfg=8 ctermbg=15 guifg=#545454 guibg=#DBDFE0
-hi StatusLine      ctermfg=8  ctermbg=15   guifg=#545454 guibg=#DBDFE0
-hi StatusLineNC    ctermfg=8  ctermbg=0    guifg=#828D92 guibg=#545454  gui=none
+au InsertLeave * call RestoreStatuslineColor()
+hi StatusLine ctermfg=8  ctermbg=15
+hi StatusLineNC ctermfg=8  ctermbg=15
 
 " Indentation Options
 set autoindent
@@ -156,6 +155,9 @@ let maplocalleader="_"
 " Source vim config
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" In insert mode substitute ctrl-c with esc
+inoremap <C-c> <Esc>
 
 " Scroll the viewport faster with <C-e> and <C-y>
 nnoremap <C-e> 5<C-e>
