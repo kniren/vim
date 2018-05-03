@@ -29,10 +29,10 @@ Plug 'SirVer/ultisnips'                                       " Snippets support
 Plug 'honza/vim-snippets'                                     " A collection of snippets for ultisnips
 Plug 'jreybert/vimagit'                                       " Magit for vim
 Plug 'jremmen/vim-ripgrep'                                    " A better code finder (Grep, Ack)
-Plug 'tikhomirov/vim-glsl'                                    " Syntax data for OpenGL shading language
 Plug 'Chiel92/vim-autoformat'                                 " Autoformatting for clang-format compatible languages
 Plug 'ervandew/supertab'                                      " Better TAB usage for completion
-
+Plug 'tikhomirov/vim-glsl'                                    " Syntax data for OpenGL shading language
+Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigation between vim and tmux
 call plug#end()
 
 " ------------------------------------------------------------------
