@@ -424,6 +424,7 @@ let g:multi_cursor_next_key='<C-f>'
 let g:multi_cursor_prev_key='<C-d>'
 let g:multi_cursor_skip_key='<C-h>'
 let g:multi_cursor_quit_key='<Esc>'
+let g:multi_cursor_select_all_word_key = '<leader><C-f>'
 
 " vim-go
 au FileType go nmap <leader>r <Plug>(go-run)
