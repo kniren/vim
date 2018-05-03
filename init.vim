@@ -29,6 +29,10 @@ Plug 'SirVer/ultisnips'                                       " Snippets support
 Plug 'honza/vim-snippets'                                     " A collection of snippets for ultisnips
 Plug 'jreybert/vimagit'                                       " Magit for vim
 Plug 'jremmen/vim-ripgrep'                                    " A better code finder (Grep, Ack)
+Plug 'tikhomirov/vim-glsl'                                    " Syntax data for OpenGL shading language
+Plug 'Chiel92/vim-autoformat'                                 " Autoformatting for clang-format compatible languages
+Plug 'ervandew/supertab'                                      " Better TAB usage for completion
+
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -79,13 +83,13 @@ set statusline+=%l,%c
 set statusline+=\ \«\ %L
 set statusline+=\ \«\ %P\ %y
 function! InsertStatuslineColor(mode)
-  if a:mode == 'i'
-    hi statusline ctermfg=7 ctermbg=0
-  elseif a:mode == 'r'
-    hi statusline ctermfg=5 ctermbg=0
-  else
-    hi statusline ctermfg=8 ctermbg=0
-endif
+    if a:mode == 'i'
+        hi statusline ctermfg=7 ctermbg=0
+    elseif a:mode == 'r'
+        hi statusline ctermfg=5 ctermbg=0
+    else
+        hi statusline ctermfg=8 ctermbg=0
+    endif
 endfunction
 function! RestoreStatuslineColor()
     hi statusline ctermfg=8 ctermbg=15
@@ -138,11 +142,11 @@ set noswapfile
 set nomodeline
 set undofile
 if exists("+undofile")
-  if isdirectory($HOME . '/.vimtmp') == 0
-    :silent !mkdir -p ~/.vimtmp > /dev/null 2>&1
-  endif
-  set undodir=~/.vimtmp//
-  set undofile
+    if isdirectory($HOME . '/.vimtmp') == 0
+        :silent !mkdir -p ~/.vimtmp > /dev/null 2>&1
+    endif
+    set undodir=~/.vimtmp//
+    set undofile
 endif
 
 " ------------------------------------------------------------------
@@ -172,6 +176,10 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" Move up and down on the completion menu
+inoremap <C-j> <C-n>
+inoremap <C-k> <C-p>
+
 " Resize splits
 nnoremap <Left> 5<C-w><
 nnoremap <Right> 5<C-w>>
@@ -189,12 +197,16 @@ nnoremap L $
 " Folding
 nnoremap <Space> za
 vnoremap <Space> za
+set foldlevelstart=99
 
 " Focus on current fold
 nnoremap <leader>z zMzvzz
+map <c-f> <c-f>
 
 " Common typos
 nnoremap ; :
+nnoremap ñ :
+nnoremap Ñ :
 nnoremap :Q :q
 nnoremap :W :w
 nnoremap :Wq :wq
@@ -306,10 +318,10 @@ au VimResized * exe "normal! \<c-w>="
 
 " Visual Mode */# from Scrooloose
 function! s:VSetSearch()
-  let temp = @@
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@ = temp
+    let temp = @@
+    norm! gvy
+    let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+    let @@ = temp
 endfunction
 
 vnoremap * :<C-u>call <SID>VSetSearch()<cr>//<cr><c-o>
@@ -330,6 +342,10 @@ augroup ft_c
     au!
     au FileType c setlocal foldmethod=marker foldmarker={,}
 augroup END
+
+" C/CPP
+let g:clang_format#code_style = "llvm"
+noremap <leader>f ix<ESC>x:undojoin \| Autoformat<CR>
 
 " Java
 augroup ft_java
@@ -364,6 +380,14 @@ augroup ft_gitcommit
     au Filetype gitcommit setlocal spell textwidth=72
 augroup END
 
+" Tex
+au BufNewFile,BufRead *.tex setlocal filetype=tex
+augroup ft_tex
+    au!
+    au Filetype tex setlocal spell
+    au Filetype tex setlocal wrap
+augroup END
+
 " ------------------------------------------------------------------
 " Plugins specific options
 " ------------------------------------------------------------------
@@ -387,11 +411,15 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 " Syntastic
 let g:syntastic_html_checkers=['']
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:syntastic_quiet_messages = {"regex": "file not found" }
 nnoremap <leader>e :Errors<cr>
 nnoremap <leader>es :SyntasticCheck<cr>
 
 " Vim Multiple Cursors
+let g:multi_cursor_use_default_mapping=0
 let g:multi_cursor_next_key='<C-f>'
 let g:multi_cursor_prev_key='<C-d>'
 let g:multi_cursor_skip_key='<C-h>'
@@ -420,28 +448,20 @@ nnoremap <F5> :TagbarToggle <cr>
 nnoremap <silent> <leader><leader>t :Tabularize /
 vnoremap <silent> <leader><leader>t :Tabularize /
 
+" CtrlP
+if executable('rg')
+    let g:ctrlp_user_command = 'rg --files %s'
+    let g:ctrlp_use_caching = 0
+    let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_switch_buffer = 'et'
+endif
+
+" Ripgrep
+let g:rg_command = 'rg --vimgrep -S'
+
 " Deoplete
 call deoplete#enable()
 set completeopt+=noinsert
 set completeopt-=preview
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-" Rust
-let g:rustfmt_autosave = 1
-let g:racer_cmd = "/Users/Alex/.cargo/bin/racer"
-let g:syntastic_rust_checkers = ['rustc']
-let g:racer_no_default_keymappings = 1
-au FileType rust nmap <leader>r :RustRun<cr>
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gv <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
-
-" CtrlP
-if executable('rg')
-  let g:ctrlp_user_command = 'rg --files %s'
-  let g:ctrlp_use_caching = 0
-  let g:ctrlp_working_path_mode = 'ra'
-  let g:ctrlp_switch_buffer = 'et'
-endif
+"inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
