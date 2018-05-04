@@ -66,20 +66,20 @@ function! StatuslineMode()
     let l:currentMode = mode()
     if  l:currentMode == 'n'
         hi User1 ctermbg=0 cterm=bold
-	    return '  ' . 'N' . ' '
+        return '  ' . 'N' . ' '
     elseif  l:currentMode == 'r'
         hi User1 ctermbg=1 cterm=bold
-	    return '  ' . 'R' . ' '
+        return '  ' . 'R' . ' '
     elseif l:currentMode == 'i'
         hi User1 ctermbg=4 cterm=bold
-	    return '  ' . 'I' . ' '
+        return '  ' . 'I' . ' '
     elseif l:currentMode == 'v'
         hi User1 ctermbg=6 cterm=bold
-	    return '  ' . 'V' . ' '
-	else
+        return '  ' . 'V' . ' '
+    else
         hi User1 ctermbg=0 cterm=bold
     endif
-	return '  ' . '»' . ' '
+    return '  ' . '»' . ' '
 endfunction
 set statusline=%#User1#
 set statusline+=%{StatuslineMode()}
@@ -121,11 +121,11 @@ set linebreak
 set textwidth=82
 set formatoptions=qrn1
 set colorcolumn=85
-if has("win32")
+if has('win32')
     set fileformat=unix
     set fileformats=unix,dos
-elseif has("unix")
-    set fileformats="unix,dos,mac"
+elseif has('unix')
+    set fileformats=unix,dos,mac
 endif
 set formatoptions+=1
 set laststatus=2
@@ -147,7 +147,7 @@ set nobackup
 set noswapfile
 set nomodeline
 set undofile
-if exists("+undofile")
+if exists('+undofile')
     if isdirectory($HOME . '/.vimtmp') == 0
         :silent !mkdir -p ~/.vimtmp > /dev/null 2>&1
     endif
@@ -249,10 +249,10 @@ nnoremap gj j
 nnoremap gk k
 
 " Clean trailing whitespace
-nnoremap <leader><leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z :echo "Trailing whitespace removed"<cr>
+nnoremap <leader><leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z :echo 'Trailing whitespace removed'<cr>
 
 " Clean windows carriage return
-nnoremap <leader><leader>r :%s/\r\(\n\)/\1/g<cr> :echo "Windows carriage return removed"<cr>
+nnoremap <leader><leader>r :%s/\r\(\n\)/\1/g<cr> :echo 'Windows carriage return removed'<cr>
 
 " Copy and paste from the system clipboard
 vnoremap <C-c> "+y
@@ -298,7 +298,7 @@ set t_vb=
 " Show syntax highlighting groups for word under cursor
 nmap <leader>hi :call <SID>SynStack()<cr>
 function! <SID>SynStack()
-    if !exists("*synstack")
+    if !exists('*synstack')
         return
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
@@ -315,12 +315,12 @@ function! MyFoldText()
     let line = substitute(line, '¬', ' ', 'g')
     let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
     let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . '            '
+    return line . '…' . repeat(' ',fillcharcount) . '            '
 endfunction
 set foldtext=MyFoldText()
 
 " Keep the relative size of the splits when resizing
-au VimResized * exe "normal! \<c-w>="
+au VimResized * exe 'normal! \<c-w>='
 
 " Visual Mode */# from Scrooloose
 function! s:VSetSearch()
@@ -350,7 +350,7 @@ augroup ft_c
 augroup END
 
 " C/CPP
-let g:clang_format#code_style = "llvm"
+let g:clang_format#code_style = 'llvm'
 noremap <leader>f ix<ESC>x:undojoin \| Autoformat<CR>
 
 " Java
@@ -376,14 +376,13 @@ augroup END
 " Golang
 augroup ft_go
     au FileType go set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
-    "au BufWritePost,FileWritePost *.go execute 'Lint' | cwindow
     au FileType go nnoremap <leader>e :GoErrCheck<cr>
 augroup END
 
 " Git
 augroup ft_gitcommit
     au!
-    au Filetype gitcommit setlocal spell textwidth=72
+    au Filetype gitcommit setlocal spell textwidth=80
 augroup END
 
 " Tex
@@ -410,9 +409,9 @@ nnoremap <silent> <leader>MR :CtrlPMRU<cr>
 nnoremap <silent> <leader>p :CtrlPTag<cr>
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<c-y>"
-let g:UltiSnipsJumpForwardTrigger="<c-u>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsExpandTrigger='<c-y>'
+let g:UltiSnipsJumpForwardTrigger='<c-u>'
+let g:UltiSnipsJumpBackwardTrigger='<c-b>'
 
 " Syntastic
 let g:syntastic_html_checkers=['']
@@ -420,7 +419,7 @@ let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-let g:syntastic_quiet_messages = {"regex": "file not found" }
+let g:syntastic_quiet_messages = { 'regex': 'file not found' }
 nnoremap <leader>e :Errors<cr>
 nnoremap <leader>es :SyntasticCheck<cr>
 
@@ -441,11 +440,11 @@ au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>dh <Plug>(go-def-split)
 au FileType go nmap <leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <leader>i  <Plug>(go-info)
-let g:go_term_mode = "split"
+let g:go_term_mode = 'split'
 let g:go_term_enabled = 1
 let g:go_term_height = 20
 let g:go_term_width = 20
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = 'goimports'
 let g:go_doc_keywordprg_enabled= 0
 
 " Open/Close the Tagbar window
@@ -468,7 +467,6 @@ let g:rg_command = 'rg --vimgrep -S'
 
 " Deoplete
 call deoplete#enable()
-set completeopt+=noinsert
+set completeopt=menu
 set completeopt-=preview
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-"inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+let g:SuperTabDefaultCompletionType = '<c-n>'
