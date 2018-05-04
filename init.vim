@@ -15,15 +15,15 @@ Plug 'junegunn/vim-plug'                                      " Plugin manager
 Plug 'ctrlpvim/ctrlp.vim'                                     " Fuzzy-finder file navigator
 Plug 'kniren/ether'                                           " My vim colorscheme
 Plug 'scrooloose/nerdcommenter'                               " Commentator. Use <leader>c<space> in visual
-Plug 'scrooloose/nerdtree'                                    " Project tree navigator. Use with <F2>
+Plug 'scrooloose/nerdtree'                                    " Project tree navigator.
 Plug 'tpope/vim-surround'                                     " Handy surround plugin
 Plug 'scrooloose/syntastic'                                   " Syntax checker
 Plug 'airblade/vim-gitgutter'                                 " Git symbols on your gutter
-Plug 'terryma/vim-multiple-cursors'                           " Multi-cursors. Use with <C-n> in normal.
+Plug 'terryma/vim-multiple-cursors'                           " Multi-cursors.
 Plug 'jiangmiao/auto-pairs'                                   " Autoclose parentheses and brackets
 Plug 'majutsushi/tagbar'                                      " Tag searcher
 Plug 'tpope/vim-fugitive'                                     " Git integration in vim
-Plug 'godlygeek/tabular'                                      " OCD helper. Use with <leader>t in visual.
+Plug 'godlygeek/tabular'                                      " OCD helper.
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Completion engine
 Plug 'SirVer/ultisnips'                                       " Snippets support
 Plug 'honza/vim-snippets'                                     " A collection of snippets for ultisnips
@@ -35,6 +35,7 @@ Plug 'tikhomirov/vim-glsl'                                    " Syntax data for 
 Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigation between vim and tmux
 Plug 'zchee/deoplete-clang'                                   " Code completion for C family languages
 Plug 'ludovicchabant/vim-gutentags'                           " Ctags/Gtags generation
+Plug 'sjl/gundo.vim'                                          " Vim history navigator
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -343,6 +344,7 @@ augroup END
 augroup ft_cpp
     au!
     let g:clang_format#code_style = 'llvm'
+    let g:gutentags_enabled = 1
     noremap <leader>f ix<ESC>x:undojoin \| Autoformat<CR>
     " Deoplete-clang
     if has("unix")
@@ -476,3 +478,7 @@ let g:SuperTabDefaultCompletionType = '<c-n>'
 
 " Gutentags
 let g:gutentags_cache_dir = '~/.ctagscache'
+let g:gutentags_enabled = 0
+
+" Gundo
+nnoremap <F3> :GundoToggle<cr>
