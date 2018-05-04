@@ -260,18 +260,6 @@ nnoremap <leader><leader>r :%s/\r\(\n\)/\1/g<cr> :echo 'Windows carriage return 
 vnoremap <C-c> "+y
 inoremap <C-v> <Esc>"+pi
 
-" Yank and past from buffer [1-5]
-nnoremap <leader>1p "1p
-nnoremap <leader>2p "2p
-nnoremap <leader>3p "3p
-nnoremap <leader>4p "4p
-nnoremap <leader>5p "5p
-vnoremap <leader>1y "1y
-vnoremap <leader>2y "2y
-vnoremap <leader>3y "3y
-vnoremap <leader>4y "4y
-vnoremap <leader>5y "5y
-
 " Force file update if it has changed
 nnoremap <leader>u :checktime<cr>:GitGutter<cr>:echo 'File updated'<cr>
 
@@ -363,11 +351,10 @@ augroup ft_cpp
             let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 			let g:deoplete#sources#clang#clang_header = '/Library/Developer/CommandLineTools/usr/lib/clang'
         else
-            " Linux path goes here
+            " Linux clang path goes here
         endif
     endif
 augroup END
-
 
 " Java
 augroup ft_java
@@ -415,14 +402,20 @@ augroup END
 
 " NERDTree
 let NERDTreeShowHidden=1
-nnoremap <F2> :NERDTreeToggle<cr>
+nnoremap <F1> :NERDTreeToggle<cr>
 
-" Ctrl-P
+" CtrlP
 let g:ctrlp_extensions = ['tag']
 nnoremap <silent> <leader>lj :CtrlPBuffer<cr>
 nnoremap <silent> <leader>mr :CtrlPMRU<cr>
 nnoremap <silent> <leader>MR :CtrlPMRU<cr>
-nnoremap <silent> <leader>p :CtrlPTag<cr>
+nnoremap <silent> <leader>t :CtrlPTag<cr>
+if executable('rg')
+    let g:ctrlp_user_command = 'rg --files %s'
+    let g:ctrlp_use_caching = 0
+    let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_switch_buffer = 'et'
+endif
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger='<c-y>'
@@ -450,7 +443,7 @@ let g:multi_cursor_select_all_word_key = '<leader><C-f>'
 " vim-go
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t  <Plug>(go-test)
+au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c :GoCoverageBrowser<cr>
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>dh <Plug>(go-def-split)
@@ -464,19 +457,11 @@ let g:go_fmt_command = 'goimports'
 let g:go_doc_keywordprg_enabled= 0
 
 " Open/Close the Tagbar window
-nnoremap <F5> :TagbarToggle <cr>
+nnoremap <F2> :TagbarToggle <cr>
 
 " Tabularize
 nnoremap <silent> <leader><leader>t :Tabularize /
 vnoremap <silent> <leader><leader>t :Tabularize /
-
-" CtrlP
-if executable('rg')
-    let g:ctrlp_user_command = 'rg --files %s'
-    let g:ctrlp_use_caching = 0
-    let g:ctrlp_working_path_mode = 'ra'
-    let g:ctrlp_switch_buffer = 'et'
-endif
 
 " Ripgrep
 let g:rg_command = 'rg --vimgrep -S'
