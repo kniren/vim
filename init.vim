@@ -33,6 +33,8 @@ Plug 'Chiel92/vim-autoformat'                                 " Autoformatting f
 Plug 'ervandew/supertab'                                      " Better TAB usage for completion
 Plug 'tikhomirov/vim-glsl'                                    " Syntax data for OpenGL shading language
 Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigation between vim and tmux
+Plug 'zchee/deoplete-clang'                                   " Code completion for C family languages
+Plug 'jsfaint/gen_tags.vim'                                   " Ctags/Gtags generation
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -350,8 +352,22 @@ augroup ft_c
 augroup END
 
 " C/CPP
-let g:clang_format#code_style = 'llvm'
-noremap <leader>f ix<ESC>x:undojoin \| Autoformat<CR>
+augroup ft_cpp
+    au!
+    let g:clang_format#code_style = 'llvm'
+    noremap <leader>f ix<ESC>x:undojoin \| Autoformat<CR>
+    " Deoplete-clang
+    if has("unix")
+        let s:uname = system("uname")
+        if s:uname == "Darwin\n"
+            let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+			let g:deoplete#sources#clang#clang_header = '/Library/Developer/CommandLineTools/usr/lib/clang'
+        else
+            " Linux path goes here
+        endif
+    endif
+augroup END
+
 
 " Java
 augroup ft_java
@@ -469,4 +485,11 @@ let g:rg_command = 'rg --vimgrep -S'
 call deoplete#enable()
 set completeopt=menu
 set completeopt-=preview
+
+" Supertab
 let g:SuperTabDefaultCompletionType = '<c-n>'
+
+" Gen Ctags
+let g:loaded_gentags#gtags = 1
+let g:gen_tags#ctags_auto_gen = 1
+let g:gen_tags#blacklist = ['$HOME']
