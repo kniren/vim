@@ -271,7 +271,7 @@ vnoremap <leader>4y "4y
 vnoremap <leader>5y "5y
 
 " Force file update if it has changed
-nnoremap <leader>u :checktime<cr>
+nnoremap <leader>u :checktime<cr>:echo 'File updated'<cr>
 
 " ------------------------------------------------------------------
 " Appearance
