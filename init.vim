@@ -50,7 +50,7 @@ set ruler
 set nonumber
 set scrolloff=4
 set lazyredraw
-set showmode
+set noshowmode
 set showcmd
 set gdefault
 set cursorline
@@ -62,7 +62,29 @@ syntax sync minlines=256 " start highlighting from 256 lines backwards
 set synmaxcol=300
 
 " Custom Statusline
-set statusline=\ %t
+function! StatuslineMode()
+    let l:currentMode = mode()
+    if  l:currentMode == 'n'
+        hi User1 ctermbg=0 cterm=bold
+	    return '  ' . 'N' . ' '
+    elseif  l:currentMode == 'r'
+        hi User1 ctermbg=1 cterm=bold
+	    return '  ' . 'R' . ' '
+    elseif l:currentMode == 'i'
+        hi User1 ctermbg=4 cterm=bold
+	    return '  ' . 'I' . ' '
+    elseif l:currentMode == 'v'
+        hi User1 ctermbg=6 cterm=bold
+	    return '  ' . 'V' . ' '
+	else
+        hi User1 ctermbg=0 cterm=bold
+    endif
+	return '  ' . '»' . ' '
+endfunction
+set statusline=%#User1#
+set statusline+=%{StatuslineMode()}
+set statusline+=%*
+set statusline+=\ %t
 function! Fugitive()
     try
         let sl = fugitive#head()
@@ -81,23 +103,7 @@ set statusline+=\ %r
 set statusline+=%=
 set statusline+=%l,%c
 set statusline+=\ \«\ %L
-set statusline+=\ \«\ %P\ %y
-function! InsertStatuslineColor(mode)
-    if a:mode == 'i'
-        hi StatusLine      ctermfg=8     ctermbg=7     cterm=bold
-    elseif a:mode == 'r'
-        hi StatusLine      ctermfg=7     ctermbg=5     cterm=bold
-    else
-        hi StatusLine      ctermfg=7     ctermbg=8     cterm=bold
-    endif
-endfunction
-function! RestoreStatuslineColor()
-    hi StatusLine      ctermfg=7     ctermbg=8     cterm=bold
-endfunction
-au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertLeave * call RestoreStatuslineColor()
-hi StatusLine      ctermfg=7     ctermbg=8     cterm=bold
-hi StatusLineNC    ctermfg=0     ctermbg=8     cterm=bold
+set statusline+=\ \«\ %P\ %#User1#\ %Y\ %*
 
 " Indentation Options
 set autoindent
