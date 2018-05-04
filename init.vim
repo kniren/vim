@@ -485,4 +485,5 @@ let g:gutentags_enabled = 0
 nnoremap <F3> :GundoToggle<cr>
 
 " Vim easy motion
-map <Leader> <Plug>(easymotion-prefix)
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
