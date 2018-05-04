@@ -13,7 +13,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'junegunn/vim-plug'                                      " Plugin manager
 Plug 'ctrlpvim/ctrlp.vim'                                     " Fuzzy-finder file navigator
-Plug 'kniren/darkmirror'                                      " My vim colorscheme
+Plug 'kniren/ether'                                           " My vim colorscheme
 Plug 'scrooloose/nerdcommenter'                               " Commentator. Use <leader>c<space> in visual
 Plug 'scrooloose/nerdtree'                                    " Project tree navigator. Use with <F2>
 Plug 'tpope/vim-surround'                                     " Handy surround plugin
@@ -84,20 +84,20 @@ set statusline+=\ \«\ %L
 set statusline+=\ \«\ %P\ %y
 function! InsertStatuslineColor(mode)
     if a:mode == 'i'
-        hi statusline ctermfg=7 ctermbg=0
+        hi StatusLine      ctermfg=8     ctermbg=7     cterm=bold
     elseif a:mode == 'r'
-        hi statusline ctermfg=5 ctermbg=0
+        hi StatusLine      ctermfg=7     ctermbg=5     cterm=bold
     else
-        hi statusline ctermfg=8 ctermbg=0
+        hi StatusLine      ctermfg=7     ctermbg=8     cterm=bold
     endif
 endfunction
 function! RestoreStatuslineColor()
-    hi statusline ctermfg=8 ctermbg=15
+    hi StatusLine      ctermfg=7     ctermbg=8     cterm=bold
 endfunction
 au InsertEnter * call InsertStatuslineColor(v:insertmode)
 au InsertLeave * call RestoreStatuslineColor()
-hi StatusLine ctermfg=8  ctermbg=15
-hi StatusLineNC ctermfg=8  ctermbg=15
+hi StatusLine      ctermfg=7     ctermbg=8     cterm=bold
+hi StatusLineNC    ctermfg=0     ctermbg=8     cterm=bold
 
 " Indentation Options
 set autoindent
@@ -275,7 +275,7 @@ nnoremap <leader>u :checktime<cr>
 set fillchars+=vert:│
 try
     set background=dark
-    colorscheme darkmirror
+    colorscheme ether
 catch /^Vim\%((\a\+)\)\=:E185/
     colorscheme default
 endtry
