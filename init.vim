@@ -34,7 +34,7 @@ Plug 'ervandew/supertab'                                      " Better TAB usage
 Plug 'tikhomirov/vim-glsl'                                    " Syntax data for OpenGL shading language
 Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigation between vim and tmux
 Plug 'zchee/deoplete-clang'                                   " Code completion for C family languages
-Plug 'jsfaint/gen_tags.vim'                                   " Ctags/Gtags generation
+Plug 'ludovicchabant/vim-gutentags'                           " Ctags/Gtags generation
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -489,7 +489,5 @@ set completeopt-=preview
 " Supertab
 let g:SuperTabDefaultCompletionType = '<c-n>'
 
-" Gen Ctags
-let g:loaded_gentags#gtags = 1
-let g:gen_tags#ctags_auto_gen = 1
-let g:gen_tags#blacklist = ['$HOME']
+" Gutentags
+let g:gutentags_cache_dir = '~/.ctagscache'
