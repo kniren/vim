@@ -36,6 +36,7 @@ Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigat
 Plug 'zchee/deoplete-clang'                                   " Code completion for C family languages
 Plug 'ludovicchabant/vim-gutentags'                           " Ctags/Gtags generation
 Plug 'sjl/gundo.vim'                                          " Vim history navigator
+Plug 'easymotion/vim-easymotion'
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -482,3 +483,6 @@ let g:gutentags_enabled = 0
 
 " Gundo
 nnoremap <F3> :GundoToggle<cr>
+
+" Vim easy motion
+map <Leader> <Plug>(easymotion-prefix)
