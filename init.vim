@@ -204,6 +204,9 @@ nnoremap K 5k
 nnoremap H ^
 nnoremap L $
 
+" Tags navigation
+nnoremap <C-[> :pop<cr>
+
 " Folding
 nnoremap <Space> za
 vnoremap <Space> za
@@ -352,9 +355,11 @@ augroup ft_cpp
         let s:uname = system("uname")
         if s:uname == "Darwin\n"
             let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
-			let g:deoplete#sources#clang#clang_header = '/Library/Developer/CommandLineTools/usr/lib/clang'
+            let g:deoplete#sources#clang#clang_header = '/Library/Developer/CommandLineTools/usr/lib/clang'
         else
             " Linux clang path goes here
+            let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
+            let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
         endif
     endif
 augroup END
