@@ -30,6 +30,7 @@ Plug 'honza/vim-snippets'                                     " A collection of 
 Plug 'jreybert/vimagit'                                       " Magit for vim
 Plug 'jremmen/vim-ripgrep'                                    " A better code finder (Grep, Ack)
 Plug 'Chiel92/vim-autoformat'                                 " Autoformatting for clang-format compatible languages
+Plug 'rhysd/vim-clang-format'                                 " Different autoformat
 Plug 'ervandew/supertab'                                      " Better TAB usage for completion
 Plug 'tikhomirov/vim-glsl'                                    " Syntax data for OpenGL shading language
 Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigation between vim and tmux
@@ -204,9 +205,6 @@ nnoremap K 5k
 nnoremap H ^
 nnoremap L $
 
-" Tags navigation
-nnoremap <C-[> :pop<cr>
-
 " Folding
 nnoremap <Space> za
 vnoremap <Space> za
@@ -267,6 +265,9 @@ inoremap <C-v> <Esc>"+pi
 
 " Force file update if it has changed
 nnoremap <leader>u :checktime<cr>:GitGutter<cr>:echo 'File updated'<cr>
+
+" Autoformat file
+nnoremap <leader><leader>f ix<ESC>x:undojoin \| Autoformat<CR>
 
 " ------------------------------------------------------------------
 " Appearance
@@ -347,9 +348,10 @@ augroup END
 " C/CPP
 augroup ft_cpp
     au!
-    let g:clang_format#code_style = 'llvm'
     let g:gutentags_enabled = 1
-    noremap <leader>f ix<ESC>x:undojoin \| Autoformat<CR>
+    set makeprg=cd\ build\ &&\ ninja
+    let g:clang_format#code_style = 'google'
+    noremap <leader>f :ClangFormat<cr>
     " Deoplete-clang
     if has("unix")
         let s:uname = system("uname")
