@@ -17,7 +17,6 @@ Plug 'kniren/ether'                                           " My vim colorsche
 Plug 'scrooloose/nerdcommenter'                               " Commentator. Use <leader>c<space> in visual
 Plug 'scrooloose/nerdtree'                                    " Project tree navigator.
 Plug 'tpope/vim-surround'                                     " Handy surround plugin
-Plug 'scrooloose/syntastic'                                   " Syntax checker
 Plug 'airblade/vim-gitgutter'                                 " Git symbols on your gutter
 Plug 'terryma/vim-multiple-cursors'                           " Multi-cursors.
 Plug 'jiangmiao/auto-pairs'                                   " Autoclose parentheses and brackets
@@ -37,7 +36,7 @@ Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigat
 Plug 'zchee/deoplete-clang'                                   " Code completion for C family languages
 Plug 'ludovicchabant/vim-gutentags'                           " Ctags/Gtags generation
 Plug 'sjl/gundo.vim'                                          " Vim history navigator
-Plug 'easymotion/vim-easymotion'
+Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -349,7 +348,7 @@ augroup END
 augroup ft_cpp
     au!
     let g:gutentags_enabled = 1
-    set makeprg=cd\ build\ &&\ ninja
+    set makeprg=ninja\ -C\ build
     let g:clang_format#code_style = 'google'
     noremap <leader>f :ClangFormat<cr>
     " Deoplete-clang
@@ -364,6 +363,10 @@ augroup ft_cpp
             let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
         endif
     endif
+    " Setup make commands for quickfix window.
+    nnoremap <leader><leader>l :AsyncRun clang-tidy -p build -checks="modernize-*,cppcoreguidelines-*" -quiet src/*.cpp<cr>
+    nnoremap <leader><leader>r :AsyncRun ninja -C build<cr>
+    nnoremap <leader>e :copen<cr>:echo ""<cr>
 augroup END
 
 " Java
@@ -432,16 +435,6 @@ let g:UltiSnipsExpandTrigger='<c-y>'
 let g:UltiSnipsJumpForwardTrigger='<c-u>'
 let g:UltiSnipsJumpBackwardTrigger='<c-b>'
 
-" Syntastic
-let g:syntastic_html_checkers=['']
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-let g:syntastic_quiet_messages = { 'regex': 'file not found' }
-nnoremap <leader>e :Errors<cr>
-nnoremap <leader>es :SyntasticCheck<cr>
-
 " Vim Multiple Cursors
 let g:multi_cursor_use_default_mapping=0
 let g:multi_cursor_next_key='<C-f>'
@@ -491,6 +484,5 @@ let g:gutentags_enabled = 0
 " Gundo
 nnoremap <F3> :GundoToggle<cr>
 
-" Vim easy motion
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+" AsyncRun
+let g:asyncrun_open = 8
