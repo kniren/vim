@@ -364,8 +364,12 @@ augroup ft_cpp
         endif
     endif
     " Setup make commands for quickfix window.
-    nnoremap <leader><leader>l :AsyncRun clang-tidy -p build -checks="modernize-*,cppcoreguidelines-*" -quiet src/*.cpp<cr>
-    nnoremap <leader><leader>r :AsyncRun ninja -C build<cr>
+    nnoremap <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -p <root>/build -checks="modernize-*,cppcoreguidelines-*" -quiet src/*.cpp<cr>
+    nnoremap <leader><leader>r :AsyncRun -cwd=<root> ninja -C build<cr>
+    nnoremap <F5> :AsyncRun -cwd=<root> cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && ninja<cr>
+    nnoremap <F6> :AsyncRun -cwd=<root> cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug && ninja<cr>
+    nnoremap <F7> :AsyncRun -cwd=<root> ninja -C build<cr>
+    nnoremap <F8> :AsyncRun -cwd=<root> CTEST_OUTPUT_ON_FAILURE=TRUE ninja -C build test<cr>
     nnoremap <leader>e :copen<cr>:echo ""<cr>
 augroup END
 
@@ -486,3 +490,9 @@ nnoremap <F3> :GundoToggle<cr>
 
 " AsyncRun
 let g:asyncrun_open = 8
+let g:asyncrun_status = "stopped"
+augroup QuickfixStatus
+	au! BufWinEnter quickfix setlocal 
+		\ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
+augroup END
+nnoremap <F4> :call asyncrun#quickfix_toggle(8)<cr>
