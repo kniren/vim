@@ -51,7 +51,7 @@ set undolevels=1000
 set title
 set backspace=indent,eol,start
 set ruler
-set nonumber
+set number
 set scrolloff=4
 set lazyredraw
 set noshowmode
@@ -253,10 +253,10 @@ nnoremap gj j
 nnoremap gk k
 
 " Clean trailing whitespace
-nnoremap <leader><leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z :echo 'Trailing whitespace removed'<cr>
+nnoremap <leader><leader><leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z :echo 'Trailing whitespace removed'<cr>
 
 " Clean windows carriage return
-nnoremap <leader><leader>r :%s/\r\(\n\)/\1/g<cr> :echo 'Windows carriage return removed'<cr>
+nnoremap <leader><leader><leader>r :%s/\r\(\n\)/\1/g<cr> :echo 'Windows carriage return removed'<cr>
 
 " Copy and paste from the system clipboard
 vnoremap <C-c> "+y
