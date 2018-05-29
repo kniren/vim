@@ -369,7 +369,7 @@ augroup ft_cpp
     nnoremap <F5> :AsyncRun -cwd=<root> cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && ninja<cr>
     nnoremap <F6> :AsyncRun -cwd=<root> cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug && ninja<cr>
     nnoremap <F7> :AsyncRun -cwd=<root> ninja -C build<cr>
-    nnoremap <F8> :AsyncRun -cwd=<root> CTEST_OUTPUT_ON_FAILURE=TRUE ninja -C build test<cr>
+    nnoremap <F8> :AsyncRun -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE ninja test<cr>
     nnoremap <leader>e :copen<cr>:echo ""<cr>
 augroup END
 
