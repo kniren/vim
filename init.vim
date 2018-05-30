@@ -324,9 +324,16 @@ function! s:VSetSearch()
     let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
     let @@ = temp
 endfunction
-
 vnoremap * :<C-u>call <SID>VSetSearch()<cr>//<cr><c-o>
 vnoremap # :<C-u>call <SID>VSetSearch()<cr>??<cr><c-o>
+
+" Pretty-print json blob.
+"   Run on quickfix window
+nnoremap <leader>jf :AsyncRun! -raw python -m json.tool %<cr>
+vnoremap <leader>jf :AsyncRun! -raw python -m json.tool<cr>
+"   Run on current buffer
+nnoremap <leader><leader>jf :%!python -m json.tool<cr>
+vnoremap <leader><leader>jf :!python -m json.tool<cr>
 
 " ------------------------------------------------------------------
 " Filetype specific options
