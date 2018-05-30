@@ -25,7 +25,7 @@ Plug 'tpope/vim-fugitive'                                     " Git integration 
 Plug 'godlygeek/tabular'                                      " OCD helper.
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Completion engine
 Plug 'SirVer/ultisnips'                                       " Snippets support
-Plug 'honza/vim-snippets'                                     " A collection of snippets for ultisnips
+Plug 'kniren/vim-snippets'                                    " My personal snippets.
 Plug 'jreybert/vimagit'                                       " Magit for vim
 Plug 'jremmen/vim-ripgrep'                                    " A better code finder (Grep, Ack)
 Plug 'Chiel92/vim-autoformat'                                 " Autoformatting for clang-format compatible languages
@@ -36,7 +36,7 @@ Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigat
 Plug 'zchee/deoplete-clang'                                   " Code completion for C family languages
 Plug 'ludovicchabant/vim-gutentags'                           " Ctags/Gtags generation
 Plug 'sjl/gundo.vim'                                          " Vim history navigator
-Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asyncrun.vim'                               " Run commands asynchronously
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -436,7 +436,7 @@ endif
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger='<c-y>'
-let g:UltiSnipsJumpForwardTrigger='<c-u>'
+let g:UltiSnipsJumpForwardTrigger='<c-y>'
 let g:UltiSnipsJumpBackwardTrigger='<c-b>'
 
 " Vim Multiple Cursors
@@ -496,3 +496,4 @@ augroup QuickfixStatus
 		\ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
 augroup END
 nnoremap <F4> :call asyncrun#quickfix_toggle(8)<cr>
+let g:asyncrun_auto = "make"
