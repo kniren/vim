@@ -37,6 +37,8 @@ Plug 'zchee/deoplete-clang'                                   " Code completion 
 Plug 'ludovicchabant/vim-gutentags'                           " Ctags/Gtags generation
 Plug 'sjl/gundo.vim'                                          " Vim history navigator
 Plug 'skywind3000/asyncrun.vim'                               " Run commands asynchronously
+Plug 'junegunn/goyo.vim'                                      " Distraction free writing.
+Plug 'junegunn/limelight.vim'                                 " Dimming text paragraph, best used with goyo.
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -395,9 +397,22 @@ augroup END
 " Markdown
 augroup ft_markdown
     au!
-    au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
+    au BufNewFile,BufRead *.md*own setlocal filetype=markdown foldlevel=1
     au FileType markdown setlocal nonumber nocursorline
-    au FileType markdown setlocal textwidth=82
+    au FileType markdown setlocal textwidth=90
+    function! AddMarkdownSyntax()
+        syn region markdownIdDeclaration matchgroup=markdownLinkDelimiter start="^ \{0,3\}!\=\[" end="\]:" oneline keepend nextgroup=markdownUrl skipwhite
+        syn match markdownUrl "\S\+" nextgroup=markdownUrlTitle skipwhite contained
+        syn region markdownUrl matchgroup=markdownUrlDelimiter start="<" end=">" oneline keepend nextgroup=markdownUrlTitle skipwhite contained
+        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter start=+"+ end=+"+ keepend contained
+        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter start=+'+ end=+'+ keepend contained
+        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter start=+(+ end=+)+ keepend contained
+        syn region markdownLinkText matchgroup=markdownLinkTextDelimiter start="!\=\[\%(\_[^]]*]\%( \=[[(]\)\)\@=" end="\]\%( \=[[(]\)\@=" nextgroup=markdownLink,markdownId skipwhite contains=@markdownInline,markdownLineStart
+        syn region markdownLink matchgroup=markdownLinkDelimiter start="(" end=")" contains=markdownUrl keepend contained
+        syn region markdownId matchgroup=markdownIdDelimiter start="\[" end="\]" keepend contained
+        syn region markdownAutomaticLink matchgroup=markdownUrlDelimiter start="<\%(\w\+:\|[[:alnum:]_+-]\+@\)\@=" end=">" keepend oneline
+    endfunction
+    call AddMarkdownSyntax()
 augroup END
 
 " Golang
@@ -496,11 +511,41 @@ let g:gutentags_enabled = 0
 nnoremap <F3> :GundoToggle<cr>
 
 " AsyncRun
-let g:asyncrun_open = 8
+let g:asyncrun_open = 10
 let g:asyncrun_status = "stopped"
 augroup QuickfixStatus
-	au! BufWinEnter quickfix setlocal 
-		\ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
+    au! BufWinEnter quickfix setlocal
+                \ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
 augroup END
-nnoremap <F4> :call asyncrun#quickfix_toggle(8)<cr>
+nnoremap <F4> :call asyncrun#quickfix_toggle(10)<cr>
 let g:asyncrun_auto = "make"
+
+" Goyo
+let g:goyo_width = 100
+let g:goyo_height = "90%"
+let g:goyo_linenr = 0
+function! s:goyo_enter()
+    Limelight
+    set background=dark
+    colorscheme ether
+    try
+        call AddMarkdownSyntax()
+    catch
+    endtry
+endfunction
+function! s:goyo_leave()
+    Limelight!
+    set background=dark
+    colorscheme ether
+    try
+        call AddMarkdownSyntax()
+    catch
+    endtry
+endfunction
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+nnoremap <F12> :Goyo<cr>
+nnoremap <F11> :Limelight!!<cr>
+
+" Limelight
+let g:limelight_conceal_ctermfg = 240
