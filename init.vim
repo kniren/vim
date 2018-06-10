@@ -373,10 +373,10 @@ augroup ft_cpp
         endif
     endif
     " Setup make commands for quickfix window.
-    nnoremap <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -p <root>/build -checks="modernize-*,cppcoreguidelines-*" -quiet src/*.cpp<cr>
+    nnoremap <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -quiet -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,-cppcoreguidelines-pro-type-reinterpret-cast" -p=<root>/build <root>/src/*<cr>
     nnoremap <leader><leader>r :AsyncRun -cwd=<root> ninja -C build<cr>
-    nnoremap <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && ninja<cr>
-    nnoremap <F6> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug && ninja<cr>
+    nnoremap <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && cd .. && ninja -C build<cr>
+    nnoremap <F6> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug && cd .. && ninja -C build<cr>
     nnoremap <F7> :AsyncRun -cwd=<root> ninja -C build<cr>
     nnoremap <F8> :AsyncRun -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE ninja test<cr>
     nnoremap <leader>e :copen<cr>:echo ""<cr>
@@ -549,3 +549,6 @@ nnoremap <F11> :Limelight!!<cr>
 
 " Limelight
 let g:limelight_conceal_ctermfg = 240
+
+" Magit
+nnoremap <leader><leader>m :Magit<cr>
