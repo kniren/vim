@@ -39,6 +39,8 @@ Plug 'sjl/gundo.vim'                                          " Vim history navi
 Plug 'skywind3000/asyncrun.vim'                               " Run commands asynchronously
 Plug 'junegunn/goyo.vim'                                      " Distraction free writing.
 Plug 'junegunn/limelight.vim'                                 " Dimming text paragraph, best used with goyo.
+Plug 'reedes/vim-lexical'                                     " Better spell checker facilities
+Plug 'reedes/vim-wordy'                                       " Lightweight check for common words missuse
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -373,13 +375,11 @@ augroup ft_cpp
         endif
     endif
     " Setup make commands for quickfix window.
-    nnoremap <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -quiet -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,-cppcoreguidelines-pro-type-reinterpret-cast" -p=<root>/build <root>/src/*<cr>
-    nnoremap <leader><leader>r :AsyncRun -cwd=<root> ninja -C build<cr>
-    nnoremap <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && cd .. && ninja -C build<cr>
-    nnoremap <F6> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug && cd .. && ninja -C build<cr>
-    nnoremap <F7> :AsyncRun -cwd=<root> ninja -C build<cr>
-    nnoremap <F8> :AsyncRun -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE ninja test<cr>
-    nnoremap <leader>e :copen<cr>:echo ""<cr>
+    au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -quiet -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-implicit-bool-conversion,-hicpp-signed-bitwise" -p=<root>/build <root>/src/*<cr>
+    au FileType cpp nnoremap <buffer> <leader><leader><leader>l :AsyncRun -cwd=<root> cppcheck --project=<root>/build/compile_commands.json --enable=all<cr>
+    au FileType cpp nnoremap <buffer> <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && cd .. && ninja -C build<cr>
+    au FileType cpp nnoremap <buffer> <F6> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug && cd .. && ninja -C build<cr>
+    au FileType cpp nnoremap <buffer> <F7> :AsyncRun -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE ninja test<cr>
 augroup END
 
 " Java
@@ -400,6 +400,7 @@ augroup ft_markdown
     au BufNewFile,BufRead *.md*own setlocal filetype=markdown foldlevel=1
     au FileType markdown setlocal nonumber nocursorline
     au FileType markdown setlocal textwidth=90
+    au FileType markdown setlocal wrap
     function! AddMarkdownSyntax()
         syn region markdownIdDeclaration matchgroup=markdownLinkDelimiter start="^ \{0,3\}!\=\[" end="\]:" oneline keepend nextgroup=markdownUrl skipwhite
         syn match markdownUrl "\S\+" nextgroup=markdownUrlTitle skipwhite contained
@@ -413,6 +414,7 @@ augroup ft_markdown
         syn region markdownAutomaticLink matchgroup=markdownUrlDelimiter start="<\%(\w\+:\|[[:alnum:]_+-]\+@\)\@=" end=">" keepend oneline
     endfunction
     call AddMarkdownSyntax()
+    au FileType markdown nnoremap <buffer> <F5> :<C-u>NextWordy<cr>
 augroup END
 
 " Golang
@@ -544,11 +546,43 @@ function! s:goyo_leave()
 endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
-nnoremap <F12> :Goyo<cr>
-nnoremap <F11> :Limelight!!<cr>
+nnoremap <F8> :Goyo<cr>
+nnoremap <F9> :Limelight!!<cr>
 
 " Limelight
 let g:limelight_conceal_ctermfg = 240
 
 " Magit
 nnoremap <leader><leader>m :Magit<cr>
+
+" Lexical
+"   Insert mode keybindings:
+"     C-X s   -> Spellcheck search
+"     C-X C-T -> Thesaurus search
+"     C-X C-K -> Dictionary search
+
+"   These are the _Normal_ mode commands:
+"     * `]s`  - Move to next misspelled word after the cursor.
+"     * `[s`  - Like `]s` but search backwards
+"     
+"   With the following key mappings you can use Visual mode selection to select the
+"   characters (including whitespace). Otherwise the word under the cursor is used.
+"   
+"     * `zg`  - Mark as a good word
+"     * `zw`  - Like `zg` but mark the word as a wrong (bad) word.
+"     * `zug` - Unmark as good word
+"     * `zuw` - Unmark as wrong (bad) word 
+"     
+"     * `z=`  - For the word under/after the cursor suggest correctly spelled words
+"     * `1z=` - Use the first suggestion, without prompting
+"     * `.`   - Redo - repeat last word replacement
+"     
+"     * `:spellr` - Repeat the replacement done by `z=` for all matches with the
+"       replaced word in the current window
+augroup lexical
+  autocmd!
+  autocmd FileType markdown,mkd call lexical#init()
+augroup END
+let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
+let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
+set thesaurus+=~/.config/nvim/spell/thesaurus.txt
