@@ -19,7 +19,7 @@ Plug 'scrooloose/nerdtree'                                    " Project tree nav
 Plug 'tpope/vim-surround'                                     " Handy surround plugin
 Plug 'airblade/vim-gitgutter'                                 " Git symbols on your gutter
 Plug 'terryma/vim-multiple-cursors'                           " Multi-cursors.
-Plug 'jiangmiao/auto-pairs'                                   " Autoclose parentheses and brackets
+Plug 'Raimondi/delimitMate'                                   " Autoclose parentheses and brackets
 Plug 'majutsushi/tagbar'                                      " Tag searcher
 Plug 'tpope/vim-fugitive'                                     " Git integration in vim
 Plug 'godlygeek/tabular'                                      " OCD helper.
@@ -271,6 +271,12 @@ nnoremap <leader>u :checktime<cr>:GitGutter<cr>:echo 'File updated'<cr>
 
 " Autoformat file
 nnoremap <leader><leader>f ix<ESC>x:undojoin \| Autoformat<CR>
+
+" Emacs-like navigation on insert mode
+inoremap <M-b> <C-o>b
+inoremap <M-f> <C-o>w
+inoremap <M-d> <C-o>dw
+inoremap <M-w> <C-o>db
 
 " ------------------------------------------------------------------
 " Appearance
