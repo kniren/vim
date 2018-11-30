@@ -367,6 +367,7 @@ augroup ft_cpp
     let g:gutentags_enabled = 1
     set makeprg=ninja\ -C\ build
     let g:clang_format#code_style = 'google'
+    let g:clang_format#detect_style_file = 1
     noremap <leader>f :ClangFormat<cr>
     " Deoplete-clang
     if has("unix")
@@ -381,7 +382,7 @@ augroup ft_cpp
         endif
     endif
     " Setup make commands for quickfix window.
-    au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -quiet -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-implicit-bool-conversion,-hicpp-signed-bitwise" -p=<root>/build <root>/src/*<cr>
+    au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -quiet -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-implicit-bool-conversion,-hicpp-signed-bitwise" -p=<root>/build <root>/*/src/*/*.cpp<cr>
     au FileType cpp nnoremap <buffer> <leader><leader><leader>l :AsyncRun -cwd=<root> cppcheck --project=<root>/build/compile_commands.json --enable=all<cr>
     au FileType cpp nnoremap <buffer> <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && cd .. && ninja -C build<cr>
     au FileType cpp nnoremap <buffer> <F6> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug && cd .. && ninja -C build<cr>
@@ -592,3 +593,5 @@ augroup END
 let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
 let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
 set thesaurus+=~/.config/nvim/spell/thesaurus.txt
+
+au BufNew * wincmd =
