@@ -222,9 +222,9 @@ function! Status(winnum)
 endfunction
 
 function! s:RefreshStatus()
-  for nr in range(1, winnr('$'))
-    call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
-  endfor
+    for nr in range(1, winnr('$'))
+        call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
+    endfor
 endfunction
 
 function! s:UpdateGitStatus()
@@ -244,14 +244,14 @@ function! s:UpdateGitStatus()
     let git_path = finddir('.git/..', expand('%:p:h').';')
     if isdirectory(git_path)
         let git_status = system('cd ' . git_path . ' && git diff --quiet --ignore-submodules HEAD &>/dev/null && echo "dirty"')
-        " Dirty
         if len(git_status) == 0
+            " Dirty
             hi vimStatuslineGitStatus ctermbg=0 ctermfg=1 cterm=bold
-        " Untracked
         elseif len(system('cd ' . git_path . ' && git ls-files --others --exclude-standard')) != 0
+            " Untracked
             hi vimStatuslineGitStatus ctermbg=0 ctermfg=5 cterm=bold
-        " Clean
         else
+            " Clean
             hi vimStatuslineGitStatus ctermbg=0 ctermfg=2 cterm=bold
         endif
     else
@@ -260,9 +260,9 @@ function! s:UpdateGitStatus()
 endfunction
 
 augroup status
-  autocmd!
-  autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
-  autocmd VimEnter,WinEnter,BufWinEnter,BufWritePost * call <SID>UpdateGitStatus()
+    autocmd!
+    autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
+    autocmd VimEnter,WinEnter,BufWinEnter,BufWritePost * call <SID>UpdateGitStatus()
 augroup END
 
 " ------------------------------------------------------------------
@@ -691,8 +691,8 @@ nnoremap <leader><leader>m :Magit<cr>
 "     * `:spellr` - Repeat the replacement done by `z=` for all matches with the
 "       replaced word in the current window
 augroup lexical
-  autocmd!
-  autocmd FileType markdown,mkd call lexical#init()
+    autocmd!
+    autocmd FileType markdown,mkd call lexical#init()
 augroup END
 let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
 let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
