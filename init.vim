@@ -114,8 +114,8 @@ function! Status(winnum)
     let stat .= ' %t ' 
 
     " Modified/status flags
-    let stat .= ' %m ' 
-    let stat .= ' %r '
+    let stat .= '%m' 
+    let stat .= '%r'
 
     let stat .= ' %= ' " Left side separator
 
