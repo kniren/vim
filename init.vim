@@ -41,6 +41,7 @@ Plug 'junegunn/goyo.vim'                                      " Distraction free
 Plug 'junegunn/limelight.vim'                                 " Dimming text paragraph, best used with goyo.
 Plug 'reedes/vim-lexical'                                     " Better spell checker facilities
 Plug 'reedes/vim-wordy'                                       " Lightweight check for common words missuse
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -493,6 +494,31 @@ augroup ft_cpp
     au FileType cpp nnoremap <buffer> <F7> :AsyncRun -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE ninja test<cr>
 augroup END
 
+" Rust
+augroup ft_rust
+    au!
+    au FileType rust nnoremap <buffer> <leader>f :RustFmt<cr>
+    au FileType rust nnoremap <buffer> <leader>r :Cargo run<cr>
+    au FileType rust nnoremap <buffer> <F5> :Cargo build --release<cr>
+    au FileType rust nnoremap <buffer> <F6> :Cargo build<cr>
+    au FileType rust nnoremap <buffer> <F7> :Cargo test<cr>
+    au FileType rust nnoremap <buffer> <leader>e :Cargo check<cr>
+    au FileType rust nnoremap <buffer> <leader>t :RustTest<cr>
+
+    let g:rustfmt_autosave = 1
+
+    if has("unix")
+        let s:uname = system("uname")
+        if s:uname == "Darwin\n"
+            " macOS
+            let g:rust_clip_command = 'pbcopy'
+        else
+            " Linux
+            let g:rust_clip_command = 'xclip -selection clipboard'
+        endif
+    endif
+augroup END
+
 " Java
 augroup ft_java
     au!
@@ -561,7 +587,6 @@ let g:ctrlp_extensions = ['tag']
 nnoremap <silent> <leader>lj :CtrlPBuffer<cr>
 nnoremap <silent> <leader>mr :CtrlPMRU<cr>
 nnoremap <silent> <leader>MR :CtrlPMRU<cr>
-nnoremap <silent> <leader>t :CtrlPTag<cr>
 if executable('rg')
     let g:ctrlp_user_command = 'rg --files %s'
     let g:ctrlp_use_caching = 0
