@@ -73,45 +73,145 @@ set synmaxcol=300
 function! StatuslineMode()
     let l:currentMode = mode()
     if  l:currentMode == 'n'
-        hi User1 ctermbg=0 cterm=bold
+        hi vimStatuslineMode ctermfg=8 ctermbg=0 cterm=bold
         return '  ' . 'N' . ' '
     elseif  l:currentMode == 'r'
-        hi User1 ctermbg=1 cterm=bold
+        hi vimStatuslineMode ctermfg=0 ctermbg=1 cterm=bold
         return '  ' . 'R' . ' '
     elseif l:currentMode == 'i'
-        hi User1 ctermbg=4 cterm=bold
+        hi vimStatuslineMode ctermfg=0 ctermbg=4 cterm=bold
         return '  ' . 'I' . ' '
     elseif l:currentMode == 'v'
-        hi User1 ctermbg=6 cterm=bold
+        hi vimStatuslineMode ctermfg=0 ctermbg=6 cterm=bold
         return '  ' . 'V' . ' '
-    else
-        hi User1 ctermbg=0 cterm=bold
     endif
+    hi vimStatuslineMode ctermfg=8 ctermbg=0 cterm=bold
     return '  ' . '»' . ' '
 endfunction
-set statusline=%#User1#
-set statusline+=%{StatuslineMode()}
-set statusline+=%*
-set statusline+=\ %t
-function! Fugitive()
-    try
-        let sl = fugitive#head()
-    catch
-        return ''
-    endtry
 
-    if sl == ''
-        return ''
+function! Status(winnum)
+    hi vimStatuslineFilename          ctermbg=0 ctermfg=7 cterm=bold
+    hi vimStatuslineCurrentLine       ctermbg=0 ctermfg=7 cterm=bold
+    hi vimStatuslineSeparator         ctermbg=0 ctermfg=8 cterm=bold
+    hi vimStatuslineTotalLines        ctermbg=0 ctermfg=7 cterm=bold
+    hi vimStatuslineScrollPercentage  ctermbg=0 ctermfg=7 cterm=bold
+    hi vimStatuslineFileType          ctermbg=0 ctermfg=7 cterm=bold
+
+    let active = a:winnum == winnr()
+    let stat = ''
+
+    " Vim active mode
+    if active
+        let stat .= '%#vimStatuslineMode#'
     endif
-    return ' » ' . sl
+    let stat .= '%{StatuslineMode()}'
+    let stat .= '%*'
+
+    " File name
+    if active
+        let stat .= '%#vimStatuslineFilename#'
+    endif
+    let stat .= ' %t ' 
+
+    " Modified/status flags
+    let stat .= ' %m ' 
+    let stat .= ' %r '
+
+    let stat .= ' %= ' " Left side separator
+
+    " Line count
+    if active
+        let stat .= '%#vimStatuslineCurrentLine#'
+    endif
+    let stat .= ' %l,%c%*' 
+
+    " Separator
+    if active
+        let stat .= '%#vimStatuslineSeparator#'
+    endif
+    let stat .= ' «%*' 
+
+    " Number of total lines
+    if active
+        let stat .= '%#vimStatuslineTotalLines#'
+    endif
+    let stat .= ' %L%*' 
+
+    " Separator
+    if active
+        let stat .= '%#vimStatuslineSeparator#'
+    endif
+    let stat .= ' «%*' 
+
+    " Scrolling percentage
+    if active
+        let stat .= '%#vimStatuslineScrollPercentage#'
+    endif
+    let stat .= ' %P%*' 
+
+    if exists('s:git_branches')
+        let git_branch = get(s:git_branches, a:winnum-1, '')
+        if !empty(git_branch)
+            " Separator
+            if active
+                let stat .= '%#vimStatuslineSeparator#'
+            endif
+            let stat .= ' «%*' 
+
+            " Current branch in this repository.
+            if active
+                let stat .= '%#vimStatuslineGitStatus#'
+            endif
+            let stat .= ' ' . git_branch . '%*'
+        endif
+    endif
+    let stat .= ' '
+    return stat
 endfunction
-set statusline+=%{Fugitive()}
-set statusline+=\ %m
-set statusline+=\ %r
-set statusline+=%=
-set statusline+=%l,%c
-set statusline+=\ \«\ %L
-set statusline+=\ \«\ %P\ %#User1#\ %Y\ %*
+
+function! s:RefreshStatus()
+  for nr in range(1, winnr('$'))
+    call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
+  endfor
+endfunction
+
+function! s:UpdateGitStatus()
+    let all = ''
+    let s:git_branches = []
+    for nr in range(1, winnr('$'))
+        let bufdir = fnamemodify(bufname(winbufnr(nr)), ':p:h')
+        if isdirectory(bufdir)
+            let current_branch =  system('cd ' . bufdir . '&& git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d "\n"')
+        else
+            let current_branch = ''
+        endif
+        let all .= '*' . current_branch . '* '
+        call add(s:git_branches, current_branch)
+    endfor
+
+    let git_path = finddir('.git/..', expand('%:p:h').';')
+    if isdirectory(git_path)
+        let git_status = system('cd ' . git_path . ' && git diff --quiet --ignore-submodules HEAD &>/dev/null && echo "dirty"')
+        " Dirty
+        if len(git_status) == 0
+            hi vimStatuslineGitStatus ctermbg=0 ctermfg=1 cterm=bold
+        " Untracked
+        elseif len(system('cd ' . git_path . ' && git ls-files --others --exclude-standard')) != 0
+            hi vimStatuslineGitStatus ctermbg=0 ctermfg=5 cterm=bold
+        " Clean
+        else
+            hi vimStatuslineGitStatus ctermbg=0 ctermfg=2 cterm=bold
+        endif
+    else
+        hi vimStatuslineGitStatus ctermbg=0 ctermfg=7 cterm=bold
+    endif
+endfunction
+
+augroup status
+  autocmd!
+  autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
+  autocmd VimEnter,WinEnter,BufWinEnter,BufWritePost * call <SID>UpdateGitStatus()
+augroup END
 
 " Indentation Options
 set autoindent
