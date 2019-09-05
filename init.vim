@@ -69,7 +69,59 @@ set autoread
 syntax sync minlines=256 " start highlighting from 256 lines backwards
 set synmaxcol=300
 
+" Indentation Options
+set autoindent
+set copyindent
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set smarttab
+
+" Wrapping and Formatting Options
+set nowrap
+set linebreak
+set textwidth=82
+set formatoptions=qrn1
+set colorcolumn=85
+if has('win32')
+    set fileformat=unix
+    set fileformats=unix,dos
+elseif has('unix')
+    set fileformats=unix,dos,mac
+endif
+set formatoptions+=1
+set laststatus=2
+set listchars=eol:¬,extends:>,precedes:<
+
+" Search Options
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+" Wildmenu Completion Options
+set wildmode=longest,list,full
+set wildmenu
+set wildignore=*.swp,*.bak,*.pyc,*.class
+
+" Backup, Swap and Undofile
+set nobackup
+set noswapfile
+set nomodeline
+set undofile
+if exists('+undofile')
+    if isdirectory($HOME . '/.vimtmp') == 0
+        :silent !mkdir -p ~/.vimtmp > /dev/null 2>&1
+    endif
+    set undodir=~/.vimtmp//
+    set undofile
+endif
+
+" ------------------------------------------------------------------
 " Custom Statusline
+" ------------------------------------------------------------------
 function! StatuslineMode()
     let l:currentMode = mode()
     if  l:currentMode == 'n'
@@ -212,56 +264,6 @@ augroup status
   autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
   autocmd VimEnter,WinEnter,BufWinEnter,BufWritePost * call <SID>UpdateGitStatus()
 augroup END
-
-" Indentation Options
-set autoindent
-set copyindent
-set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set shiftround
-set smarttab
-
-" Wrapping and Formatting Options
-set nowrap
-set linebreak
-set textwidth=82
-set formatoptions=qrn1
-set colorcolumn=85
-if has('win32')
-    set fileformat=unix
-    set fileformats=unix,dos
-elseif has('unix')
-    set fileformats=unix,dos,mac
-endif
-set formatoptions+=1
-set laststatus=2
-set listchars=eol:¬,extends:>,precedes:<
-
-" Search Options
-set ignorecase
-set smartcase
-set incsearch
-set hlsearch
-
-" Wildmenu Completion Options
-set wildmode=longest,list,full
-set wildmenu
-set wildignore=*.swp,*.bak,*.pyc,*.class
-
-" Backup, Swap and Undofile
-set nobackup
-set noswapfile
-set nomodeline
-set undofile
-if exists('+undofile')
-    if isdirectory($HOME . '/.vimtmp') == 0
-        :silent !mkdir -p ~/.vimtmp > /dev/null 2>&1
-    endif
-    set undodir=~/.vimtmp//
-    set undofile
-endif
 
 " ------------------------------------------------------------------
 " Key mappings
