@@ -303,10 +303,12 @@ nnoremap <Down> 5<C-w>-
 " Page displacement with JK
 vnoremap J 5j
 vnoremap K 5k
+vnoremap H 10h
+vnoremap L 10l
 nnoremap J 5j
 nnoremap K 5k
-nnoremap H ^
-nnoremap L $
+nnoremap H 10h
+nnoremap L 10l
 
 " Folding
 nnoremap <Space> za
