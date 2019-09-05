@@ -111,10 +111,10 @@ function! Status(winnum)
     if active
         let stat .= '%#vimStatuslineFilename#'
     endif
-    let stat .= ' %t ' 
+    let stat .= ' %t '
 
     " Modified/status flags
-    let stat .= '%m' 
+    let stat .= '%m'
     let stat .= '%r'
 
     let stat .= ' %= ' " Left side separator
@@ -123,31 +123,31 @@ function! Status(winnum)
     if active
         let stat .= '%#vimStatuslineCurrentLine#'
     endif
-    let stat .= ' %l,%c%*' 
+    let stat .= ' %l,%c%*'
 
     " Separator
     if active
         let stat .= '%#vimStatuslineSeparator#'
     endif
-    let stat .= ' «%*' 
+    let stat .= ' «%*'
 
     " Number of total lines
     if active
         let stat .= '%#vimStatuslineTotalLines#'
     endif
-    let stat .= ' %L%*' 
+    let stat .= ' %L%*'
 
     " Separator
     if active
         let stat .= '%#vimStatuslineSeparator#'
     endif
-    let stat .= ' «%*' 
+    let stat .= ' «%*'
 
     " Scrolling percentage
     if active
         let stat .= '%#vimStatuslineScrollPercentage#'
     endif
-    let stat .= ' %P%*' 
+    let stat .= ' %P%*'
 
     if exists('s:git_branches')
         let git_branch = get(s:git_branches, a:winnum-1, '')
@@ -156,7 +156,7 @@ function! Status(winnum)
             if active
                 let stat .= '%#vimStatuslineSeparator#'
             endif
-            let stat .= ' «%*' 
+            let stat .= ' «%*'
 
             " Current branch in this repository.
             if active
@@ -673,19 +673,19 @@ nnoremap <leader><leader>m :Magit<cr>
 "   These are the _Normal_ mode commands:
 "     * `]s`  - Move to next misspelled word after the cursor.
 "     * `[s`  - Like `]s` but search backwards
-"     
+"
 "   With the following key mappings you can use Visual mode selection to select the
 "   characters (including whitespace). Otherwise the word under the cursor is used.
-"   
+"
 "     * `zg`  - Mark as a good word
 "     * `zw`  - Like `zg` but mark the word as a wrong (bad) word.
 "     * `zug` - Unmark as good word
-"     * `zuw` - Unmark as wrong (bad) word 
-"     
+"     * `zuw` - Unmark as wrong (bad) word
+"
 "     * `z=`  - For the word under/after the cursor suggest correctly spelled words
 "     * `1z=` - Use the first suggestion, without prompting
 "     * `.`   - Redo - repeat last word replacement
-"     
+"
 "     * `:spellr` - Repeat the replacement done by `z=` for all matches with the
 "       replaced word in the current window
 augroup lexical
