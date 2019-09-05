@@ -93,7 +93,7 @@ elseif has('unix')
 endif
 set formatoptions+=1
 set laststatus=2
-    set listchars=eol:¬,extends:>,precedes:<,nbsp:.,trail:.,tab:>·,space:.
+set listchars=eol:¬,extends:>,precedes:<,nbsp:.,trail:.,tab:>·,space:.
 
 " Search Options
 set ignorecase
@@ -568,49 +568,48 @@ if executable('rg')
     let g:ctrlp_working_path_mode = 'ra'
     let g:ctrlp_switch_buffer = 'et'
 endif
-
 function! CtrlpStatusbar(...)
-  hi CtrlpStatusDir ctermfg=8 ctermbg=0 cterm=bold
-  hi CtrlpStatusRegex ctermfg=3 ctermbg=0 cterm=bold
-  hi CtrlpStatusFilename ctermfg=5 ctermbg=0 cterm=bold
-  hi CtrlpStatusPrevMode ctermfg=8 ctermbg=0 cterm=bold
-  hi CtrlpStatusCurrMode ctermfg=1 ctermbg=0 cterm=bold
-  hi CtrlpStatusNextMode ctermfg=8 ctermbg=0 cterm=bold
-  hi CtrlPPrtBase ctermfg=8 ctermbg=none cterm=bold
-  hi CtrlPPrtText ctermfg=7 ctermbg=none cterm=bold
-  hi CtrlPPrtCursor ctermfg=0 ctermbg=none cterm=bold
-  hi CtrlPLinePre ctermfg=8 ctermbg=none cterm=bold
+    hi CtrlpStatusDir ctermfg=8 ctermbg=0 cterm=bold
+    hi CtrlpStatusRegex ctermfg=3 ctermbg=0 cterm=bold
+    hi CtrlpStatusFilename ctermfg=5 ctermbg=0 cterm=bold
+    hi CtrlpStatusPrevMode ctermfg=8 ctermbg=0 cterm=bold
+    hi CtrlpStatusCurrMode ctermfg=1 ctermbg=0 cterm=bold
+    hi CtrlpStatusNextMode ctermfg=8 ctermbg=0 cterm=bold
+    hi CtrlPPrtBase ctermfg=8 ctermbg=none cterm=bold
+    hi CtrlPPrtText ctermfg=7 ctermbg=none cterm=bold
+    hi CtrlPPrtCursor ctermfg=0 ctermbg=none cterm=bold
+    hi CtrlPLinePre ctermfg=8 ctermbg=none cterm=bold
 
-  function! TranslateItem(item)
-    if a:item == 'mru files' || a:item == 'mru'
-        return 'MRUS'
-    elseif a:item == 'files' || a:item == 'fil'
-        return 'FILE'
-    elseif a:item == 'tags' || a:item == 'tag'
-        return 'TAGS'
-    elseif a:item == 'buffers' || a:item == 'buf'
-        return 'BUFS'
-    endif
-    return a:item
+    function! TranslateItem(item)
+        if a:item == 'mru files' || a:item == 'mru'
+            return 'MRUS'
+        elseif a:item == 'files' || a:item == 'fil'
+            return 'FILE'
+        elseif a:item == 'tags' || a:item == 'tag'
+            return 'TAGS'
+        elseif a:item == 'buffers' || a:item == 'buf'
+            return 'BUFS'
+        endif
+        return a:item
     endfunction
-  let current_dir = '%#CtrlpStatusDir#' . fnamemodify(getcwd(), ':~')
-  if a:3
-      let regex_mode = '%#CtrlpStatusRegex#' . '  regex' . '%*'
-  else
-      let regex_mode = '  '
-  endif
-  if a:2 == 'file'
-      let file_mode = '%#CtrlpStatusFilename#' . '  filename only' . '%*'
-  else
-      let file_mode = ''
-  endif
-  let previous_mode = '%#CtrlpStatusPrevMode#' . TranslateItem(a:4) . "%*"
-  let current_mode = '%#CtrlpStatusCurrMode#' . TranslateItem(a:5) . "%*"
-  let next_mode = '%#CtrlpStatusNextMode#' . TranslateItem(a:6) . "%*"
-  return ' ' . current_dir . file_mode . regex_mode . '%=' . previous_mode . '  «  ' . current_mode . '  »  ' . next_mode . '  '
+    let current_dir = '%#CtrlpStatusDir#' . fnamemodify(getcwd(), ':~')
+    if a:3
+        let regex_mode = '%#CtrlpStatusRegex#' . '  regex' . '%*'
+    else
+        let regex_mode = '  '
+    endif
+    if a:2 == 'file'
+        let file_mode = '%#CtrlpStatusFilename#' . '  filename only' . '%*'
+    else
+        let file_mode = ''
+    endif
+    let previous_mode = '%#CtrlpStatusPrevMode#' . TranslateItem(a:4) . "%*"
+    let current_mode = '%#CtrlpStatusCurrMode#' . TranslateItem(a:5) . "%*"
+    let next_mode = '%#CtrlpStatusNextMode#' . TranslateItem(a:6) . "%*"
+    return ' ' . current_dir . file_mode . regex_mode . '%=' . previous_mode . '  «  ' . current_mode . '  »  ' . next_mode . '  '
 endfunction
 
-  let g:ctrlp_line_prefix = '> '
+let g:ctrlp_line_prefix = '> '
 function! CtrlpProgressbar(...)
     return 'Currently scanning (' . a:1 . ')'
 endfunction
