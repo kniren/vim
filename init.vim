@@ -21,9 +21,16 @@ Plug 'terryma/vim-multiple-cursors'                           " Multi-cursors
 Plug 'Raimondi/delimitMate'                                   " Autoclose parentheses and brackets
 Plug 'majutsushi/tagbar'                                      " Tag searcher
 Plug 'godlygeek/tabular'                                      " OCD helper
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Completion engine
-"Plug 'zchee/deoplete-clang'                                   " Code completion for C family languages
-Plug 'deoplete-plugins/deoplete-tag'
+Plug 'ncm2/ncm2'                                              " NCM2 (Lightweight completion engine for neovim)
+Plug 'roxma/nvim-yarp'                                        " NCM2: Required
+Plug 'ncm2/ncm2-bufword'                                      " NCM2: Completion from buffer
+Plug 'ncm2/ncm2-path'                                         " NCM2: Completion from file path
+Plug 'wellle/tmux-complete.vim'                               " NCM2: Completion from other tmux buffers
+Plug 'ncm2/ncm2-pyclang'                                      " NCM2: Clang completion
+Plug 'ncm2/ncm2-jedi'                                         " NCM2: Python completion
+Plug 'ncm2/ncm2-ultisnips'                                    " NCM2: Ultisnips completion
+Plug 'ncm2/ncm2-markdown-subscope'                            " NCM2: Code block detection in markdown files
+Plug 'ncm2/ncm2-rst-subscope'                                 " NCM2: Code block detection in rst files
 " TODO: Test these plugins.
 "Plug 'dense-analysis/ale'                                     " Async linter
 Plug 'SirVer/ultisnips'                                       " Snippets support
@@ -265,9 +272,9 @@ function! s:UpdateGitStatus()
 endfunction
 
 augroup status
-    autocmd!
-    autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
-    autocmd VimEnter,WinEnter,BufWinEnter,BufWritePost * call <SID>UpdateGitStatus()
+    au!
+    au VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
+    au VimEnter,WinEnter,BufWinEnter,BufWritePost * call <SID>UpdateGitStatus()
 augroup END
 
 " ------------------------------------------------------------------
@@ -481,21 +488,23 @@ augroup ft_cpp
     set makeprg=ninja\ -C\ build
     let g:clang_format#code_style = 'google'
     let g:clang_format#detect_style_file = 1
-    " Deoplete-clang
+    let g:ncm2_pyclang#database_path = [
+                \ 'compile_commands.json',
+                \ 'build/compile_commands.json'
+                \ ]
+
     if has("unix")
         let s:uname = system("uname")
         if s:uname == "Darwin\n"
-            let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
-            let g:deoplete#sources#clang#clang_header = '/Library/Developer/CommandLineTools/usr/lib/clang'
+            let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
         else
-            " Linux clang path goes here
-            let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
-            let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
+            let g:ncm2_pyclang#library_path = '/usr/lib/libclang.so'
         endif
     endif
 
+    " C/CPP mappings
+    au FileType cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
     au FileType cpp nnoremap <buffer> <leader>f :ClangFormat<cr>
-    " Setup make commands for quickfix window.
     au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -quiet -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-implicit-bool-conversion,-hicpp-signed-bitwise" -p=<root>/build <root>/*/src/*/*.cpp<cr>
     au FileType cpp nnoremap <buffer> <leader><leader><leader>l :AsyncRun -cwd=<root> cppcheck --project=<root>/build/compile_commands.json --enable=all<cr>
     au FileType cpp nnoremap <buffer> <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && cd .. && ninja -C build<cr>
@@ -603,16 +612,16 @@ if executable('rg')
     let g:ctrlp_switch_buffer = 'et'
 endif
 function! CtrlpStatusbar(...)
-    hi CtrlpStatusDir ctermfg=8 ctermbg=0 cterm=bold
-    hi CtrlpStatusRegex ctermfg=3 ctermbg=0 cterm=bold
-    hi CtrlpStatusFilename ctermfg=5 ctermbg=0 cterm=bold
-    hi CtrlpStatusPrevMode ctermfg=8 ctermbg=0 cterm=bold
-    hi CtrlpStatusCurrMode ctermfg=1 ctermbg=0 cterm=bold
-    hi CtrlpStatusNextMode ctermfg=8 ctermbg=0 cterm=bold
-    hi CtrlPPrtBase ctermfg=8 ctermbg=none cterm=bold
-    hi CtrlPPrtText ctermfg=7 ctermbg=none cterm=bold
-    hi CtrlPPrtCursor ctermfg=0 ctermbg=none cterm=bold
-    hi CtrlPLinePre ctermfg=8 ctermbg=none cterm=bold
+    hi CtrlpStatusDir      ctermfg=8   ctermbg=0    cterm=bold
+    hi CtrlpStatusRegex    ctermfg=3   ctermbg=0    cterm=bold
+    hi CtrlpStatusFilename ctermfg=5   ctermbg=0    cterm=bold
+    hi CtrlpStatusPrevMode ctermfg=8   ctermbg=0    cterm=bold
+    hi CtrlpStatusCurrMode ctermfg=1   ctermbg=0    cterm=bold
+    hi CtrlpStatusNextMode ctermfg=8   ctermbg=0    cterm=bold
+    hi CtrlPPrtBase        ctermfg=8   ctermbg=none cterm=bold
+    hi CtrlPPrtText        ctermfg=7   ctermbg=none cterm=bold
+    hi CtrlPPrtCursor      ctermfg=0   ctermbg=none cterm=bold
+    hi CtrlPLinePre        ctermfg=8   ctermbg=none cterm=bold
 
     function! TranslateItem(item)
         if a:item == 'mru files' || a:item == 'mru'
@@ -690,17 +699,13 @@ vnoremap <silent> <leader><leader>t :Tabularize /
 " Ripgrep
 let g:rg_command = 'rg --vimgrep -S'
 
-" Deoplete
-call deoplete#enable()
-set completeopt=menu
-set completeopt-=preview
-
 " Supertab
-let g:SuperTabDefaultCompletionType = '<c-n>'
+"let g:SuperTabDefaultCompletionType = '<c-n>'
 
 " Gutentags
 let g:gutentags_cache_dir = '~/.ctagscache'
 let g:gutentags_enabled = 0
+let g:gutentags_ctags_exclude = ['CMakeFiles', 'build', '.git', 'doc', 'ext']
 
 " Gundo
 nnoremap <F3> :GundoToggle<cr>
@@ -737,8 +742,8 @@ function! s:goyo_leave()
     catch
     endtry
 endfunction
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
+au! User GoyoEnter nested call <SID>goyo_enter()
+au! User GoyoLeave nested call <SID>goyo_leave()
 nnoremap <F8> :Goyo<cr>
 nnoremap <F9> :Limelight!!<cr>
 
@@ -776,9 +781,17 @@ nnoremap <leader>gl :GV<cr>
 "     * `:spellr` - Repeat the replacement done by `z=` for all matches with the
 "       replaced word in the current window
 augroup lexical
-    autocmd!
-    autocmd FileType markdown,mkd call lexical#init()
+    au!
+    au FileType markdown,mkd call lexical#init()
 augroup END
 let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
 let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
 set thesaurus+=~/.config/nvim/spell/thesaurus.txt
+
+" NCM2 (Completion)
+au BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+au User Ncm2PopupClose set completeopt=menuone
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+set shortmess+=c
