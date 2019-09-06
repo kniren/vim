@@ -375,7 +375,7 @@ inoremap <C-v> <Esc>"+pi
 nnoremap <leader>u :checktime<cr>:GitGutter<cr>:echo 'File updated'<cr>
 
 " Autoformat file
-nnoremap <leader><leader>f ix<ESC>x:undojoin \| Autoformat<CR>
+nnoremap <leader>f ix<ESC>x:undojoin \| Autoformat<CR>
 
 " Emacs-like navigation on insert mode
 inoremap <M-b> <C-o>b
@@ -473,7 +473,6 @@ augroup ft_cpp
     set makeprg=ninja\ -C\ build
     let g:clang_format#code_style = 'google'
     let g:clang_format#detect_style_file = 1
-    noremap <leader>f :ClangFormat<cr>
     " Deoplete-clang
     if has("unix")
         let s:uname = system("uname")
@@ -486,6 +485,8 @@ augroup ft_cpp
             let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
         endif
     endif
+
+    au FileType cpp nnoremap <buffer> <leader>f :ClangFormat<cr>
     " Setup make commands for quickfix window.
     au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -quiet -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-implicit-bool-conversion,-hicpp-signed-bitwise" -p=<root>/build <root>/*/src/*/*.cpp<cr>
     au FileType cpp nnoremap <buffer> <leader><leader><leader>l :AsyncRun -cwd=<root> cppcheck --project=<root>/build/compile_commands.json --enable=all<cr>
