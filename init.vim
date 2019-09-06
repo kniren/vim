@@ -245,7 +245,8 @@ function! s:UpdateGitStatus()
     for nr in range(1, winnr('$'))
         let bufdir = fnamemodify(bufname(winbufnr(nr)), ':p:h')
         if isdirectory(bufdir)
-            let current_branch =  system('cd ' . bufdir . '&& git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d "\n"')
+            let current_branch =  system('cd ' . bufdir .
+                        \ '&& git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d "\n"')
         else
             let current_branch = ''
         endif
@@ -255,7 +256,8 @@ function! s:UpdateGitStatus()
 
     let git_path = finddir('.git/..', expand('%:p:h').';')
     if isdirectory(git_path)
-        let git_status = system('cd ' . git_path . ' && git diff --quiet --ignore-submodules HEAD &>/dev/null && echo "dirty"')
+        let git_status = system('cd ' . git_path .
+                    \' && git diff --quiet --ignore-submodules HEAD &>/dev/null && echo "dirty"')
         if len(git_status) == 0
             " Dirty
             hi vimStatuslineGitStatus ctermbg=0 ctermfg=1 cterm=bold
@@ -298,7 +300,7 @@ nnoremap <C-y> 5<C-y>
 
 " Open and move through splits
 nnoremap <leader>v <C-w>v<C-w>l
-nnoremap <leader>h :split<cr>
+nnoremap <silent> <leader>h :split<cr>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -347,7 +349,7 @@ nnoremap :Wq :wq
 nnoremap :WQ :wq
 
 " Show Hidden Chars (Eol, Tab)
-nnoremap <leader>l :set list!<cr>
+nnoremap <silent> <leader>l :set list!<cr>
 
 " Spell checking
 nnoremap <silent> <leader>s :set spell!<cr>
@@ -377,20 +379,23 @@ nnoremap gj j
 nnoremap gk k
 
 " Clean trailing whitespace
-nnoremap <leader><leader><leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z :echo 'Trailing whitespace removed'<cr>
+nnoremap <silent> <leader><leader><leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+            \ :echo 'Trailing whitespace removed'<cr>
 
 " Clean windows carriage return
-nnoremap <leader><leader><leader>r :%s/\r\(\n\)/\1/g<cr> :echo 'Windows carriage return removed'<cr>
+nnoremap <silent> <leader><leader><leader>r :%s/\r\(\n\)/\1/g<cr>
+            \ :echo 'Windows carriage return removed'<cr>
 
 " Copy and paste from the system clipboard
 vnoremap <C-c> "+y
 inoremap <C-v> <Esc>"+pi
 
 " Force file update if it has changed
-nnoremap <leader>u :checktime<cr>:GitGutter<cr>:echo 'File updated'<cr>
+nnoremap <silent> <leader>u :checktime<cr>:GitGutter<cr>:echo 'File updated'<cr>
 
 " Autoformat file
-nnoremap <leader>f ix<ESC>x:undojoin \| Autoformat<CR>
+nnoremap <silent> <leader>f ix<ESC>x:undojoin \| Autoformat<cr>
+            \ :echo 'File formatted'<cr>
 
 " Emacs-like navigation on insert mode
 inoremap <M-b> <C-o>b
@@ -399,10 +404,10 @@ inoremap <M-d> <C-o>dw
 inoremap <M-w> <C-o>db
 
 " Magit
-nnoremap <leader>gs :Magit<cr>
+nnoremap <silent> <leader>gs :Magit<cr>
 
 " Git viewer (GV)
-nnoremap <leader>gl :GV<cr>
+nnoremap <silent> <leader>gl :GV<cr>
 
 " ------------------------------------------------------------------
 " Appearance
@@ -465,11 +470,11 @@ vnoremap # :<C-u>call <SID>VSetSearch()<cr>??<cr><c-o>
 
 " Pretty-print json blob.
 "   Run on quickfix window
-nnoremap <leader>jf :AsyncRun! -raw python -m json.tool %<cr>
-vnoremap <leader>jf :AsyncRun! -raw python -m json.tool<cr>
+nnoremap <silent> <leader>jf :AsyncRun! -raw python -m json.tool %<cr>
+vnoremap <silent> <leader>jf :AsyncRun! -raw python -m json.tool<cr>
 "   Run on current buffer
-nnoremap <leader><leader>jf :%!python -m json.tool<cr>
-vnoremap <leader><leader>jf :!python -m json.tool<cr>
+nnoremap <silent> <leader><leader>jf :%!python -m json.tool<cr>
+vnoremap <silent> <leader><leader>jf :!python -m json.tool<cr>
 
 " ------------------------------------------------------------------
 " Filetype specific options
@@ -510,22 +515,32 @@ augroup ft_cpp
     endif
 
     " C/CPP mappings
-    au FileType cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
-    au FileType cpp nnoremap <buffer> <leader>f :ClangFormat<cr>
-    au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun 
+    au FileType cpp nnoremap <silent> <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
+    au FileType cpp nnoremap <silent> <buffer> <leader>f :ClangFormat<cr>:echo 'File formatted'<cr>
+    au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun
                 \ -cwd=<root> clang-tidy -quiet
                 \ -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,
-                \misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,
-                \-cppcoreguidelines-pro-type-reinterpret-cast,
-                \-cppcoreguidelines-pro-bounds-constant-array-index,
-                \-cppcoreguidelines-pro-bounds-pointer-arithmetic,
-                \-readability-implicit-bool-conversion,
-                \-hicpp-signed-bitwise"
+                \ misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,
+                \ -cppcoreguidelines-pro-type-reinterpret-cast,
+                \ -cppcoreguidelines-pro-bounds-constant-array-index,
+                \ -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+                \ -readability-implicit-bool-conversion,
+                \ -hicpp-signed-bitwise"
                 \ -p=<root>/build <root>/*/src/*/*.cpp<cr>
-    au FileType cpp nnoremap <buffer> <leader><leader><leader>l :AsyncRun -cwd=<root> cppcheck --project=<root>/build/compile_commands.json --enable=all<cr>
-    au FileType cpp nnoremap <buffer> <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>
-    au FileType cpp nnoremap <buffer> <F6> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>
-    au FileType cpp nnoremap <buffer> <F7> :AsyncRun -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE ninja test<cr>
+    au FileType cpp nnoremap <buffer> <leader><leader><leader>l :AsyncRun
+                \ -cwd=<root> cppcheck --project=<root>/build/compile_commands.json
+                \ --enable=all<cr>
+    au FileType cpp nnoremap <buffer> <F5> :AsyncRun
+                \ -cwd=<root> mkdir -p build && cd build && cmake ..
+                \ -G Ninja -DCMAKE_BUILD_TYPE=Release
+                \ -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>
+    au FileType cpp nnoremap <buffer> <F6> :AsyncRun
+                \ -cwd=<root> mkdir -p build && cd build && cmake ..
+                \ -G Ninja -DCMAKE_BUILD_TYPE=Debug
+                \ -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>
+    au FileType cpp nnoremap <buffer> <F7> :AsyncRun
+                \ -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE
+                \ ninja test<cr>
 augroup END
 
 " Rust
@@ -573,16 +588,30 @@ augroup ft_markdown
     au FileType markdown setlocal textwidth=90
     au FileType markdown setlocal wrap
     function! AddMarkdownSyntax()
-        syn region markdownIdDeclaration matchgroup=markdownLinkDelimiter start="^ \{0,3\}!\=\[" end="\]:" oneline keepend nextgroup=markdownUrl skipwhite
+        syn region markdownIdDeclaration matchgroup=markdownLinkDelimiter
+                    \ start="^ \{0,3\}!\=\[" end="\]:"
+                    \ oneline keepend nextgroup=markdownUrl skipwhite
         syn match markdownUrl "\S\+" nextgroup=markdownUrlTitle skipwhite contained
-        syn region markdownUrl matchgroup=markdownUrlDelimiter start="<" end=">" oneline keepend nextgroup=markdownUrlTitle skipwhite contained
-        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter start=+"+ end=+"+ keepend contained
-        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter start=+'+ end=+'+ keepend contained
-        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter start=+(+ end=+)+ keepend contained
-        syn region markdownLinkText matchgroup=markdownLinkTextDelimiter start="!\=\[\%(\_[^]]*]\%( \=[[(]\)\)\@=" end="\]\%( \=[[(]\)\@=" nextgroup=markdownLink,markdownId skipwhite contains=@markdownInline,markdownLineStart
-        syn region markdownLink matchgroup=markdownLinkDelimiter start="(" end=")" contains=markdownUrl keepend contained
-        syn region markdownId matchgroup=markdownIdDelimiter start="\[" end="\]" keepend contained
-        syn region markdownAutomaticLink matchgroup=markdownUrlDelimiter start="<\%(\w\+:\|[[:alnum:]_+-]\+@\)\@=" end=">" keepend oneline
+        syn region markdownUrl matchgroup=markdownUrlDelimiter start="<" end=">"
+                    \ oneline keepend nextgroup=markdownUrlTitle skipwhite contained
+        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter
+                    \ start=+"+ end=+"+ keepend contained
+        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter
+                    \ start=+'+ end=+'+ keepend contained
+        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter
+                    \ start=+(+ end=+)+ keepend contained
+        syn region markdownLinkText matchgroup=markdownLinkTextDelimiter
+                    \ start="!\=\[\%(\_[^]]*]\%( \=[[(]\)\)\@="
+                    \ end="\]\%( \=[[(]\)\@="
+                    \ nextgroup=markdownLink,markdownId skipwhite
+                    \ contains=@markdownInline,markdownLineStart
+        syn region markdownLink matchgroup=markdownLinkDelimiter start="(" end=")"
+                    \ contains=markdownUrl keepend contained
+        syn region markdownId matchgroup=markdownIdDelimiter start="\[" end="\]"
+                    \ keepend contained
+        syn region markdownAutomaticLink matchgroup=markdownUrlDelimiter
+                    \ start="<\%(\w\+:\|[[:alnum:]_+-]\+@\)\@=" end=">"
+                    \ keepend oneline
     endfunction
     call AddMarkdownSyntax()
     au FileType markdown nnoremap <buffer> <F5> :<C-u>NextWordy<cr>
@@ -629,7 +658,7 @@ augroup END
 
 " NERDTree
 let NERDTreeShowHidden=1
-nnoremap <F1> :NERDTreeToggle<cr>
+nnoremap <silent> <F1> :NERDTreeToggle<cr>
 
 " CtrlP
 let g:ctrlp_extensions = ['tag']
@@ -680,7 +709,8 @@ function! CtrlpStatusbar(...)
     let previous_mode = '%#CtrlpStatusPrevMode#' . TranslateItem(a:4) . "%*"
     let current_mode = '%#CtrlpStatusCurrMode#' . TranslateItem(a:5) . "%*"
     let next_mode = '%#CtrlpStatusNextMode#' . TranslateItem(a:6) . "%*"
-    return ' ' . current_dir . file_mode . regex_mode . '%=' . previous_mode . '  «  ' . current_mode . '  »  ' . next_mode . '  '
+    return ' ' . current_dir . file_mode . regex_mode . '%=' .
+                \ previous_mode . '  «  ' . current_mode . '  »  ' . next_mode . '  '
 endfunction
 
 let g:ctrlp_line_prefix = '> '
@@ -705,7 +735,7 @@ let g:multi_cursor_quit_key='<Esc>'
 let g:multi_cursor_select_all_word_key = '<leader><C-f>'
 
 " Open/Close the Tagbar window
-nnoremap <F2> :TagbarToggle <cr>
+nnoremap <silent> <F2> :TagbarToggle <cr>
 
 " Tabularize
 nnoremap <silent> <leader><leader>t :Tabularize /
@@ -720,7 +750,7 @@ let g:gutentags_enabled = 0
 let g:gutentags_ctags_exclude = ['CMakeFiles', 'build', '.git', 'doc', 'ext']
 
 " Gundo
-nnoremap <F3> :GundoToggle<cr>
+nnoremap <silent> <F3> :GundoToggle<cr>
 
 " AsyncRun
 let g:asyncrun_open = 10
@@ -728,9 +758,12 @@ let g:asyncrun_status = "stopped"
 augroup QuickfixStatus
     au!
     au BufWinEnter quickfix setlocal
-                \ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
+                \ statusline="AY MAMA
+                \ [%{g:asyncrun_status}]
+                \ %{exists('w:quickfix_title') ? ' ' . w:quickfix_title : ''}
+                \ %=%-15(%l,%c%V%)\ %P"
 augroup END
-nnoremap <F4> :call asyncrun#quickfix_toggle(10)<cr>
+nnoremap <silent> <F4> :call asyncrun#quickfix_toggle(10)<cr>
 let g:asyncrun_auto = "make"
 
 augroup focus_mode
@@ -759,8 +792,8 @@ augroup focus_mode
     endfunction
     au! User GoyoEnter nested call <SID>goyo_enter()
     au! User GoyoLeave nested call <SID>goyo_leave()
-    nnoremap <F8> :Goyo<cr>
-    nnoremap <F9> :Limelight!!<cr>
+    nnoremap <silent> <F8> :Goyo<cr>
+    nnoremap <silent> <F9> :Limelight!!<cr>
 
     " Limelight
     let g:limelight_conceal_ctermfg = 240
@@ -806,7 +839,7 @@ augroup ncm2
         set completeopt=noinsert,menuone,noselect
         au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
         au User Ncm2PopupClose set completeopt=menuone
-        inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+        inoremap <silent> <expr> <cr> ncm2_ultisnips#expand_or("\<cr>", 'n')
         set shortmess+=c
     endif
 augroup END
