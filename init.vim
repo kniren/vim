@@ -501,7 +501,8 @@ augroup ft_cpp
     if has("unix")
         let s:uname = system("uname")
         if s:uname == "Darwin\n"
-            let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+            let g:ncm2_pyclang#library_path =
+                        \ '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
         else
             let g:ncm2_pyclang#library_path = '/usr/lib/libclang.so'
         endif
@@ -510,10 +511,19 @@ augroup ft_cpp
     " C/CPP mappings
     au FileType cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
     au FileType cpp nnoremap <buffer> <leader>f :ClangFormat<cr>
-    au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun -cwd=<root> clang-tidy -quiet -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-implicit-bool-conversion,-hicpp-signed-bitwise" -p=<root>/build <root>/*/src/*/*.cpp<cr>
+    au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun 
+                \ -cwd=<root> clang-tidy -quiet
+                \ -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,
+                \misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,
+                \-cppcoreguidelines-pro-type-reinterpret-cast,
+                \-cppcoreguidelines-pro-bounds-constant-array-index,
+                \-cppcoreguidelines-pro-bounds-pointer-arithmetic,
+                \-readability-implicit-bool-conversion,
+                \-hicpp-signed-bitwise"
+                \ -p=<root>/build <root>/*/src/*/*.cpp<cr>
     au FileType cpp nnoremap <buffer> <leader><leader><leader>l :AsyncRun -cwd=<root> cppcheck --project=<root>/build/compile_commands.json --enable=all<cr>
-    au FileType cpp nnoremap <buffer> <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release && cd .. && ninja -C build<cr>
-    au FileType cpp nnoremap <buffer> <F6> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug && cd .. && ninja -C build<cr>
+    au FileType cpp nnoremap <buffer> <F5> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>
+    au FileType cpp nnoremap <buffer> <F6> :AsyncRun -cwd=<root> mkdir -p build && cd build && cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>
     au FileType cpp nnoremap <buffer> <F7> :AsyncRun -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE ninja test<cr>
 augroup END
 
@@ -716,7 +726,7 @@ let g:asyncrun_open = 10
 let g:asyncrun_status = "stopped"
 augroup QuickfixStatus
     au!
-    BufWinEnter quickfix setlocal
+    au BufWinEnter quickfix setlocal
                 \ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
 augroup END
 nnoremap <F4> :call asyncrun#quickfix_toggle(10)<cr>
