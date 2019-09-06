@@ -31,8 +31,8 @@ Plug 'ncm2/ncm2-jedi'                                         " NCM2: Python com
 Plug 'ncm2/ncm2-ultisnips'                                    " NCM2: Ultisnips completion
 Plug 'ncm2/ncm2-markdown-subscope'                            " NCM2: Code block detection in markdown files
 Plug 'ncm2/ncm2-rst-subscope'                                 " NCM2: Code block detection in rst files
-" TODO: Test these plugins.
-"Plug 'dense-analysis/ale'                                     " Async linter
+Plug 'dense-analysis/ale'                                     " Async linter
+" Plug 'lervag/vimtex'                                         " LaTeX tooling for vim
 Plug 'SirVer/ultisnips'                                       " Snippets support
 Plug 'kniren/vim-snippets'                                    " My personal snippets
 Plug 'tpope/vim-fugitive'                                     " Git integration in vim
@@ -94,7 +94,7 @@ set smarttab
 " Wrapping and Formatting Options
 set nowrap
 set linebreak
-set textwidth=82
+set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=85
 if has('win32')
@@ -283,7 +283,7 @@ augroup END
 
 " Remap leader key to ',' instead of '\'
 let mapleader=","
-let maplocalleader="_"
+let maplocalleader="\\"
 
 " Source vim config
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -699,9 +699,6 @@ vnoremap <silent> <leader><leader>t :Tabularize /
 " Ripgrep
 let g:rg_command = 'rg --vimgrep -S'
 
-" Supertab
-"let g:SuperTabDefaultCompletionType = '<c-n>'
-
 " Gutentags
 let g:gutentags_cache_dir = '~/.ctagscache'
 let g:gutentags_enabled = 0
@@ -795,3 +792,22 @@ au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
 au User Ncm2PopupClose set completeopt=menuone
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 set shortmess+=c
+
+" Polyglot
+let g:polyglot_disabled = ['latex']
+
+" ALE (Asynchronous Lint Engine)
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 0
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+let g:ale_c_parse_compile_commands = 1
+let g:ale_linters = { 'cpp': ['cppcheck'] }
+let g:ale_c_build_dir_names = ['build', 'release', 'debug']
+nnoremap <silent> <leader><leader>e :ALELint<cr>
