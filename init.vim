@@ -301,6 +301,10 @@ nnoremap <C-l> <C-w>l
 inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
 
+" Move to the next/previous git modified section
+nmap <leader>gn <Plug>(GitGutterNextHunk)
+nmap <leader>gp <Plug>(GitGutterPrevHunk)
+
 " Resize splits
 nnoremap <Left> 5<C-w><
 nnoremap <Right> 5<C-w>>
@@ -742,7 +746,10 @@ nnoremap <F9> :Limelight!!<cr>
 let g:limelight_conceal_ctermfg = 240
 
 " Magit
-nnoremap <leader><leader>m :Magit<cr>
+nnoremap <leader>gs :Magit<cr>
+
+" Git viewer (GV)
+nnoremap <leader>gl :GV<cr>
 
 " Lexical
 "   Insert mode keybindings:
