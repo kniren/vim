@@ -397,6 +397,12 @@ inoremap <M-f> <C-o>w
 inoremap <M-d> <C-o>dw
 inoremap <M-w> <C-o>db
 
+" Magit
+nnoremap <leader>gs :Magit<cr>
+
+" Git viewer (GV)
+nnoremap <leader>gl :GV<cr>
+
 " ------------------------------------------------------------------
 " Appearance
 " ------------------------------------------------------------------
@@ -573,6 +579,21 @@ augroup END
 
 " Golang
 augroup ft_go
+    let g:go_term_mode = 'split'
+    let g:go_term_enabled = 1
+    let g:go_term_height = 20
+    let g:go_term_width = 20
+    let g:go_fmt_command = 'goimports'
+    let g:go_doc_keywordprg_enabled= 0
+
+    au FileType go nmap <leader>r <Plug>(go-run)
+    au FileType go nmap <leader>b <Plug>(go-build)
+    au FileType go nmap <leader>t <Plug>(go-test)
+    au FileType go nmap <leader>c :GoCoverageBrowser<cr>
+    au FileType go nmap <leader>gd <Plug>(go-doc)
+    au FileType go nmap <leader>dh <Plug>(go-def-split)
+    au FileType go nmap <leader>dv <Plug>(go-def-vertical)
+    au FileType go nmap <leader>i  <Plug>(go-info)
     au FileType go set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
     au FileType go nnoremap <leader>e :GoErrCheck<cr>
 augroup END
@@ -672,22 +693,6 @@ let g:multi_cursor_skip_key='<C-h>'
 let g:multi_cursor_quit_key='<Esc>'
 let g:multi_cursor_select_all_word_key = '<leader><C-f>'
 
-" vim-go
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c :GoCoverageBrowser<cr>
-au FileType go nmap <leader>gd <Plug>(go-doc)
-au FileType go nmap <leader>dh <Plug>(go-def-split)
-au FileType go nmap <leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <leader>i  <Plug>(go-info)
-let g:go_term_mode = 'split'
-let g:go_term_enabled = 1
-let g:go_term_height = 20
-let g:go_term_width = 20
-let g:go_fmt_command = 'goimports'
-let g:go_doc_keywordprg_enabled= 0
-
 " Open/Close the Tagbar window
 nnoremap <F2> :TagbarToggle <cr>
 
@@ -710,47 +715,45 @@ nnoremap <F3> :GundoToggle<cr>
 let g:asyncrun_open = 10
 let g:asyncrun_status = "stopped"
 augroup QuickfixStatus
-    au! BufWinEnter quickfix setlocal
+    au!
+    BufWinEnter quickfix setlocal
                 \ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
 augroup END
 nnoremap <F4> :call asyncrun#quickfix_toggle(10)<cr>
 let g:asyncrun_auto = "make"
 
-" Goyo
-let g:goyo_width = 100
-let g:goyo_height = "90%"
-let g:goyo_linenr = 0
-function! s:goyo_enter()
-    Limelight
-    set background=dark
-    colorscheme ether
-    try
-        call AddMarkdownSyntax()
-    catch
-    endtry
-endfunction
-function! s:goyo_leave()
-    Limelight!
-    set background=dark
-    colorscheme ether
-    try
-        call AddMarkdownSyntax()
-    catch
-    endtry
-endfunction
-au! User GoyoEnter nested call <SID>goyo_enter()
-au! User GoyoLeave nested call <SID>goyo_leave()
-nnoremap <F8> :Goyo<cr>
-nnoremap <F9> :Limelight!!<cr>
+augroup focus_mode
+    au!
+    " Goyo
+    let g:goyo_width = 100
+    let g:goyo_height = "90%"
+    let g:goyo_linenr = 0
+    function! s:goyo_enter()
+        Limelight
+        set background=dark
+        colorscheme ether
+        try
+            call AddMarkdownSyntax()
+        catch
+        endtry
+    endfunction
+    function! s:goyo_leave()
+        Limelight!
+        set background=dark
+        colorscheme ether
+        try
+            call AddMarkdownSyntax()
+        catch
+        endtry
+    endfunction
+    au! User GoyoEnter nested call <SID>goyo_enter()
+    au! User GoyoLeave nested call <SID>goyo_leave()
+    nnoremap <F8> :Goyo<cr>
+    nnoremap <F9> :Limelight!!<cr>
 
-" Limelight
-let g:limelight_conceal_ctermfg = 240
-
-" Magit
-nnoremap <leader>gs :Magit<cr>
-
-" Git viewer (GV)
-nnoremap <leader>gl :GV<cr>
+    " Limelight
+    let g:limelight_conceal_ctermfg = 240
+augroup END
 
 " Lexical
 "   Insert mode keybindings:
@@ -778,35 +781,43 @@ nnoremap <leader>gl :GV<cr>
 "       replaced word in the current window
 augroup lexical
     au!
+    let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
+    let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
+    set thesaurus+=~/.config/nvim/spell/thesaurus.txt
     au FileType markdown,mkd call lexical#init()
 augroup END
-let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
-let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
-set thesaurus+=~/.config/nvim/spell/thesaurus.txt
 
 " NCM2 (Completion)
-au BufEnter * call ncm2#enable_for_buffer()
-set completeopt=noinsert,menuone,noselect
-au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-au User Ncm2PopupClose set completeopt=menuone
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-set shortmess+=c
+augroup ncm2
+    au!
+    if exists('*ncm2#enable_for_buffer')
+        au BufEnter * call ncm2#enable_for_buffer()
+        set completeopt=noinsert,menuone,noselect
+        au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+        au User Ncm2PopupClose set completeopt=menuone
+        inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+        set shortmess+=c
+    endif
+augroup END
 
 " Polyglot
 let g:polyglot_disabled = ['latex']
 
 " ALE (Asynchronous Lint Engine)
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 0
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
-let g:ale_c_parse_compile_commands = 1
-let g:ale_linters = { 'cpp': ['cppcheck'] }
-let g:ale_c_build_dir_names = ['build', 'release', 'debug']
-nnoremap <silent> <leader><leader>e :ALELint<cr>
+augroup ale
+    au!
+    let g:ale_echo_msg_error_str = 'E'
+    let g:ale_echo_msg_warning_str = 'W'
+    let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
+    let g:ale_lint_on_text_changed = 'never'
+    let g:ale_lint_on_insert_leave = 0
+    let g:ale_lint_on_enter = 0
+    let g:ale_lint_on_save = 0
+    let g:ale_set_loclist = 0
+    let g:ale_set_quickfix = 1
+    let g:ale_open_list = 1
+    let g:ale_c_parse_compile_commands = 1
+    let g:ale_linters = { 'cpp': ['cppcheck'] }
+    let g:ale_c_build_dir_names = ['build', 'release', 'debug']
+    nnoremap <silent> <leader><leader>e :ALELint<cr>
+augroup END
