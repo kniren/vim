@@ -25,6 +25,7 @@ Plug 'ncm2/ncm2'                                              " NCM2 (Lightweigh
 Plug 'roxma/nvim-yarp'                                        " NCM2: Required
 Plug 'ncm2/ncm2-bufword'                                      " NCM2: Completion from buffer
 Plug 'ncm2/ncm2-path'                                         " NCM2: Completion from file path
+Plug 'ncm2/ncm2-tagprefix'                                    " NCM2: Completion from tags
 Plug 'ncm2/ncm2-pyclang'                                      " NCM2: Clang completion
 Plug 'ncm2/ncm2-jedi'                                         " NCM2: Python completion
 Plug 'ncm2/ncm2-ultisnips'                                    " NCM2: Ultisnips completion
@@ -800,7 +801,7 @@ augroup END
 " NCM2 (Completion)
 augroup ncm2
     au!
-    if exists('*ncm2#enable_for_buffer')
+    if &rtp =~ 'ncm2'
         au BufEnter * call ncm2#enable_for_buffer()
         set completeopt=noinsert,menuone,noselect
         au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
