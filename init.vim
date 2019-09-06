@@ -25,7 +25,6 @@ Plug 'ncm2/ncm2'                                              " NCM2 (Lightweigh
 Plug 'roxma/nvim-yarp'                                        " NCM2: Required
 Plug 'ncm2/ncm2-bufword'                                      " NCM2: Completion from buffer
 Plug 'ncm2/ncm2-path'                                         " NCM2: Completion from file path
-Plug 'wellle/tmux-complete.vim'                               " NCM2: Completion from other tmux buffers
 Plug 'ncm2/ncm2-pyclang'                                      " NCM2: Clang completion
 Plug 'ncm2/ncm2-jedi'                                         " NCM2: Python completion
 Plug 'ncm2/ncm2-ultisnips'                                    " NCM2: Ultisnips completion
