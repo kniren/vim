@@ -160,6 +160,7 @@ function! Status(winnum)
     hi vimStatuslineTotalLines        ctermbg=0 ctermfg=7 cterm=bold
     hi vimStatuslineScrollPercentage  ctermbg=0 ctermfg=7 cterm=bold
     hi vimStatuslineFileType          ctermbg=0 ctermfg=7 cterm=bold
+    hi vimStatuslineAsyncRunning      ctermbg=0 ctermfg=1 cterm=bold
 
     let active = a:winnum == winnr()
     let stat = ''
@@ -180,6 +181,16 @@ function! Status(winnum)
     " Modified/status flags
     let stat .= '%m'
     let stat .= '%r'
+
+    " Asyncrun indicator
+    if exists('g:asyncrun_status')
+        if g:asyncrun_status == 'running'
+            if active
+                let stat .= '%#vimStatuslineAsyncRunning#'
+            endif
+            let stat .= ' R' . '%*'
+        endif
+    endif
 
     let stat .= ' %= ' " Left side separator
 
@@ -229,8 +240,8 @@ function! Status(winnum)
             let stat .= ' ' . git_branch . '%*'
         endif
     endif
-    let stat .= ' '
-    return stat
+
+    return stat . ' '
 endfunction
 
 function! s:RefreshStatus()
@@ -755,14 +766,6 @@ nnoremap <silent> <F3> :GundoToggle<cr>
 " AsyncRun
 let g:asyncrun_open = 10
 let g:asyncrun_status = "stopped"
-augroup QuickfixStatus
-    au!
-    au BufWinEnter quickfix setlocal
-                \ statusline="AY MAMA
-                \ [%{g:asyncrun_status}]
-                \ %{exists('w:quickfix_title') ? ' ' . w:quickfix_title : ''}
-                \ %=%-15(%l,%c%V%)\ %P"
-augroup END
 nnoremap <silent> <F4> :call asyncrun#quickfix_toggle(10)<cr>
 let g:asyncrun_auto = "make"
 
