@@ -11,48 +11,48 @@
 " ------------------------------------------------------------------
 
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'junegunn/vim-plug'                                      " Plugin manager
-Plug 'ctrlpvim/ctrlp.vim'                                     " Fuzzy-finder file navigator
-Plug 'kniren/ether'                                           " My vim colorscheme
-Plug 'scrooloose/nerdcommenter'                               " Commentator. Use <leader>c<space> in visual
-Plug 'scrooloose/nerdtree'                                    " Project tree navigator
-Plug 'tpope/vim-surround'                                     " Handy surround plugin
-Plug 'terryma/vim-multiple-cursors'                           " Multi-cursors
-Plug 'Raimondi/delimitMate'                                   " Autoclose parentheses and brackets
-Plug 'majutsushi/tagbar'                                      " Tag searcher
-Plug 'godlygeek/tabular'                                      " OCD helper
-Plug 'ncm2/ncm2'                                              " NCM2 (Lightweight completion engine for neovim)
-Plug 'roxma/nvim-yarp'                                        " NCM2: Required
-Plug 'ncm2/ncm2-bufword'                                      " NCM2: Completion from buffer
-Plug 'ncm2/ncm2-path'                                         " NCM2: Completion from file path
-Plug 'ncm2/ncm2-tagprefix'                                    " NCM2: Completion from tags
-Plug 'ncm2/ncm2-pyclang'                                      " NCM2: Clang completion
-Plug 'ncm2/ncm2-jedi'                                         " NCM2: Python completion
-Plug 'ncm2/ncm2-ultisnips'                                    " NCM2: Ultisnips completion
-Plug 'ncm2/ncm2-markdown-subscope'                            " NCM2: Code block detection in markdown files
-Plug 'ncm2/ncm2-rst-subscope'                                 " NCM2: Code block detection in rst files
-Plug 'dense-analysis/ale'                                     " Async linter
-" Plug 'lervag/vimtex'                                         " LaTeX tooling for vim
-Plug 'SirVer/ultisnips'                                       " Snippets support
-Plug 'kniren/vim-snippets'                                    " My personal snippets
-Plug 'tpope/vim-fugitive'                                     " Git integration in vim
-Plug 'airblade/vim-gitgutter'                                 " Git symbols on your gutter
-Plug 'jreybert/vimagit'                                       " Magit for vim
-Plug 'junegunn/gv.vim'                                        " Git log viewer
-Plug 'jremmen/vim-ripgrep'                                    " A better code finder (Grep, Ack)
-Plug 'Chiel92/vim-autoformat'                                 " Autoformatting for clang-format compatible languages
-Plug 'rhysd/vim-clang-format'                                 " Different autoformat
-Plug 'ervandew/supertab'                                      " Better TAB usage for completion
-Plug 'christoomey/vim-tmux-navigator'                         " Seamless navigation between vim and tmux
-Plug 'ludovicchabant/vim-gutentags'                           " Ctags/Gtags generation
-Plug 'sjl/gundo.vim'                                          " Vim history navigator
-Plug 'skywind3000/asyncrun.vim'                               " Run commands asynchronously
-Plug 'junegunn/goyo.vim'                                      " Distraction free writing
-Plug 'junegunn/limelight.vim'                                 " Dimming text paragraph, best used with goyo
-Plug 'reedes/vim-lexical'                                     " Better spell checker facilities
-Plug 'reedes/vim-wordy'                                       " Lightweight check for common words missuse
-Plug 'rust-lang/rust.vim'                                     " Rust plugins and tooling
-Plug 'sheerun/vim-polyglot'                                   " Massive syntax pack for muliple languages
+Plug 'junegunn/vim-plug'                     " Plugin manager
+Plug 'ctrlpvim/ctrlp.vim'                    " Fuzzy-finder file navigator
+Plug 'kniren/ether'                          " My vim colorscheme
+Plug 'scrooloose/nerdcommenter'              " Commentator. Use <leader>c<space> in visual
+Plug 'scrooloose/nerdtree'                   " Project tree navigator
+Plug 'tpope/vim-surround'                    " Handy surround plugin
+Plug 'terryma/vim-multiple-cursors'          " Multi-cursors
+Plug 'Raimondi/delimitMate'                  " Autoclose parentheses and brackets
+Plug 'majutsushi/tagbar'                     " Tag searcher
+Plug 'godlygeek/tabular'                     " OCD helper
+Plug 'ncm2/ncm2'                             " NCM2 (Lightweight completion engine for neovim)
+Plug 'roxma/nvim-yarp'                       " NCM2: Required
+Plug 'ncm2/ncm2-bufword'                     " NCM2: Completion from buffer
+Plug 'ncm2/ncm2-path'                        " NCM2: Completion from file path
+Plug 'ncm2/ncm2-tagprefix'                   " NCM2: Completion from tags
+Plug 'ncm2/ncm2-pyclang'                     " NCM2: Clang completion
+Plug 'ncm2/ncm2-jedi'                        " NCM2: Python completion
+Plug 'ncm2/ncm2-ultisnips'                   " NCM2: Ultisnips completion
+Plug 'ncm2/ncm2-markdown-subscope'           " NCM2: Code block detection in markdown files
+Plug 'ncm2/ncm2-rst-subscope'                " NCM2: Code block detection in rst files
+Plug 'dense-analysis/ale'                    " Async linter
+" Plug 'lervag/vimtex'                        " LaTeX tooling for vim
+Plug 'SirVer/ultisnips'                      " Snippets support
+Plug 'kniren/vim-snippets'                   " My personal snippets
+Plug 'tpope/vim-fugitive'                    " Git integration in vim
+Plug 'airblade/vim-gitgutter'                " Git symbols on your gutter
+Plug 'jreybert/vimagit'                      " Magit for vim
+Plug 'junegunn/gv.vim'                       " Git log viewer
+Plug 'jremmen/vim-ripgrep'                   " A better code finder (Grep, Ack)
+Plug 'Chiel92/vim-autoformat'                " Autoformatting for clang-format compatible languages
+Plug 'rhysd/vim-clang-format'                " Different autoformat
+Plug 'ervandew/supertab'                     " Better TAB usage for completion
+Plug 'christoomey/vim-tmux-navigator'        " Seamless navigation between vim and tmux
+Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
+Plug 'sjl/gundo.vim'                         " Vim history navigator
+Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
+Plug 'junegunn/goyo.vim'                     " Distraction free writing
+Plug 'junegunn/limelight.vim'                " Dimming text paragraph, best used with goyo
+Plug 'reedes/vim-lexical'                    " Better spell checker facilities
+Plug 'reedes/vim-wordy'                      " Lightweight check for common words missuse
+Plug 'rust-lang/rust.vim'                    " Rust plugins and tooling
+Plug 'sheerun/vim-polyglot'                  " Massive syntax pack for muliple languages
 call plug#end()
 
 " ------------------------------------------------------------------
