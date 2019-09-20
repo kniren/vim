@@ -681,7 +681,6 @@ augroup ft_tex
     let g:vimtex_view_forward_search_on_start = 0
 
     au Filetype tex setlocal spell
-    au Filetype tex setlocal fo+=t
     au Filetype tex nnoremap <silent> <buffer> <F2>  :VimtexTocToggle<cr>
     au Filetype tex nnoremap <silent> <buffer> <F5>  :VimtexCompile<cr>
     au Filetype tex nnoremap <silent> <buffer> <F6>  :VimtexStop<cr>
