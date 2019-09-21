@@ -17,7 +17,6 @@ Plug 'kniren/ether'                          " My vim colorscheme
 Plug 'scrooloose/nerdcommenter'              " Commentator. Use <leader>c<space> in visual
 Plug 'scrooloose/nerdtree'                   " Project tree navigator
 Plug 'tpope/vim-surround'                    " Handy surround plugin
-Plug 'terryma/vim-multiple-cursors'          " Multi-cursors
 Plug 'Raimondi/delimitMate'                  " Autoclose parentheses and brackets
 Plug 'majutsushi/tagbar'                     " Tag searcher
 Plug 'godlygeek/tabular'                     " OCD helper
@@ -737,13 +736,9 @@ let g:UltiSnipsExpandTrigger='<c-y>'
 let g:UltiSnipsJumpForwardTrigger='<c-y>'
 let g:UltiSnipsJumpBackwardTrigger='<c-b>'
 
-" Vim Multiple Cursors
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-f>'
-let g:multi_cursor_prev_key='<C-d>'
-let g:multi_cursor_skip_key='<C-h>'
-let g:multi_cursor_quit_key='<Esc>'
-let g:multi_cursor_select_all_word_key = '<leader><C-f>'
+" Vim Multiple Cursors? This substitution can be repeated with the dot (.) command.
+vnoremap <C-f> :<C-u>call <SID>VSetSearch()<cr>//<cr><c-o>cgn
+nnoremap <C-f> *<c-o> <SID>VSetSearch()<cr>//<cr><c-o>cgn
 
 " Open/Close the Tagbar window
 nnoremap <silent> <F2> :TagbarToggle <cr>
