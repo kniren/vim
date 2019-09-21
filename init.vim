@@ -904,6 +904,7 @@ let g:gitgutter_sign_modified = '• '
 let g:gitgutter_sign_removed = '• '
 let g:gitgutter_sign_removed_first_line = '• '
 let g:gitgutter_sign_modified_removed = '• '
+let g:gitgutter_sign_removed_above_and_below = '• '
 hi GitGutterAdd          ctermfg=2 ctermbg=none
 hi GitGutterChange       ctermfg=3 ctermbg=none
 hi GitGutterChangeDelete ctermfg=3 ctermbg=none
