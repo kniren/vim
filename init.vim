@@ -31,7 +31,6 @@ Plug 'ncm2/ncm2-ultisnips'                   " NCM2: Ultisnips completion
 Plug 'ncm2/ncm2-markdown-subscope'           " NCM2: Code block detection in markdown files
 Plug 'ncm2/ncm2-rst-subscope'                " NCM2: Code block detection in rst files
 Plug 'dense-analysis/ale'                    " Async linter
-" Plug 'lervag/vimtex'                        " LaTeX tooling for vim
 Plug 'SirVer/ultisnips'                      " Snippets support
 Plug 'kniren/vim-snippets'                   " My personal snippets
 Plug 'tpope/vim-fugitive'                    " Git integration in vim
@@ -46,12 +45,14 @@ Plug 'christoomey/vim-tmux-navigator'        " Seamless navigation between vim a
 Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
 Plug 'sjl/gundo.vim'                         " Vim history navigator
 Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
+Plug 'rust-lang/rust.vim'                    " Rust plugins and tooling
+Plug 'sheerun/vim-polyglot'                  " Massive syntax pack for muliple languages
 Plug 'junegunn/goyo.vim'                     " Distraction free writing
 Plug 'junegunn/limelight.vim'                " Dimming text paragraph, best used with goyo
 Plug 'reedes/vim-lexical'                    " Better spell checker facilities
 Plug 'reedes/vim-wordy'                      " Lightweight check for common words missuse
-Plug 'rust-lang/rust.vim'                    " Rust plugins and tooling
-Plug 'sheerun/vim-polyglot'                  " Massive syntax pack for muliple languages
+Plug 'vim-pandoc/vim-pandoc' | Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'lervag/vimtex'                         " LaTeX tooling for vim
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -594,37 +595,26 @@ augroup END
 " Markdown
 augroup ft_markdown
     au!
+
+    " Pandoc
+    let g:pandoc#modules#disabled = ["folding"]
+    augroup pandoc_completion
+        autocmd!
+        autocmd Filetype pandoc call ncm2#register_source({
+                    \ 'name': 'pandoc',
+                    \ 'priority': 8,
+                    \ 'scope': ['pandoc'],
+                    \ 'mark': 'md',
+                    \ 'word_pattern': '\w+',
+                    \ 'complete_pattern': ['@'],
+                    \ 'on_complete': ['ncm2#on_complete#omni', 'pandoc#completion#Complete'],
+                    \ })
+    augroup END
+    let g:pandoc#command#use_message_buffers = 0
+    let g:pandoc#syntax#conceal#use = 0
+    let g:pandoc#syntax#style#underline_special = 0
+    let g:pandoc#syntax#style#emphases = 0
     au BufNewFile,BufRead *.md*own setlocal filetype=markdown foldlevel=1
-    au FileType markdown setlocal nonumber nocursorline
-    au FileType markdown setlocal textwidth=90
-    au FileType markdown setlocal wrap
-    function! AddMarkdownSyntax()
-        syn region markdownIdDeclaration matchgroup=markdownLinkDelimiter
-                    \ start="^ \{0,3\}!\=\[" end="\]:"
-                    \ oneline keepend nextgroup=markdownUrl skipwhite
-        syn match markdownUrl "\S\+" nextgroup=markdownUrlTitle skipwhite contained
-        syn region markdownUrl matchgroup=markdownUrlDelimiter start="<" end=">"
-                    \ oneline keepend nextgroup=markdownUrlTitle skipwhite contained
-        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter
-                    \ start=+"+ end=+"+ keepend contained
-        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter
-                    \ start=+'+ end=+'+ keepend contained
-        syn region markdownUrlTitle matchgroup=markdownUrlTitleDelimiter
-                    \ start=+(+ end=+)+ keepend contained
-        syn region markdownLinkText matchgroup=markdownLinkTextDelimiter
-                    \ start="!\=\[\%(\_[^]]*]\%( \=[[(]\)\)\@="
-                    \ end="\]\%( \=[[(]\)\@="
-                    \ nextgroup=markdownLink,markdownId skipwhite
-                    \ contains=@markdownInline,markdownLineStart
-        syn region markdownLink matchgroup=markdownLinkDelimiter start="(" end=")"
-                    \ contains=markdownUrl keepend contained
-        syn region markdownId matchgroup=markdownIdDelimiter start="\[" end="\]"
-                    \ keepend contained
-        syn region markdownAutomaticLink matchgroup=markdownUrlDelimiter
-                    \ start="<\%(\w\+:\|[[:alnum:]_+-]\+@\)\@=" end=">"
-                    \ keepend oneline
-    endfunction
-    call AddMarkdownSyntax()
     au FileType markdown nnoremap <buffer> <F5> :<C-u>NextWordy<cr>
 augroup END
 
@@ -659,8 +649,47 @@ augroup END
 au BufNewFile,BufRead *.tex setlocal filetype=tex
 augroup ft_tex
     au!
+
+    " Vimtex
+    let g:vimtex_compiler_latexmk = {
+                \ 'backend' : 'nvim',
+                \ 'background' : 1,
+                \ 'build_dir' : 'build',
+                \ 'callback' : 1,
+                \ 'continuous' : 1,
+                \ 'executable' : 'latexmk',
+                \ 'hooks' : [],
+                \ 'options' : [
+                \   '-verbose',
+                \   '-file-line-error',
+                \   '-synctex=1',
+                \   '-interaction=nonstopmode',
+                \ ],
+                \}
+    au User Ncm2Plugin call ncm2#register_source({
+                \ 'name' : 'vimtex',
+                \ 'priority': 9,
+                \ 'subscope_enable': 1,
+                \ 'complete_length': 1,
+                \ 'scope': ['tex'],
+                \ 'mark': 'tex',
+                \ 'word_pattern': '\w+',
+                \ 'complete_pattern': g:vimtex#re#ncm,
+                \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+                \ })
+    let g:vimtex_view_method = 'zathura'
+    let g:vimtex_view_forward_search_on_start = 0
+
     au Filetype tex setlocal spell
-    au Filetype tex setlocal wrap
+    au Filetype tex nnoremap <silent> <buffer> <F2>  :VimtexTocToggle<cr>
+    au Filetype tex nnoremap <silent> <buffer> <F5>  :VimtexCompile<cr>
+    au Filetype tex nnoremap <silent> <buffer> <F6>  :VimtexStop<cr>
+    au Filetype tex nnoremap <silent> <buffer> <F7>  :VimtexView<cr>
+    au Filetype tex nnoremap <silent> <buffer> <F8>  :VimtexCompileSS<cr>
+    au Filetype tex nnoremap <silent> <buffer> <F9>  :VimtexClean<cr>
+    au Filetype tex nnoremap <silent> <buffer> <F10> :VimtexClean!<cr>
+    au Filetype tex nnoremap <silent> <buffer> <F11> :VimtexView<cr>
+    au Filetype tex nnoremap <silent> <buffer> <F12> :VimtexCountWords<cr>
 augroup END
 
 " ------------------------------------------------------------------
@@ -824,9 +853,9 @@ augroup END
 "       replaced word in the current window
 augroup lexical
     au!
-    let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
-    let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
-    set thesaurus+=~/.config/nvim/spell/thesaurus.txt
+    "let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
+    "let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
+    "set thesaurus+=~/.config/nvim/spell/thesaurus.txt
     au FileType markdown,mkd call lexical#init()
 augroup END
 
