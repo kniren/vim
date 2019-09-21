@@ -67,6 +67,7 @@ set title
 set backspace=indent,eol,start
 set ruler
 set number
+set signcolumn=yes
 set scrolloff=4
 set lazyredraw
 set noshowmode
@@ -863,3 +864,18 @@ augroup ale
     let g:ale_c_build_dir_names = ['build', 'release', 'debug']
     nnoremap <silent> <leader><leader>e :ALELint<cr>
 augroup END
+
+" Supertab
+let g:SuperTabDefaultCompletionType = '<c-n>'
+
+" GitGutter
+set updatetime=100
+let g:gitgutter_sign_added = '• '
+let g:gitgutter_sign_modified = '• '
+let g:gitgutter_sign_removed = '• '
+let g:gitgutter_sign_removed_first_line = '• '
+let g:gitgutter_sign_modified_removed = '• '
+hi GitGutterAdd          ctermfg=2 ctermbg=none
+hi GitGutterChange       ctermfg=3 ctermbg=none
+hi GitGutterChangeDelete ctermfg=3 ctermbg=none
+hi GitGutterDelete       ctermfg=1 ctermbg=none
