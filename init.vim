@@ -807,21 +807,15 @@ augroup focus_mode
     let g:goyo_linenr = 0
     function! s:goyo_enter()
         Limelight
-        set background=dark
         colorscheme ether
-        try
-            call AddMarkdownSyntax()
-        catch
-        endtry
+        set wrap
     endfunction
     function! s:goyo_leave()
         Limelight!
-        set background=dark
         colorscheme ether
-        try
-            call AddMarkdownSyntax()
-        catch
-        endtry
+        set nowrap
+        call <SID>RefreshStatus()
+        call <SID>UpdateGitStatus()
     endfunction
     au! User GoyoEnter nested call <SID>goyo_enter()
     au! User GoyoLeave nested call <SID>goyo_leave()
@@ -858,10 +852,27 @@ augroup END
 "       replaced word in the current window
 augroup lexical
     au!
-    "let g:lexical#thesaurus = ['~/.config/nvim/spell/thesaurus.txt',]
-    "let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
-    "set thesaurus+=~/.config/nvim/spell/thesaurus.txt
-    au FileType markdown,mkd call lexical#init()
+    let g:lexical_parameters = {
+                \ 'spell': 1,
+                \ 'spelllang':  ['en', 'scientific', 'chemistry', 'medical'],
+                \ 'dictionary': [
+                \                '/usr/share/dict/words',
+                \                '~/.config/nvim/spell/scientific_us.dic',
+                \                '~/.config/nvim/spell/chemistry.dic',
+                \                '~/.config/nvim/spell/medical.dic',
+                \               ],
+                \ 'thesaurus':  ['~/.config/nvim/spell/thesaurus.txt'],
+                \ 'spellfile':  ['~/.config/nvim/spell/en.utf-8.add'],
+                \ }
+
+    " Avoid spellcheck errors on URL and acronyms.
+    au Syntax * syn match URL 'https\?:\/\/[^[:space:]]\+'
+                \ contains=@NoSpell containedin=ALL contained transparent
+    au Syntax tex,md syn match Acronym '\<\u\{3,}s\?\>'
+                \ contains=@NoSpell containedin=ALL contained transparent
+
+    au FileType tex call lexical#init(g:lexical_parameters)
+    au FileType tex call lexical#init(g:lexical_parameters)
 augroup END
 
 " NCM2 (Completion)
@@ -910,7 +921,3 @@ let g:gitgutter_sign_removed = '• '
 let g:gitgutter_sign_removed_first_line = '• '
 let g:gitgutter_sign_modified_removed = '• '
 let g:gitgutter_sign_removed_above_and_below = '• '
-hi GitGutterAdd          ctermfg=2 ctermbg=none
-hi GitGutterChange       ctermfg=3 ctermbg=none
-hi GitGutterChangeDelete ctermfg=3 ctermbg=none
-hi GitGutterDelete       ctermfg=1 ctermbg=none
