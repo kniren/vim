@@ -31,7 +31,6 @@ Plug 'ncm2/ncm2-jedi'                        " NCM2: Python completion
 Plug 'ncm2/ncm2-ultisnips'                   " NCM2: Ultisnips completion
 Plug 'ncm2/ncm2-markdown-subscope'           " NCM2: Code block detection in markdown files
 Plug 'ncm2/ncm2-rst-subscope'                " NCM2: Code block detection in rst files
-Plug 'dense-analysis/ale'                    " Async linter
 Plug 'SirVer/ultisnips'                      " Snippets support
 Plug 'kniren/vim-snippets'                   " My personal snippets
 Plug 'tpope/vim-fugitive'                    " Git integration in vim
@@ -47,12 +46,12 @@ Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
 Plug 'sjl/gundo.vim'                         " Vim history navigator
 Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
 Plug 'rust-lang/rust.vim'                    " Rust plugins and tooling
-Plug 'sheerun/vim-polyglot'                  " Massive syntax pack for muliple languages
 Plug 'junegunn/goyo.vim'                     " Distraction free writing
 Plug 'junegunn/limelight.vim'                " Dimming text paragraph, best used with goyo
 Plug 'reedes/vim-lexical'                    " Better spell checker facilities
 Plug 'reedes/vim-wordy'                      " Lightweight check for common words missuse
 Plug 'vim-pandoc/vim-pandoc' | Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'fatih/vim-go'                          " Go development in vim
 Plug 'lervag/vimtex'                         " LaTeX tooling for vim
 call plug#end()
 
@@ -379,12 +378,6 @@ nnoremap <silent> <leader>V V']
 " Easy parentheses and brackets navigation
 map <tab> %
 
-" Autocenter the screen when searching or jumping to paragraph
-nnoremap n nzzzv<cr>
-nnoremap N Nzzzv<cr>
-nnoremap } }zz
-nnoremap { {zz
-
 " Fix movement when wrapping is set
 nnoremap j gj
 nnoremap k gk
@@ -421,6 +414,11 @@ nnoremap <silent> <leader>gs :Magit<cr>
 
 " Git viewer (GV)
 nnoremap <silent> <leader>gl :GV<cr>
+
+" Mergetool shortcuts
+map <leader>1 :diffget LOCAL<CR>
+map <leader>2 :diffget BASE<CR>
+map <leader>3 :diffget REMOTE<CR>
 
 " ------------------------------------------------------------------
 " Appearance
@@ -866,7 +864,7 @@ augroup lexical
                 \ }
 
     " Avoid spellcheck errors on URL and acronyms.
-    au Syntax * syn match URL 'https\?:\/\/[^[:space:]]\+'
+    au Syntax tex,md syn match URL 'https\?:\/\/[^[:space:]]\+'
                 \ contains=@NoSpell containedin=ALL contained transparent
     au Syntax tex,md syn match Acronym '\<\u\{3,}s\?\>'
                 \ contains=@NoSpell containedin=ALL contained transparent
@@ -886,28 +884,6 @@ augroup ncm2
         inoremap <silent> <expr> <cr> ncm2_ultisnips#expand_or("\<cr>", 'n')
         set shortmess+=c
     endif
-augroup END
-
-" Polyglot
-let g:polyglot_disabled = ['latex']
-
-" ALE (Asynchronous Lint Engine)
-augroup ale
-    au!
-    let g:ale_echo_msg_error_str = 'E'
-    let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
-    let g:ale_lint_on_text_changed = 'never'
-    let g:ale_lint_on_insert_leave = 0
-    let g:ale_lint_on_enter = 0
-    let g:ale_lint_on_save = 0
-    let g:ale_set_loclist = 0
-    let g:ale_set_quickfix = 1
-    let g:ale_open_list = 1
-    let g:ale_c_parse_compile_commands = 1
-    let g:ale_linters = { 'cpp': ['cppcheck'] }
-    let g:ale_c_build_dir_names = ['build', 'release', 'debug']
-    nnoremap <silent> <leader><leader>e :ALELint<cr>
 augroup END
 
 " Supertab
