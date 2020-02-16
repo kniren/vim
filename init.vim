@@ -18,7 +18,7 @@ Plug 'scrooloose/nerdcommenter'              " Commentator. Use <leader>c<space>
 Plug 'scrooloose/nerdtree'                   " Project tree navigator
 Plug 'tpope/vim-surround'                    " Handy surround plugin
 Plug 'terryma/vim-multiple-cursors'          " Multi-cursors
-Plug 'Raimondi/delimitMate'                  " Autoclose parentheses and brackets
+Plug 'cohama/lexima.vim'                     " Autoclose parentheses and brackets
 Plug 'majutsushi/tagbar'                     " Tag searcher
 Plug 'godlygeek/tabular'                     " OCD helper
 Plug 'ncm2/ncm2'                             " NCM2 (Lightweight completion engine for neovim)
@@ -53,6 +53,7 @@ Plug 'reedes/vim-wordy'                      " Lightweight check for common word
 Plug 'vim-pandoc/vim-pandoc' | Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'fatih/vim-go'                          " Go development in vim
 Plug 'lervag/vimtex'                         " LaTeX tooling for vim
+Plug 'junegunn/rainbow_parentheses.vim'      " LISP helper
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -95,9 +96,9 @@ set smarttab
 " Wrapping and Formatting Options
 set nowrap
 set linebreak
-set textwidth=79
+set textwidth=80
 set formatoptions=qrn1
-set colorcolumn=85
+set colorcolumn=81
 if has('win32')
     set fileformat=unix
     set fileformats=unix,dos
@@ -594,25 +595,6 @@ augroup END
 " Markdown
 augroup ft_markdown
     au!
-
-    " Pandoc
-    let g:pandoc#modules#disabled = ["folding"]
-    augroup pandoc_completion
-        autocmd!
-        autocmd Filetype pandoc call ncm2#register_source({
-                    \ 'name': 'pandoc',
-                    \ 'priority': 8,
-                    \ 'scope': ['pandoc'],
-                    \ 'mark': 'md',
-                    \ 'word_pattern': '\w+',
-                    \ 'complete_pattern': ['@'],
-                    \ 'on_complete': ['ncm2#on_complete#omni', 'pandoc#completion#Complete'],
-                    \ })
-    augroup END
-    let g:pandoc#command#use_message_buffers = 0
-    let g:pandoc#syntax#conceal#use = 0
-    let g:pandoc#syntax#style#underline_special = 0
-    let g:pandoc#syntax#style#emphases = 0
     au BufNewFile,BufRead *.md*own setlocal filetype=markdown foldlevel=1
     au FileType markdown nnoremap <buffer> <F5> :<C-u>NextWordy<cr>
 augroup END
@@ -689,6 +671,16 @@ augroup ft_tex
     au Filetype tex nnoremap <silent> <buffer> <F10> :VimtexClean!<cr>
     au Filetype tex nnoremap <silent> <buffer> <F11> :VimtexView<cr>
     au Filetype tex nnoremap <silent> <buffer> <F12> :VimtexCountWords<cr>
+augroup END
+
+" Mail
+au BufNewFile,BufRead *.eml setlocal filetype=mail
+augroup ft_mail
+    au!
+    au Filetype mail setlocal wrap
+    au Filetype mail setlocal linebreak
+    au Filetype mail setlocal textwidth=72
+    au Filetype mail setlocal formatoptions+=w
 augroup END
 
 " ------------------------------------------------------------------
@@ -897,3 +889,7 @@ let g:gitgutter_sign_removed = '• '
 let g:gitgutter_sign_removed_first_line = '• '
 let g:gitgutter_sign_modified_removed = '• '
 let g:gitgutter_sign_removed_above_and_below = '• '
+
+" Autocomplete parenthesis/brackets.
+" I don't want quote completion in Scheme.
+call lexima#add_rule({'char': "'", 'input_after': '', 'filetype': 'scheme'})
