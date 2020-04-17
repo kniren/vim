@@ -2,13 +2,18 @@
 "
 "     .vimrc
 "     Author: Alex Sánchez <kniren@gmail.com>
-"     Source: https://github.com/kniren/vim/blob/master/vimrc
 "
 " ------------------------------------------------------------------
 
 " ------------------------------------------------------------------
 " Plugins
 " ------------------------------------------------------------------
+"
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'junegunn/vim-plug'                     " Plugin manager
@@ -452,7 +457,7 @@ augroup ft_c
     au FileType c setlocal foldmethod=marker foldmarker={,}
     au BufRead,BufNewFile *.h,*.c set filetype=c
     au FileType c setlocal makeprg=make
-    au FileType c nnoremap <buffer> <leader>r :AsyncRun
+    au FileType c,make nnoremap <buffer> <leader>r :AsyncRun
                 \ -cwd=<root> make CFLAGS=-DDEBUG<cr>
 augroup END
 
@@ -736,9 +741,6 @@ augroup ncm2
     endif
 augroup END
 
-" Supertab
-" let g:SuperTabDefaultCompletionType = '<c-n>'
-
 " GitGutter
 set updatetime=100
 let g:gitgutter_sign_added = '• '
@@ -760,13 +762,12 @@ augroup commentary
     au FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
 augroup whitespace
     au!
-    autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-    autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-    autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-    autocmd BufWinLeave * call clearmatches()
+    highlight ExtraWhitespace ctermbg=1 guibg=red
+    au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+    au InsertLeave * match ExtraWhitespace /\s\+$/
+    au BufWinLeave * call clearmatches()
+    au FileType fugitive call clearmatches()
 augroup END
 
