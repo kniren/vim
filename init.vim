@@ -14,11 +14,24 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'junegunn/vim-plug'                     " Plugin manager
 Plug 'ctrlpvim/ctrlp.vim'                    " Fuzzy-finder file navigator
 Plug 'kniren/ether'                          " My vim colorscheme
-"Plug 'scrooloose/nerdcommenter'              " Commentator. Use <leader>c<space> in visual
-"Plug 'scrooloose/nerdtree'                   " Project tree navigator
 Plug 'cohama/lexima.vim'                     " Autoclose parentheses and brackets
-"Plug 'majutsushi/tagbar'                     " Tag searcher
 Plug 'godlygeek/tabular'                     " OCD helper
+Plug 'vim-scripts/scratch.vim'               " Open a scratch buffer with :Scratch or :Sscratch
+Plug 'tpope/vim-surround'                    " Handy surround plugin
+Plug 'tpope/vim-commentary'                  " Toggle comments
+Plug 'tpope/vim-fugitive'                    " Git integration in vim
+Plug 'airblade/vim-gitgutter'                " Git symbols on your gutter
+Plug 'junegunn/gv.vim'                       " Git log viewer
+Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
+Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
+Plug 'christoomey/vim-tmux-navigator'        " Seamless navigation between vim and tmux
+Plug 'jremmen/vim-ripgrep'                   " A better code finder (Grep, Ack)
+Plug 'SirVer/ultisnips'                      " Snippets support
+Plug 'kniren/vim-snippets'                   " My personal snippets
+Plug 'reedes/vim-lexical'                    " Better spell checker facilities
+Plug 'reedes/vim-wordy'                      " Lightweight check for common words missuse
+"Plug 'vim-pandoc/vim-pandoc' | Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'lervag/vimtex'                         " LaTeX tooling for vim
 "Plug 'ncm2/ncm2'                             " NCM2 (Lightweight completion engine for neovim)
 "Plug 'roxma/nvim-yarp'                       " NCM2: Required
 "Plug 'ncm2/ncm2-bufword'                     " NCM2: Completion from buffer
@@ -26,29 +39,8 @@ Plug 'godlygeek/tabular'                     " OCD helper
 "Plug 'ncm2/ncm2-tagprefix'                   " NCM2: Completion from tags
 "Plug 'ncm2/ncm2-pyclang'                     " NCM2: Clang completion
 "Plug 'ncm2/ncm2-jedi'                        " NCM2: Python completion
-"Plug 'ncm2/ncm2-ultisnips'                   " NCM2: Ultisnips completion
-"Plug 'ncm2/ncm2-markdown-subscope'           " NCM2: Code block detection in markdown files
-"Plug 'ncm2/ncm2-rst-subscope'                " NCM2: Code block detection in rst files
-"Plug 'SirVer/ultisnips'                      " Snippets support
-"Plug 'kniren/vim-snippets'                   " My personal snippets
-Plug 'tpope/vim-surround'                    " Handy surround plugin
-Plug 'tpope/vim-commentary'                  " Toggle comments
-Plug 'tpope/vim-fugitive'                    " Git integration in vim
-"Plug 'airblade/vim-gitgutter'                " Git symbols on your gutter
-"Plug 'jreybert/vimagit'                      " Magit for vim
-"Plug 'junegunn/gv.vim'                       " Git log viewer
-"Plug 'jremmen/vim-ripgrep'                   " A better code finder (Grep, Ack)
-"Plug 'Chiel92/vim-autoformat'                " Autoformatting for clang-format compatible languages
+Plug 'Chiel92/vim-autoformat'                " Autoformatting for clang-format compatible languages
 "Plug 'rhysd/vim-clang-format'                " Different autoformat
-"Plug 'ervandew/supertab'                     " Better TAB usage for completion
-"Plug 'christoomey/vim-tmux-navigator'        " Seamless navigation between vim and tmux
-Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
-"Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
-"Plug 'reedes/vim-lexical'                    " Better spell checker facilities
-"Plug 'reedes/vim-wordy'                      " Lightweight check for common words missuse
-"Plug 'vim-pandoc/vim-pandoc' | Plug 'vim-pandoc/vim-pandoc-syntax'
-"Plug 'fatih/vim-go'                          " Go development in vim
-"Plug 'lervag/vimtex'                         " LaTeX tooling for vim
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -363,7 +355,7 @@ inoremap <M-d> <C-o>dw
 inoremap <M-w> <C-o>db
 
 " Magit
-nnoremap <silent> <leader>gs :Magit<cr>
+nnoremap <silent> <leader>gs :Gstatus<cr>
 
 " Git viewer (GV)
 nnoremap <silent> <leader>gl :GV<cr>
@@ -372,6 +364,10 @@ nnoremap <silent> <leader>gl :GV<cr>
 map <leader>1 :diffget LOCAL<CR>
 map <leader>2 :diffget BASE<CR>
 map <leader>3 :diffget REMOTE<CR>
+
+" Replacing multiple cursors with vim native objects.
+nnoremap <C-f> *``cgn
+vnoremap <C-f> :<C-u>call <SID>VSetSearch()<cr>//<cr><c-o>cgn
 
 " ------------------------------------------------------------------
 " Appearance
@@ -454,13 +450,16 @@ augroup END
 augroup ft_c
     au!
     au FileType c setlocal foldmethod=marker foldmarker={,}
+    au BufRead,BufNewFile *.h,*.c set filetype=c
+    au FileType c setlocal makeprg=make
+    au FileType c nnoremap <buffer> <leader>r :AsyncRun
+                \ -cwd=<root> make CFLAGS=-DDEBUG<cr>
 augroup END
 
 " C/CPP
 augroup ft_cpp
     au!
     let g:gutentags_enabled = 1
-    set makeprg=ninja\ -C\ build
     let g:clang_format#code_style = 'google'
     let g:clang_format#detect_style_file = 1
     let g:ncm2_pyclang#database_path = [
@@ -479,6 +478,7 @@ augroup ft_cpp
     endif
 
     " C/CPP mappings
+    au FileType cpp setlocal makeprg=ninja\ -C\ build
     au FileType cpp nnoremap <silent> <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
     au FileType cpp nnoremap <silent> <buffer> <leader>f :ClangFormat<cr>:echo 'File formatted'<cr>
     au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun
@@ -603,7 +603,7 @@ function! CtrlpStatusbar(...)
     hi CtrlpStatusRegex    ctermbg=8    ctermfg=15   cterm=bold
     hi CtrlpStatusFilename ctermbg=8    ctermfg=15   cterm=bold
     hi CtrlpStatusPrevMode ctermbg=8    ctermfg=15   cterm=bold
-    hi CtrlpStatusCurrMode ctermbg=8    ctermfg=15   cterm=bold
+    hi CtrlpStatusCurrMode ctermbg=8    ctermfg=1    cterm=bold
     hi CtrlpStatusNextMode ctermbg=8    ctermfg=15   cterm=bold
     hi CtrlPPrtBase        ctermbg=none ctermfg=15   cterm=bold
     hi CtrlPPrtText        ctermbg=none ctermfg=none cterm=bold
@@ -672,6 +672,7 @@ let g:asyncrun_open = 10
 let g:asyncrun_status = "stopped"
 nnoremap <silent> <F4> :call asyncrun#quickfix_toggle(10)<cr>
 let g:asyncrun_auto = "make"
+nnoremap <leader><leader>r :AsyncRun -cwd=<root> make
 
 " Lexical
 "   Insert mode keybindings:
@@ -758,3 +759,14 @@ augroup commentary
     au!
     au FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+augroup whitespace
+    au!
+    autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+    autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+    autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+    autocmd BufWinLeave * call clearmatches()
+augroup END
+
