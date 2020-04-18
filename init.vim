@@ -29,7 +29,6 @@ Plug 'junegunn/gv.vim'                       " Git log viewer
 Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
 Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
 Plug 'christoomey/vim-tmux-navigator'        " Seamless navigation between vim and tmux
-Plug 'jremmen/vim-ripgrep'                   " A better code finder (Grep, Ack)
 Plug 'SirVer/ultisnips'                      " Snippets support
 Plug 'kniren/vim-snippets'                   " My personal snippets
 Plug 'reedes/vim-lexical'                    " Better spell checker facilities
@@ -641,9 +640,6 @@ nnoremap <silent> <F2> :TagbarToggle <cr>
 nnoremap <silent> <C-a> :Tabularize /
 vnoremap <silent> <C-a> :Tabularize /
 
-" Ripgrep
-let g:rg_command = 'rg --vimgrep -S'
-
 " Gutentags
 " TODO: Should we configure <leader> t to regenerate tags manually instead?
 let g:gutentags_cache_dir = '~/.ctagscache'
@@ -751,3 +747,12 @@ augroup END
 
 " Fugitive
 nnoremap <silent> <leader>gs :Gstatus<cr>
+
+" Replace Rg plugin
+command! -nargs=+ Vimgrep execute 'silent vimgrep! <args> **' | copen 10
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+    command! -nargs=+ Grep execute 'silent grep! <args>' | copen 10
+endif
+
