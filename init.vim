@@ -749,3 +749,5 @@ augroup whitespace
     au FileType fugitive call clearmatches()
 augroup END
 
+" Fugitive
+nnoremap <silent> <leader>gs :Gstatus<cr>
