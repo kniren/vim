@@ -24,6 +24,7 @@ Plug 'vim-scripts/scratch.vim'               " Open a scratch buffer with :Scrat
 Plug 'tpope/vim-surround'                    " Handy surround plugin
 Plug 'tpope/vim-commentary'                  " Toggle comments
 Plug 'tpope/vim-fugitive'                    " Git integration in vim
+Plug 'tpope/vim-unimpaired'                  " Useful pair mappings
 Plug 'airblade/vim-gitgutter'                " Git symbols on your gutter
 Plug 'junegunn/gv.vim'                       " Git log viewer
 Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
@@ -751,8 +752,14 @@ nnoremap <silent> <leader>gs :Gstatus<cr>
 " Replace Rg plugin
 command! -nargs=+ Vimgrep execute 'silent vimgrep! <args> **' | copen 10
 if executable("rg")
-    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepprg=rg\ --vimgrep\ --no-heading\ -S
     set grepformat=%f:%l:%c:%m,%f:%l:%m
     command! -nargs=+ Grep execute 'silent grep! <args>' | copen 10
 endif
 
+" Set notes directory.
+command! -nargs=+ Notes execute 'silent grep! <args> ~/Dropbox/Notes/**' | cw 10
+" Set tasks directory.
+" TODO: With a bit more work this might work very well for my use case of Org
+" mode!
+command! -nargs=+ Tasks execute 'silent grep! <args> ~/Dropbox/Org/**' | cw 10

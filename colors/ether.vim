@@ -98,7 +98,7 @@ hi Error           ctermfg=1     ctermbg=none  cterm=none guifg=#f2245b guibg=#1
 hi ErrorMsg        ctermfg=1     ctermbg=none  cterm=none guifg=#f2245b guibg=#1a1d23
 hi Folded          ctermfg=15    ctermbg=none  cterm=none guifg=#698193 guibg=#1a1d23
 hi FoldColumn      ctermfg=7     ctermbg=none  cterm=none guifg=#eqeaf0 guibg=#1a1d23
-hi Search          ctermfg=4     ctermbg=none  cterm=bold guifg=#eqeaf0 guibg=#1a1d23
+hi Search          ctermfg=8     ctermbg=4     cterm=bold guifg=#eqeaf0 guibg=#1a1d23
 hi IncSearch       ctermfg=7     ctermbg=4     cterm=bold guifg=#eqeaf0 guibg=#1a1d23
 hi WarningMsg      ctermfg=7     ctermbg=none  cterm=none guifg=#eqeaf0 guibg=#1a1d23
 hi Question        ctermfg=7     ctermbg=none  cterm=none guifg=#eqeaf0 guibg=#1a1d23
