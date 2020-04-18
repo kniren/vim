@@ -18,7 +18,6 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'junegunn/vim-plug'                     " Plugin manager
 Plug 'ctrlpvim/ctrlp.vim'                    " Fuzzy-finder file navigator
-Plug 'kniren/ether'                          " My vim colorscheme
 Plug 'cohama/lexima.vim'                     " Autoclose parentheses and brackets
 Plug 'godlygeek/tabular'                     " OCD helper
 Plug 'vim-scripts/scratch.vim'               " Open a scratch buffer with :Scratch or :Sscratch
@@ -44,8 +43,8 @@ Plug 'lervag/vimtex'                         " LaTeX tooling for vim
 "Plug 'ncm2/ncm2-tagprefix'                   " NCM2: Completion from tags
 "Plug 'ncm2/ncm2-pyclang'                     " NCM2: Clang completion
 "Plug 'ncm2/ncm2-jedi'                        " NCM2: Python completion
-Plug 'Chiel92/vim-autoformat'                " Autoformatting for clang-format compatible languages
 "Plug 'rhysd/vim-clang-format'                " Different autoformat
+Plug 'Chiel92/vim-autoformat'                " Autoformatting for clang-format compatible languages
 call plug#end()
 
 " ------------------------------------------------------------------
@@ -265,7 +264,7 @@ let maplocalleader="\\"
 
 " Source vim config
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
-nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
+nnoremap <silent> <leader><leader>ev :so $MYVIMRC<CR>
 
 " In insert mode substitute ctrl-c with esc
 inoremap <C-c> <Esc>
@@ -358,12 +357,6 @@ inoremap <M-b> <C-o>b
 inoremap <M-f> <C-o>w
 inoremap <M-d> <C-o>dw
 inoremap <M-w> <C-o>db
-
-" Magit
-nnoremap <silent> <leader>gs :Gstatus<cr>
-
-" Git viewer (GV)
-nnoremap <silent> <leader>gl :GV<cr>
 
 " Mergetool shortcuts
 map <leader>1 :diffget LOCAL<CR>
@@ -486,19 +479,6 @@ augroup ft_cpp
     au FileType cpp setlocal makeprg=ninja\ -C\ build
     au FileType cpp nnoremap <silent> <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
     au FileType cpp nnoremap <silent> <buffer> <leader>f :ClangFormat<cr>:echo 'File formatted'<cr>
-    au FileType cpp nnoremap <buffer> <leader><leader>l :AsyncRun
-                \ -cwd=<root> clang-tidy -quiet
-                \ -checks="-*,bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,
-                \ misc-*,modernize-*,mpi-*,performance-*,readability-*,hicpp-*,cert-*,
-                \ -cppcoreguidelines-pro-type-reinterpret-cast,
-                \ -cppcoreguidelines-pro-bounds-constant-array-index,
-                \ -cppcoreguidelines-pro-bounds-pointer-arithmetic,
-                \ -readability-implicit-bool-conversion,
-                \ -hicpp-signed-bitwise"
-                \ -p=<root>/build <root>/*/src/*/*.cpp<cr>
-    au FileType cpp nnoremap <buffer> <leader><leader><leader>l :AsyncRun
-                \ -cwd=<root> cppcheck --project=<root>/build/compile_commands.json
-                \ --enable=all<cr>
     au FileType cpp nnoremap <buffer> <F5> :AsyncRun
                 \ -cwd=<root> mkdir -p build && cd build && cmake ..
                 \ -G Ninja -DCMAKE_BUILD_TYPE=Release
@@ -594,9 +574,7 @@ nnoremap <silent> <F1> :NERDTreeToggle<cr>
 
 " CtrlP
 let g:ctrlp_extensions = ['tag']
-nnoremap <silent> <leader>lj :CtrlPBuffer<cr>
 nnoremap <silent> <leader>mr :CtrlPMRU<cr>
-nnoremap <silent> <leader>MR :CtrlPMRU<cr>
 if executable('rg')
     let g:ctrlp_user_command = 'rg --files %s'
     let g:ctrlp_use_caching = 0
