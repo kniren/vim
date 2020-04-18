@@ -1,0 +1,144 @@
+#
+# C snippets
+#
+
+priority -50
+
+snippet def "#define ..." b
+#define $1
+endsnippet
+
+snippet #if "#if #endif" b
+#if ${1:0}
+${VISUAL}$0
+#endif
+endsnippet
+
+snippet guard "Header guard" b
+#ifndef ${1:PROJECT}_${2:FILENAME}_H
+#define $1_$2_H
+$0
+#endif // $1_$2_H
+endsnippet
+
+snippet inc "Include" b
+#include <${1:stdio}.h>
+$0
+endsnippet
+
+snippet incl "Include local" b
+#include "${1:lib}.h"
+$0
+endsnippet
+
+snippet printd "Print integer" b
+printf("$1%d\n", $2);$0
+endsnippet
+
+snippet printx "Print hexadecimal" b
+printf("$1%x\n", $2);$0
+endsnippet
+
+snippet printf "Print float" b
+printf("$1%f\n", $2);$0
+endsnippet
+
+snippet prints "Print string" b
+printf("$1%s\n", $2);$0
+endsnippet
+
+snippet printzu "Print size_t" b
+printf("$1%zu\n", $2);$0
+endsnippet
+
+snippet tstr "Typedef struct" b
+typedef struct ${1:Name} {
+    $0
+} $1;
+endsnippet
+
+snippet str "Struct" b
+struct ${1:Name} {
+    $0
+};
+endsnippet
+
+snippet fixme "FIXME: ..." b
+// FIXME(alex): $0
+endsnippet
+
+snippet todo "TODO: ..." b
+// TODO(alex): $0
+endsnippet
+
+snippet if "If statement" b
+if (${1:condition}) {
+    $0
+}
+endsnippet
+
+snippet ife "If-else statement" b
+if (${1:condition}) {
+    $2
+} else {
+    $0
+}
+endsnippet
+
+snippet eli "else if .. (eli)"
+else if (${1:condition}) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet switch "Switch statement" b
+switch (${1:var}) {
+    case ${2:x}: {
+        ${3:// ...}
+    } break;
+    default: {
+        ${4:// ...}
+    } break;
+}$0
+endsnippet
+
+snippet fn "Function definition" b
+${1:void} ${2:function_name}(${3:void args}) {
+    $0
+}
+endsnippet
+
+snippet fnd "Function declaration" b
+${1:void} ${2:function_name}(${3:void args});$0
+endsnippet
+
+snippet for "Basic for loop" b
+for (${3:size_t} ${2:i} = ${4:0}; $2 < ${1:count}; ${5:++$2}) {
+    $0
+}
+endsnippet
+
+snippet while "Basic while loop" b
+while (${1:condition}) {
+    $0
+}
+endsnippet
+
+snippet main "Main function" b
+int main(${1:int argc, char *argv[]}) {
+    $0
+    return 0;
+}
+endsnippet
+
+snippet fprintf "fprintf ..."
+fprintf(${1:stderr}, "${2:%s}\n"${2/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$3${2/([^%]|%%)*(%.)?.*/(?2:\);)/}
+endsnippet
+
+snippet enum "Enum flags"
+enum ${1:name} {
+    ${2:FLAG_1} = ${3:(1 << 0)},
+};$0
+endsnippet
+
+# vim:ft=snippets:

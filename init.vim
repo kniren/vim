@@ -29,10 +29,8 @@ Plug 'airblade/vim-gitgutter'                " Git symbols on your gutter
 Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
 Plug 'christoomey/vim-tmux-navigator'        " Seamless navigation between vim and tmux
 Plug 'SirVer/ultisnips'                      " Snippets support
-Plug 'kniren/vim-snippets'                   " My personal snippets
 Plug 'reedes/vim-lexical'                    " Better spell checker facilities
 Plug 'reedes/vim-wordy'                      " Lightweight check for common words missuse
-"Plug 'vim-pandoc/vim-pandoc' | Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'lervag/vimtex'                         " LaTeX tooling for vim
 Plug 'Chiel92/vim-autoformat'                " Autoformatting for clang-format compatible languages
 call plug#end()
@@ -357,6 +355,9 @@ map <leader>3 :diffget REMOTE<CR>
 nnoremap <C-f> *``cgn
 vnoremap <C-f> :<C-u>call <SID>VSetSearch()<cr>//<cr><c-o>cgn
 
+" Jump to previous buffer.
+nnoremap <leader>q :b#<cr>
+
 " ------------------------------------------------------------------
 " Appearance
 " ------------------------------------------------------------------
@@ -633,7 +634,9 @@ vnoremap <silent> <C-a> :Tabularize /
 " Tag generation.
 set tags+=.git/tags
 nnoremap <leader>t :AsyncRun -cwd=<root> ctags -Rf .git/tags
-            \ --tag-relative --exclude=.git,pkg,build,doc,ext,tests<CR>:cw<CR>
+            \--tag-relative
+            \--extras+=f
+            \--exclude=.git,pkg,build,doc,ext,tests<CR>:cw<CR>
 
 " AsyncRun
 let g:asyncrun_open = 0
@@ -689,19 +692,6 @@ augroup lexical
 
     au FileType tex call lexical#init(g:lexical_parameters)
     au FileType tex call lexical#init(g:lexical_parameters)
-augroup END
-
-" NCM2 (Completion)
-augroup ncm2
-    au!
-    if &rtp =~ 'ncm2'
-        au BufEnter * call ncm2#enable_for_buffer()
-        set completeopt=noinsert,menuone,noselect
-        au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-        au User Ncm2PopupClose set completeopt=menuone
-        inoremap <silent> <expr> <cr> ncm2_ultisnips#expand_or("\<cr>", 'n')
-        set shortmess+=c
-    endif
 augroup END
 
 " GitGutter

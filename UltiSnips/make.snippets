@@ -1,0 +1,24 @@
+snippet make "Basic Makefile template" b
+CC        := ${1:gcc}
+CFLAGS    := -Wall -Wno-unused-function -I{2:include_dir}
+BUILD_DIR := ${3:./build}
+SRC_DIR   := ${4:./src}
+SRC       := $(wildcard $(SRC_DIR)/*.c)
+EXE       := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%, $(SRC))
+
+.PHONY: all run clean
+
+all: $(EXE)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BUILD_DIR):
+	mkdir -p $@
+
+clean:
+	rm -r $(BUILD_DIR)
+endsnippet

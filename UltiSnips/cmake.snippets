@@ -1,0 +1,104 @@
+snippet project "Initialize a new cmake project" b
+project(${1:project_name})
+
+cmake_minimum_required(VERSION 3.1)
+
+# Set project properties.
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Set up compiler options based on platform.
+if (CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+endif()
+if (MSVC)
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /W4")
+endif()
+
+${2:# Include library target.
+add_library($1
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/$1.cpp"
+	)
+target_include_directories($1 PUBLIC src)}$3
+
+${4:# Include tests if testing library is present.
+unset(DOCTEST_LIBRARY_PATH CACHE)
+find_path(
+    DOCTEST_LIBRARY_PATH
+    "doctest.h"
+    PATHS "${CMAKE_CURRENT_SOURCE_DIR}"
+    PATH_SUFFIX "ext/doctest/doctest"
+    )
+if (DOCTEST_LIBRARY_PATH)
+	add_library(doctest INTERFACE)
+	target_include_directories(doctest INTERFACE ext/doctest/doctest)
+	enable_testing()
+	add_executable(
+		$1_test
+		tests/main.cpp
+		tests/$1_test.cpp
+		)
+	add_test(NAME $1_test COMMAND $1_test)
+	target_link_libraries($1_test doctest $1)
+else()
+    message("-- Testing library not found. Ignoring tests...")
+endif()}$0
+endsnippet
+
+snippet addl "Add a new library to the project"
+add_library(${1:target_name}
+	"${CMAKE_CURRENT_SOURCE_DIR}/${2:src}/$1.cpp"
+	)
+target_include_directories($1 PUBLIC {CMAKE_CURRENT_SOURCE_DIR}/$2)$0
+endsnippet
+
+snippet addi "Add a new interface library to the project"
+add_library(${1:target_name} INTERFACE)
+target_include_directories($1 INTERFACE ${2:include_dir})$0
+endsnippet
+
+
+snippet adde "Add a new executable to the project"
+add_executable(${PROJECT_NAME} src/${1:name}.cpp)$0
+endsnippet
+
+snippet incd "Add include directories"
+include_directories(${1:include_dir})$0
+endsnippet
+
+snippet link "Set up linked libraries"
+target_link_libraries(${PROJECT_NAME} ${1:target_name})
+endsnippet
+
+snippet message "Add message clause"
+message(${1:"Message text"})$0
+endsnippet
+
+snippet set "Add set clause"
+set(${1:VARNAME} {2:VALUE})$0
+endsnippet
+
+snippet if "Add if clause"
+if(${1:condition})
+	$2
+endif()$0
+endsnippet
+
+snippet ife "Add if-else clause"
+if(${1:condition})
+	$2
+else()
+	$3
+endif()$0
+endsnippet
+
+snippet addt "Add new test to the project"
+add_executable(
+	${1:name}_test
+	tests/main.cpp
+	tests/$1_test.cpp
+	)
+add_test(NAME $1_test COMMAND $1_test)
+target_link_libraries($1_test doctest $1)
+endsnippet

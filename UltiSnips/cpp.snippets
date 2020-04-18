@@ -1,0 +1,146 @@
+priority 0
+
+# Preprocessor stuff
+snippet def "#define ..." b
+#define $1
+endsnippet
+
+snippet inc "#include <...>" b
+#include <${1:iostream}>$0
+endsnippet
+
+snippet incl "#include ”...”" b
+#include "${1:iostream}"$0
+endsnippet
+
+# Classes/Structs/Namespaces.
+snippet cla "Generate class with include guards" b
+#ifndef ${2:PROJECT}__`!p snip.rv=t[1].upper()`_HPP
+#define $2__`!p snip.rv=t[1].upper()`_HPP
+
+class ${1:ClassName} {
+  private:
+   $3
+  public:
+   $1();
+   virtual ~$1();
+};
+
+#endif /* $2__`!p snip.rv=t[1].upper()`_HPP */$0
+endsnippet
+
+snippet struct "Generate new struct"
+struct ${1:name} {
+    $2
+}$3;$0
+endsnippet
+
+snippet ns "Generate new namespace"
+namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`} {
+    ${VISUAL}$0
+}${1/.+/ \/* /m}$1${1/.+/ *\/ /m}
+endsnippet
+
+# Functions
+snippet fn "Generate new function"
+${3:void} ${1:function}(${2:args});$0
+endsnippet
+
+snippet main "Generate main function"
+int main(${1:int argc, char *argv[]}) {
+    ${VISUAL}$0
+    return 0;
+}
+endsnippet
+
+snippet [] "Generate lambda function"
+[$1]($2) { $3 };$0
+endsnippet
+
+# Loops
+snippet fori "Generate int for loop"
+for (${4:size_t} ${2:i} = 0; $2 < ${1:count}; ${3:++$2}) {
+    ${VISUAL}$5
+}$0
+endsnippet
+
+snippet for "Generate range for loop"
+for (${3:const auto &}${1:e} : ${2:elements}) {
+    ${VISUAL}$4
+}$0
+endsnippet
+
+snippet while "Generate while loop"
+while (${1:condition}) {
+    ${VISUAL}$2
+}$0
+endsnippet
+
+# Flow control (if/elseif/switch)
+snippet if "Generate if conditional"
+if (${1:condition}) {
+    ${VISUAL}$2
+}$0
+endsnippet
+
+snippet ife "Generate if/else conditional"
+if (${1:condition}) {
+    $2
+} else {
+    $3
+}$0
+endsnippet
+
+snippet elif "Generate elseif conditional"
+if (${1:condition}) {
+    $2
+} else if (${3:condition}) {
+    $4
+}$0
+endsnippet
+
+snippet switch "Generate switch statement"
+switch (${1:var}) {
+    case ${2:x}: {
+        ${3:// ...}
+    } break;
+    default: {
+        ${4:// ...}
+    } break;
+}$0
+endsnippet
+
+# TODO: Add templates
+
+# Container types
+snippet map "std::map (map)"
+std::map<${1:key}, ${2:value}> ${3:varname};$0
+endsnippet
+
+snippet umap "std::unordered_map (unordered_map)"
+std::unordered_map<${1:key}, ${2:value}> ${3:varname};$0
+endsnippet
+
+snippet arr "std::array (array)"
+std::array<${1:T}, ${2:N}> ${3:varname};$0
+endsnippet
+
+snippet vec "std::vector (vector)"
+std::vector<${1:T}> ${2:varname};$0
+endsnippet
+
+# Streams
+snippet cout "Push stream to STDOUT"
+std::cout << $1 << std::endl;$0
+endsnippet
+
+# TODO: Add file opening, reading, writing, etc.
+
+snippet todo "Add todo comment"
+// TODO(alex): $0
+endsnippet
+
+snippet fixme "Add fixme comment"
+// FIXME(alex): $0
+endsnippet
+## vim:ft=snippets:

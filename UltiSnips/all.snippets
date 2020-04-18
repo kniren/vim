@@ -1,0 +1,98 @@
+#
+# General snippets
+#
+
+snippet lorem "Lorem Ipsum - 50 Words" b
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+no sea takimata sanctus est Lorem ipsum dolor sit amet.
+endsnippet
+
+snippet loremm "Lorem Ipsum - 2 paragraphs" b
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Vulputate sapien nec sagittis
+aliquam. Turpis cursus in hac habitasse platea dictumst quisque sagittis
+purus. Elit eget gravida cum sociis natoque penatibus et magnis. Ac odio tempor
+orci dapibus ultrices in. Gravida rutrum quisque non tellus orci ac
+auctor. Eleifend donec pretium vulputate sapien nec sagittis. Eu feugiat pretium
+nibh ipsum consequat. Vivamus arcu felis bibendum ut tristique et egestas quis
+ipsum. At auctor urna nunc id. Accumsan tortor posuere ac ut consequat semper
+viverra nam libero. Viverra vitae congue eu consequat ac felis. Sagittis vitae
+et leo duis ut.
+
+Donec ac odio tempor orci dapibus ultrices in iaculis. Malesuada fames ac turpis
+egestas. Ut placerat orci nulla pellentesque dignissim enim. Viverra orci
+sagittis eu volutpat odio facilisis mauris. Malesuada fames ac turpis
+egestas. Convallis tellus id interdum velit laoreet id donec ultrices
+tincidunt. Bibendum est ultricies integer quis auctor elit sed vulputate
+mi. Nisl tincidunt eget nullam non nisi est. Id volutpat lacus laoreet non
+curabitur gravida. Elementum eu facilisis sed odio morbi. At risus viverra
+adipiscing at in tellus. Id volutpat lacus laoreet non. Venenatis lectus magna
+fringilla urna. Suspendisse potenti nullam ac tortor vitae purus. Tortor id
+aliquet lectus proin nibh nisl condimentum. Vulputate enim nulla aliquet
+porttitor. Arcu risus quis varius quam quisque id diam vel.
+endsnippet
+
+snippet loremmm "Lorem Ipsum - 4 paragraphs" b
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Vulputate sapien nec sagittis
+aliquam. Turpis cursus in hac habitasse platea dictumst quisque sagittis
+purus. Elit eget gravida cum sociis natoque penatibus et magnis. Ac odio tempor
+orci dapibus ultrices in. Gravida rutrum quisque non tellus orci ac
+auctor. Eleifend donec pretium vulputate sapien nec sagittis. Eu feugiat pretium
+nibh ipsum consequat. Vivamus arcu felis bibendum ut tristique et egestas quis
+ipsum. At auctor urna nunc id. Accumsan tortor posuere ac ut consequat semper
+viverra nam libero. Viverra vitae congue eu consequat ac felis. Sagittis vitae
+et leo duis ut.
+
+Donec ac odio tempor orci dapibus ultrices in iaculis. Malesuada fames ac turpis
+egestas. Ut placerat orci nulla pellentesque dignissim enim. Viverra orci
+sagittis eu volutpat odio facilisis mauris. Malesuada fames ac turpis
+egestas. Convallis tellus id interdum velit laoreet id donec ultrices
+tincidunt. Bibendum est ultricies integer quis auctor elit sed vulputate
+mi. Nisl tincidunt eget nullam non nisi est. Id volutpat lacus laoreet non
+curabitur gravida. Elementum eu facilisis sed odio morbi. At risus viverra
+adipiscing at in tellus. Id volutpat lacus laoreet non. Venenatis lectus magna
+fringilla urna. Suspendisse potenti nullam ac tortor vitae purus. Tortor id
+aliquet lectus proin nibh nisl condimentum. Vulputate enim nulla aliquet
+porttitor. Arcu risus quis varius quam quisque id diam vel.
+
+Urna et pharetra pharetra massa massa ultricies mi quis hendrerit. Eget lorem
+dolor sed viverra ipsum nunc. Sed vulputate mi sit amet mauris commodo. Maecenas
+ultricies mi eget mauris pharetra et ultrices neque. Risus nullam eget felis
+eget nunc lobortis mattis aliquam faucibus. Odio morbi quis commodo odio aenean
+sed adipiscing. Erat nam at lectus urna duis convallis. Tristique risus nec
+feugiat in fermentum posuere urna nec. Orci nulla pellentesque dignissim enim
+sit. Id diam maecenas ultricies mi eget mauris. Eros in cursus turpis massa
+tincidunt dui ut ornare. Nulla porttitor massa id neque. Laoreet id donec
+ultrices tincidunt arcu.
+
+Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nec
+feugiat nisl pretium fusce id velit ut tortor. Id donec ultrices tincidunt arcu
+non sodales. Ut etiam sit amet nisl. Amet consectetur adipiscing elit
+pellentesque habitant morbi tristique senectus et. Condimentum vitae sapien
+pellentesque habitant morbi. Nibh tellus molestie nunc non blandit massa enim
+nec. Proin sed libero enim sed faucibus turpis in. Leo in vitae turpis massa
+sed. Felis imperdiet proin fermentum leo vel orci. Ultricies mi quis hendrerit
+dolor magna eget. Imperdiet massa tincidunt nunc pulvinar sapien et. Dignissim
+convallis aenean et tortor at risus viverra. Elementum pulvinar etiam non quam
+lacus suspendisse. Non quam lacus suspendisse faucibus interdum posuere lorem
+ipsum dolor. Aliquam faucibus purus in massa tempor nec feugiat nisl. Tempor
+orci dapibus ultrices in iaculis nunc. Sed augue lacus viverra vitae congue eu
+consequat ac felis.
+endsnippet
+
+snippet today "ISO format datetime" w
+`!v strftime("%F %H:%M:%S%z")`
+endsnippet
+
+snippet date "YYYY-MM-DD hh:mm" w
+`!v strftime("%Y-%m-%d %H:%M")`
+endsnippet
+
+snippet uuid "Random UUID" w
+`!p if not snip.c: import uuid; snip.rv = uuid.uuid4()`
+endsnippet
+
+# vim:ft=snippets:
