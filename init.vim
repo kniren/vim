@@ -26,7 +26,6 @@ Plug 'tpope/vim-commentary'                  " Toggle comments
 Plug 'tpope/vim-fugitive'                    " Git integration in vim
 Plug 'tpope/vim-unimpaired'                  " Useful pair mappings
 Plug 'airblade/vim-gitgutter'                " Git symbols on your gutter
-Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
 Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
 Plug 'christoomey/vim-tmux-navigator'        " Seamless navigation between vim and tmux
 Plug 'SirVer/ultisnips'                      " Snippets support
@@ -419,8 +418,8 @@ vnoremap # :<C-u>call <SID>VSetSearch()<cr>??<cr><c-o>
 
 " Pretty-print json blob.
 "   Run on quickfix window
-nnoremap <silent> <leader>jf :AsyncRun! -raw python -m json.tool %<cr>
-vnoremap <silent> <leader>jf :AsyncRun! -raw python -m json.tool<cr>
+nnoremap <silent> <leader>jf :AsyncRun! -raw python -m json.tool %<cr>:copen<cr>
+vnoremap <silent> <leader>jf :AsyncRun! -raw python -m json.tool<cr>:copen<cr>
 "   Run on current buffer
 nnoremap <silent> <leader><leader>jf :%!python -m json.tool<cr>
 vnoremap <silent> <leader><leader>jf :!python -m json.tool<cr>
@@ -442,13 +441,12 @@ augroup ft_c
     au BufRead,BufNewFile *.h,*.c set filetype=c
     au FileType c setlocal makeprg=make
     au FileType c,make nnoremap <buffer> <leader>r :AsyncRun
-                \ -cwd=<root> make CFLAGS=-DDEBUG<cr>
+                \ -cwd=<root> make CFLAGS=-DDEBUG<cr>:copen<cr>
 augroup END
 
 " C/CPP
 augroup ft_cpp
     au!
-    let g:gutentags_enabled = 1
     let g:clang_format#code_style = 'google'
     let g:clang_format#detect_style_file = 1
     let g:ncm2_pyclang#database_path = [
@@ -473,14 +471,14 @@ augroup ft_cpp
     au FileType cpp nnoremap <buffer> <F5> :AsyncRun
                 \ -cwd=<root> mkdir -p build && cd build && cmake ..
                 \ -G Ninja -DCMAKE_BUILD_TYPE=Release
-                \ -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>
+                \ -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>:copen<cr>
     au FileType cpp nnoremap <buffer> <F6> :AsyncRun
                 \ -cwd=<root> mkdir -p build && cd build && cmake ..
                 \ -G Ninja -DCMAKE_BUILD_TYPE=Debug
-                \ -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>
+                \ -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cd .. && ninja -C build<cr>:copen<cr>
     au FileType cpp nnoremap <buffer> <F7> :AsyncRun
                 \ -cwd=<root> -raw cd build && ninja && CTEST_OUTPUT_ON_FAILURE=TRUE
-                \ ninja test<cr>
+                \ ninja test<cr>:copen<cr>
 augroup END
 
 " Python
@@ -632,18 +630,17 @@ nnoremap <silent> <F2> :TagbarToggle <cr>
 nnoremap <silent> <C-a> :Tabularize /
 vnoremap <silent> <C-a> :Tabularize /
 
-" Gutentags
-" TODO: Should we configure <leader> t to regenerate tags manually instead?
-let g:gutentags_cache_dir = '~/.ctagscache'
-let g:gutentags_enabled = 0
-let g:gutentags_ctags_exclude = ['CMakeFiles', 'build', '.git', 'doc', 'ext', 'tests']
+" Tag generation.
+set tags+=.git/tags
+nnoremap <leader>t :AsyncRun -cwd=<root> ctags -Rf .git/tags
+            \ --tag-relative --exclude=.git,pkg,build,doc,ext,tests<CR>:cw<CR>
 
 " AsyncRun
-let g:asyncrun_open = 10
+let g:asyncrun_open = 0
 let g:asyncrun_status = "stopped"
-nnoremap <silent> <F4> :call asyncrun#quickfix_toggle(10)<cr>
 let g:asyncrun_auto = "make"
-nnoremap <leader><leader>r :AsyncRun -cwd=<root> make
+command! -nargs=+ Make execute ':AsyncRun -cwd=<root> make <args>' | copen 10
+nnoremap <leader><leader>r :Make
 
 " Lexical
 "   Insert mode keybindings:
