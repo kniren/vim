@@ -219,3 +219,4 @@ hi GitGutterAdd          ctermfg=2 ctermbg=none
 hi GitGutterChange       ctermfg=3 ctermbg=none
 hi GitGutterChangeDelete ctermfg=3 ctermbg=none
 hi GitGutterDelete       ctermfg=1 ctermbg=none
+hi gitCommitOverflow     ctermfg=1 ctermbg=none cterm=bold
