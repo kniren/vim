@@ -26,7 +26,6 @@ Plug 'tpope/vim-commentary'                  " Toggle comments
 Plug 'tpope/vim-fugitive'                    " Git integration in vim
 Plug 'tpope/vim-unimpaired'                  " Useful pair mappings
 Plug 'airblade/vim-gitgutter'                " Git symbols on your gutter
-Plug 'junegunn/gv.vim'                       " Git log viewer
 Plug 'ludovicchabant/vim-gutentags'          " Ctags/Gtags generation
 Plug 'skywind3000/asyncrun.vim'              " Run commands asynchronously
 Plug 'christoomey/vim-tmux-navigator'        " Seamless navigation between vim and tmux
@@ -36,14 +35,6 @@ Plug 'reedes/vim-lexical'                    " Better spell checker facilities
 Plug 'reedes/vim-wordy'                      " Lightweight check for common words missuse
 "Plug 'vim-pandoc/vim-pandoc' | Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'lervag/vimtex'                         " LaTeX tooling for vim
-"Plug 'ncm2/ncm2'                             " NCM2 (Lightweight completion engine for neovim)
-"Plug 'roxma/nvim-yarp'                       " NCM2: Required
-"Plug 'ncm2/ncm2-bufword'                     " NCM2: Completion from buffer
-"Plug 'ncm2/ncm2-path'                        " NCM2: Completion from file path
-"Plug 'ncm2/ncm2-tagprefix'                   " NCM2: Completion from tags
-"Plug 'ncm2/ncm2-pyclang'                     " NCM2: Clang completion
-"Plug 'ncm2/ncm2-jedi'                        " NCM2: Python completion
-"Plug 'rhysd/vim-clang-format'                " Different autoformat
 Plug 'Chiel92/vim-autoformat'                " Autoformatting for clang-format compatible languages
 call plug#end()
 
@@ -750,12 +741,13 @@ augroup END
 nnoremap <silent> <leader>gs :Gstatus<cr>
 
 " Replace Rg plugin
-command! -nargs=+ Vimgrep execute 'silent vimgrep! <args> **' | copen 10
+command! -nargs=+ Vimgrep execute 'silent vimgrep! <args> **' | cw 10
 if executable("rg")
     set grepprg=rg\ --vimgrep\ --no-heading\ -S
     set grepformat=%f:%l:%c:%m,%f:%l:%m
-    command! -nargs=+ Grep execute 'silent grep! <args>' | copen 10
+    command! -nargs=+ Grep execute 'silent grep! <args>' | cw 10
 endif
+packadd cfilter
 
 " Set notes directory.
 command! -nargs=+ Notes execute 'silent grep! <args> ~/Dropbox/Notes/**' | cw 10
