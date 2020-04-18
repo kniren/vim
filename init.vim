@@ -639,7 +639,7 @@ nnoremap <leader>t :AsyncRun -cwd=<root> ctags -Rf .git/tags
 let g:asyncrun_open = 0
 let g:asyncrun_status = "stopped"
 let g:asyncrun_auto = "make"
-command! -nargs=+ Make execute ':AsyncRun -cwd=<root> make <args>' | copen 10
+command! -nargs=* Make execute ':AsyncRun -cwd=<root> make <args>' | copen 10
 nnoremap <leader><leader>r :Make
 
 " Lexical
